@@ -1,4 +1,5 @@
 import Posts from '../components/Posts';
+import TestIOBroker from '../components/TestIOBroker';
 
 export interface I_MainComponentsConfiguration {
     label: string;
@@ -27,6 +28,16 @@ export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
         icon: 'email',
         to: '/posts',
         component: Posts,
+        onMainBottomNavigation: true,
+        linkActive: true,
+        linkExact: false,
+    },
+    {
+        label: 'TestIOBroker',
+        value: 'testiobroker',
+        icon: 'email',
+        to: '/testiobroker',
+        component: TestIOBroker,
         onMainBottomNavigation: true,
         linkActive: true,
         linkExact: false,
