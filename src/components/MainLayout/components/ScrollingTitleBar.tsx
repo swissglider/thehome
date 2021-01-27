@@ -5,8 +5,10 @@ import { Theme } from '@material-ui/core/styles';
 import ScrollHelper from '../../../utils/ScrollHelper';
 import SizeHelper from '../../../utils/SizeHelper';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Avatar, Icon } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import { FrameworkContext } from '../../../utils/FrameworkContext';
+import LinksLeftList from './LinksLeftList';
+import { TITLE_ICON_LINK } from '../../../configuration/Application';
 
 interface StyleProps {
     scrollPos: number;
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: (props: StyleProps) => {
             return {
-                background: theme.palette.background.default,
+                background: theme.palette.background.paper,
                 marginTop: ScrollHelper.getCurrentActionValueWithScrollBoundary(
                     props.scrollPos,
                     props.scrollPositionStart,
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         rootBG: (props: StyleProps) => {
             return {
-                background: theme.palette.background.default,
+                background: theme.palette.background.paper,
                 width: '100%',
                 position: 'fixed',
                 top: 0,
@@ -90,6 +92,7 @@ export interface ScrollingTitleBarProps {
 const ScrollingTitleBar = (props: ScrollingTitleBarProps): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [context, setContext] = useContext(FrameworkContext);
+    const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
     const classes = useStyles({
         scrollPos: props.scrollPos,
         scrollPositionStart: props.scrollPositionStart,
@@ -102,16 +105,33 @@ const ScrollingTitleBar = (props: ScrollingTitleBarProps): JSX.Element => {
     return (
         <>
             <Toolbar ref={props.paramRef} className={classes.root}>
-                {context.user !== undefined && context.user.avatar !== undefined ? (
-                    <Avatar src={context.user.avatar} />
+                {context.leftComponent !== undefined && context.leftComponent.icon !== undefined ? (
+                    <Avatar onClick={() => setIsMenuOpen(true)} src={context.leftComponent.icon} />
                 ) : (
-                    <Icon>login</Icon>
+                    <Avatar src={TITLE_ICON_LINK} />
                 )}
                 <span className={classes.title}>{context.title}</span>
-                {context.component !== undefined ? context.component : <div />}
+                {context.rightComponent !== undefined ? context.rightComponent : <div />}
             </Toolbar>
 
             <div className={classes.rootBG} />
+            {context.leftElement !== undefined && context.leftElement.menuList !== undefined && (
+                <LinksLeftList
+                    isOpen={isMenuOpen}
+                    setIsMenuOpen={setIsMenuOpen}
+                    menuList={context.leftElement.menuList}
+                    icon={
+                        context.leftComponent !== undefined && context.leftComponent.icon !== undefined
+                            ? context.leftComponent.icon
+                            : TITLE_ICON_LINK
+                    }
+                    name={
+                        context.leftComponent !== undefined && context.leftComponent.name !== undefined
+                            ? context.leftComponent.name
+                            : ''
+                    }
+                />
+            )}
         </>
     );
 };

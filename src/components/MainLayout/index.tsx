@@ -34,13 +34,12 @@ const useStylesApp = makeStyles((theme: Theme) =>
 export interface MainLayoutProps {
     test?: string;
 }
-
 const InitAction = (): JSX.Element => <></>;
 
 const initialState: I_Framework = {
     title: 'The HOME',
     subNavButtons: [{ title: 'Home', to: '/', icon: 'home' }],
-    component: <InitAction />,
+    rightComponent: <InitAction />,
 };
 
 const MainLayout = (): JSX.Element => {
@@ -96,7 +95,6 @@ const MainLayout = (): JSX.Element => {
                     <div className={classes.child} ref={childRef} onScroll={onScroll} id="ScrollContainer">
                         <MainContent scrollPos={scrollPos} marginStartValue={scrollingTitleHeight} />
                     </div>
-
                     {MainComponentsConfiguration.find((c) => c.onMainBottomNavigation) !== undefined && (
                         <MainBottomNavigation paramRef={bottonNavRef} />
                     )}

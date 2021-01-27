@@ -1,5 +1,3 @@
-import FireStoreTest2 from '../components/FB_Links';
-import FireStoreTest from '../components/FireStoreTest';
 import Posts from '../components/Posts';
 
 export interface I_MainComponentsConfiguration {
@@ -29,26 +27,6 @@ export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
         icon: 'email',
         to: '/posts',
         component: Posts,
-        onMainBottomNavigation: true,
-        linkActive: true,
-        linkExact: false,
-    },
-    {
-        label: 'FireStoreTest',
-        value: 'fireTest',
-        icon: 'local_fire_department',
-        to: '/fireTest',
-        component: FireStoreTest,
-        onMainBottomNavigation: false,
-        linkActive: true,
-        linkExact: false,
-    },
-    {
-        label: 'Links',
-        value: 'fireTest2',
-        icon: 'link',
-        to: '/fireTest2',
-        component: FireStoreTest2,
         onMainBottomNavigation: true,
         linkActive: true,
         linkExact: false,

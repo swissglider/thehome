@@ -13,16 +13,25 @@ export interface I_ToolBarAction {
     component: JSX.Element;
 }
 
-export interface I_LoggedInUser {
+export interface I_LeftMenuListItem {
+    name: string;
+    icon?: string;
+    to: string;
+    // divider?: boolean;
+    // menuList?: I_LeftMenuListItem[];
+}
+
+export interface I_LeftComponent {
     name?: string;
-    avatar?: string;
+    icon?: string;
+    menuList?: I_LeftMenuListItem[][];
 }
 
 export interface I_Framework {
     title: string;
     subNavButtons: I_SubNavButton[];
-    user?: I_LoggedInUser;
-    component?: any; // shows a component
+    leftElement?: I_LeftComponent;
+    rightComponent?: any; // shows a component
 }
 
 export interface I_FrameworkContextValue {
