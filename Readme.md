@@ -7,10 +7,10 @@
 	### __WORK IN PROGRESS__ - init This is the init Release
 -->
 
-### __WORK IN PROGRESS__
+### __WORK IN PROGRESS__ - playground version : Has to be merged with the changes on "The Links" App
 
 Changes:   
-- Background Colors
-- Add more Breakpoint values.
+- Playgound Version
+- Has to be merged with the changes on "The Links" App
 
 ## Changelog
