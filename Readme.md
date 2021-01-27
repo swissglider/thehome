@@ -7,7 +7,7 @@
 	### __WORK IN PROGRESS__ - init This is the init Release
 -->
 
-### __WORK IN PROGRESS__ - playground version : Has to be merged with the changes on "The Links" App
+### 0.1.1-playground.0 (2021-01-27) - playground version : Has to be merged with the changes on "The Links" App
 
 Changes:   
 - Playgound Version
