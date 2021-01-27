@@ -41,6 +41,7 @@
     "workbox-streams": "^5.1.4"
   },
   "devDependencies": {
+    "@alcalzone/release-script": "^1.8.3",
     "@types/react-color": "^3.0.4",
     "@types/react-redux": "^7.1.15",
     "@types/react-router-dom": "^5.1.7",
