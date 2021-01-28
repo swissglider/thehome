@@ -6,15 +6,22 @@ export interface I_ioBrokerObject {
     [key: string]: any;
 }
 
+export interface I_ioBrokerState {
+    [key: string]: any;
+}
+
 export type T_ioBrokerObjects = { [key: string]: I_ioBrokerObject };
+export type T_ioBrokerStates = { [key: string]: I_ioBrokerState };
 
 export interface I_ioBrokerConnection {
+    ioBrokerStates: T_ioBrokerStates;
     ioBrokerObjects: T_ioBrokerObjects;
     servConn: any | undefined;
     error: string | null;
 }
 
 const initialState: I_ioBrokerConnection = {
+    ioBrokerStates: {},
     ioBrokerObjects: {},
     servConn: undefined,
     error: null,
@@ -26,6 +33,12 @@ const ioBrokerSlice = createSlice({
     reducers: {
         ioBrokerSetServConnFromMiddleware(state, action) {
             state.servConn = action.payload;
+        },
+        ioBrokerSetStatesFromMiddleware(state, action) {
+            state.ioBrokerStates = action.payload;
+        },
+        ioBrokerUpdateStateFromMiddleware(state, action) {
+            state.ioBrokerStates[action.payload.id] = action.payload.state;
         },
         ioBrokerSetObjectsFromMiddleware(state, action) {
             state.ioBrokerObjects = action.payload;
@@ -41,7 +54,7 @@ const ioBrokerSlice = createSlice({
         ioBrokerAddObject: {
             reducer(state, action) {
                 const { ioBrokerID, iobObject } = action.payload;
-                state.ioBrokerObjects[ioBrokerID] = iobObject;
+                state.ioBrokerStates[ioBrokerID] = iobObject;
             },
             prepare(ioBrokerID: string, iobObject: I_ioBrokerObject) {
                 return {
@@ -59,16 +72,27 @@ const ioBrokerSlice = createSlice({
 
 export const {
     ioBrokerAddObject,
-    ioBrokerUpdateObjectFromMiddleware,
+    ioBrokerUpdateStateFromMiddleware,
+    ioBrokerSetStatesFromMiddleware,
     ioBrokerSetObjectsFromMiddleware,
+    ioBrokerUpdateObjectFromMiddleware,
     ioBrokerSetServConnFromMiddleware,
     ioBrokerUpdateState,
 } = ioBrokerSlice.actions;
 
-export const selectIOBrokerStates = (state: RootState): T_ioBrokerObjects => state.ioBroker.ioBrokerObjects;
-export const selectIOBrokerState = (state: RootState, ioBrokerID: string | undefined): any | undefined => {
+export const selectIOBrokerStates = (state: RootState): T_ioBrokerStates => state.ioBroker.ioBrokerStates;
+export const selectIOBrokerState = (state: RootState, ioBrokerID: string | undefined): I_ioBrokerState | undefined => {
+    return ioBrokerID !== undefined && ioBrokerID in state.ioBroker.ioBrokerStates
+        ? state.ioBroker.ioBrokerStates[ioBrokerID]
+        : undefined;
+};
+export const selectIOBrokerObjects = (state: RootState): T_ioBrokerObjects => state.ioBroker.ioBrokerObjects;
+export const selectIOBrokerObject = (
+    state: RootState,
+    ioBrokerID: string | undefined,
+): I_ioBrokerObject | undefined => {
     return ioBrokerID !== undefined && ioBrokerID in state.ioBroker.ioBrokerObjects
-        ? state.ioBroker.ioBrokerObjects[ioBrokerID].val
+        ? state.ioBroker.ioBrokerObjects[ioBrokerID]
         : undefined;
 };
 

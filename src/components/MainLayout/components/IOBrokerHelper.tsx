@@ -1,22 +1,24 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { IOBROKER_INSTANCE, IOBROKER_URL_IOSOCKET } from '../../../configuration/Application';
 import {
-    ioBrokerSetObjectsFromMiddleware,
+    ioBrokerSetStatesFromMiddleware,
     ioBrokerSetServConnFromMiddleware,
+    ioBrokerUpdateStateFromMiddleware,
+    ioBrokerSetObjectsFromMiddleware,
     ioBrokerUpdateObjectFromMiddleware,
 } from '../../../redux/features/ioBroker/ioBrokerSlice';
 
 const IOBrokerHelper = (): null => {
     const dispatch = useDispatch();
-    const scriptLoaded = () => {
+    const loadIoBroker = () => {
         const servConn = (window as { [key: string]: any }).servConn;
-        servConn.namespace = 'velo.0';
+        servConn.namespace = IOBROKER_INSTANCE;
         servConn._useStorage = false;
-        let states = [];
         servConn.init(
             {
-                name: 'velo.0', // optional - default 'vis.0'
-                connLink: 'http://192.168.90.1:8082', // optional URL of the socket.io adapter
+                name: IOBROKER_INSTANCE, // optional - default 'vis.0'
+                connLink: IOBROKER_URL_IOSOCKET, // optional URL of the socket.io adapter
                 socketSession: '', // optional - used by authentication
             },
             {
@@ -24,16 +26,14 @@ const IOBrokerHelper = (): null => {
                     if (isConnected) {
                         console.log('connected');
                         servConn.getStates(function (err: any, _states: any) {
-                            let count = 0;
-                            for (const id in _states) {
-                                id;
-                                count++;
-                            }
-                            console.log('Received ' + count + ' states.');
-                            states = _states;
+                            dispatch(ioBrokerSetServConnFromMiddleware(servConn));
                             if (_states !== undefined) {
-                                dispatch(ioBrokerSetServConnFromMiddleware(servConn));
-                                dispatch(ioBrokerSetObjectsFromMiddleware(Object.assign({}, _states)));
+                                dispatch(ioBrokerSetStatesFromMiddleware(Object.assign({}, _states)));
+                            }
+                        });
+                        servConn.getObjects(function (err: any, _objects: any) {
+                            if (_objects !== undefined) {
+                                dispatch(ioBrokerSetObjectsFromMiddleware(Object.assign({}, _objects)));
                             }
                         });
                     } else {
@@ -47,8 +47,15 @@ const IOBrokerHelper = (): null => {
                     setTimeout(function () {
                         // console.log('NEW VALUE of ' + id + ': ' + JSON.stringify(state));
                         if (state !== undefined && id !== undefined) {
-                            dispatch(ioBrokerUpdateObjectFromMiddleware({ id, state }));
-                            states[id] = state;
+                            dispatch(ioBrokerUpdateStateFromMiddleware({ id, state }));
+                        }
+                    }, 0);
+                },
+                onObjectChange: (id: any, object: any) => {
+                    setTimeout(function () {
+                        console.log(object);
+                        if (object !== undefined && id !== undefined) {
+                            dispatch(ioBrokerUpdateObjectFromMiddleware({ id, object }));
                         }
                     }, 0);
                 },
@@ -70,14 +77,23 @@ const IOBrokerHelper = (): null => {
                     console.log(err.command, err.arg);
                 },
             },
+            true,
         );
+    };
+
+    const loadSocket = () => {
+        const script = document.createElement('script');
+        script.src = '/js/services/conn.js';
+        script.async = true;
+        script.onload = () => loadIoBroker();
+        document.body.appendChild(script);
     };
 
     useEffect(() => {
         const script = document.createElement('script');
-        script.src = '/js/services/conn.js';
+        script.src = `/js/services/socket.io.js`;
         script.async = true;
-        script.onload = () => scriptLoaded();
+        script.onload = () => loadSocket();
         document.body.appendChild(script);
     }, []);
 
