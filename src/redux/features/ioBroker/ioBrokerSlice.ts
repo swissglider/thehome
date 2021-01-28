@@ -10,25 +10,34 @@ export type T_ioBrokerObjects = { [key: string]: I_ioBrokerObject };
 
 export interface I_ioBrokerConnection {
     ioBrokerObjects: T_ioBrokerObjects;
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    servConn: any | undefined;
     error: string | null;
 }
 
 const initialState: I_ioBrokerConnection = {
     ioBrokerObjects: {},
-    status: 'idle',
+    servConn: undefined,
     error: null,
 };
-
-// export const fetchIOBroker = createAsyncThunk('posts/fetchPosts', async () => {
-//     const response = await client.get('/fakeApi/posts');
-//     return response.posts;
-// });
 
 const ioBrokerSlice = createSlice({
     name: 'ioBroker',
     initialState,
     reducers: {
+        ioBrokerSetServConnFromMiddleware(state, action) {
+            state.servConn = action.payload;
+        },
+        ioBrokerSetObjectsFromMiddleware(state, action) {
+            state.ioBrokerObjects = action.payload;
+        },
+        ioBrokerUpdateObjectFromMiddleware(state, action) {
+            state.ioBrokerObjects[action.payload.id] = action.payload.state;
+        },
+        ioBrokerUpdateState(state, action) {
+            if (state.servConn.getIsConnected()) {
+                state.servConn.setState(action.payload.id, action.payload.value);
+            }
+        },
         ioBrokerAddObject: {
             reducer(state, action) {
                 const { ioBrokerID, iobObject } = action.payload;
@@ -45,19 +54,22 @@ const ioBrokerSlice = createSlice({
                 };
             },
         },
-        ioBrokerUpdateObject(state, action) {
-            const { ioBrokerID, iobObject } = action.payload;
-            if (ioBrokerID in state.ioBrokerObjects) state.ioBrokerObjects[ioBrokerID] = iobObject;
-        },
     },
 });
 
-export const { ioBrokerAddObject, ioBrokerUpdateObject } = ioBrokerSlice.actions;
+export const {
+    ioBrokerAddObject,
+    ioBrokerUpdateObjectFromMiddleware,
+    ioBrokerSetObjectsFromMiddleware,
+    ioBrokerSetServConnFromMiddleware,
+    ioBrokerUpdateState,
+} = ioBrokerSlice.actions;
 
 export const selectIOBrokerStates = (state: RootState): T_ioBrokerObjects => state.ioBroker.ioBrokerObjects;
-export const selectIOBrokerState = (state: RootState, ioBrokerID: string | undefined): any | undefined =>
-    ioBrokerID !== undefined && ioBrokerID in state.ioBroker.ioBrokerObjects
-        ? state.ioBroker.ioBrokerObjects[ioBrokerID]
+export const selectIOBrokerState = (state: RootState, ioBrokerID: string | undefined): any | undefined => {
+    return ioBrokerID !== undefined && ioBrokerID in state.ioBroker.ioBrokerObjects
+        ? state.ioBroker.ioBrokerObjects[ioBrokerID].val
         : undefined;
+};
 
 export default ioBrokerSlice.reducer;
