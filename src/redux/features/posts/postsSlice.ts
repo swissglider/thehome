@@ -88,7 +88,6 @@ const postsSlice = createSlice({
                 state.push(action.payload);
             },
             prepare(title: string, content: string, userId: string) {
-                console.log(new Date().toISOString());
                 return {
                     payload: {
                         id: nanoid(),

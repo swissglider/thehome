@@ -1,68 +1,63 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../Store';
 
-export interface I_ioBrokerState {
+//IoB Object / State / Enum etc
+export interface I_ioBrokerObject {
     [key: string]: any;
 }
 
+export type T_ioBrokerObjects = { [key: string]: I_ioBrokerObject };
+
 export interface I_ioBrokerConnection {
-    ioBrokerStates: I_ioBrokerState[];
+    ioBrokerObjects: T_ioBrokerObjects;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: I_ioBrokerConnection = {
-    ioBrokerStates: [],
+    ioBrokerObjects: {},
     status: 'idle',
     error: null,
 };
 
-export const fetchIOBroker = createAsyncThunk('posts/fetchPosts', async () => {
-    const response = await client.get('/fakeApi/posts');
-    return response.posts;
-});
+// export const fetchIOBroker = createAsyncThunk('posts/fetchPosts', async () => {
+//     const response = await client.get('/fakeApi/posts');
+//     return response.posts;
+// });
 
 const ioBrokerSlice = createSlice({
     name: 'ioBroker',
     initialState,
     reducers: {
-        ioBrokerAddState: {
+        ioBrokerAddObject: {
             reducer(state, action) {
-                state.ioBrokerStates.push(action.payload);
+                const { ioBrokerID, iobObject } = action.payload;
+                state.ioBrokerObjects[ioBrokerID] = iobObject;
             },
-            prepare(title: string, content: string, userId: string) {
-                console.log(new Date().toISOString());
+            prepare(ioBrokerID: string, iobObject: I_ioBrokerObject) {
                 return {
                     payload: {
-                        title,
-                        content,
-                        date: new Date().toISOString(),
-                        user: userId,
-                        reactions: {},
+                        ioBrokerID,
+                        iobObject,
                     },
                     meta: {},
                     error: {},
                 };
             },
         },
-        ioBrokerUpdateState(state, action) {
-            const { id, title, content } = action.payload;
-            const existingPost = state.ioBrokerStates.find((post) => post.id === id);
-            if (existingPost) {
-                existingPost.title = title;
-                existingPost.content = content;
-                date: new Date().toISOString();
-            }
+        ioBrokerUpdateObject(state, action) {
+            const { ioBrokerID, iobObject } = action.payload;
+            if (ioBrokerID in state.ioBrokerObjects) state.ioBrokerObjects[ioBrokerID] = iobObject;
         },
     },
 });
 
-export const { ioBrokerAddState, ioBrokerUpdateState } = ioBrokerSlice.actions;
+export const { ioBrokerAddObject, ioBrokerUpdateObject } = ioBrokerSlice.actions;
 
-export const selectIOBrokerStates = (state: RootState): I_ioBrokerConnection => state.ioBroker;
+export const selectIOBrokerStates = (state: RootState): T_ioBrokerObjects => state.ioBroker.ioBrokerObjects;
 export const selectIOBrokerState = (state: RootState, ioBrokerID: string | undefined): any | undefined =>
-    ioBrokerID === undefined
-        ? undefined
-        : state.ioBroker.ioBrokerStates.find((ioBState: I_ioBrokerState) => ioBState.id === ioBrokerID);
+    ioBrokerID !== undefined && ioBrokerID in state.ioBroker.ioBrokerObjects
+        ? state.ioBroker.ioBrokerObjects[ioBrokerID]
+        : undefined;
 
 export default ioBrokerSlice.reducer;
