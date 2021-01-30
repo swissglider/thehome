@@ -6,13 +6,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { I_LeftMenuListItem } from '../../../utils/FrameworkContext';
-import { Avatar, Icon, Toolbar, Typography } from '@material-ui/core';
+import { Avatar, Icon, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+
+interface StyleProps {
+    fullWith: boolean;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        list: {
-            width: '80vw',
+        list: (props: StyleProps) => {
+            return {
+                width: props.fullWith ? '100vw' : '80vw',
+            };
         },
         fullList: {
             width: 'auto',
@@ -46,8 +52,9 @@ const LinksLeftList = (props: {
     menuList: I_LeftMenuListItem[][];
     icon: string;
     name: string;
+    fullWidth: boolean;
 }): JSX.Element => {
-    const classes = useStyles();
+    const classes = useStyles({ fullWith: props.fullWidth });
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -61,10 +68,13 @@ const LinksLeftList = (props: {
     };
 
     const list = () => (
-        <div className={classes.list} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+        <div className={classes.list} role="presentation">
             <Toolbar className={classes.root}>
-                <Avatar src={props.icon} />
-                <Typography variant="h4">The Links</Typography>
+                <Avatar src={props.icon} onClick={toggleDrawer(false)} />
+                <Typography variant="h4">{props.name}</Typography>
+                <IconButton onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+                    <Icon>close</Icon>
+                </IconButton>
             </Toolbar>
             {props.menuList.map((menuCategory: I_LeftMenuListItem[], index: number) => (
                 <div key={`LinksLeftList1_${index}`}>

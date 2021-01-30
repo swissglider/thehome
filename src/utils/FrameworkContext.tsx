@@ -25,6 +25,7 @@ export interface I_LeftComponent {
     name?: string;
     icon?: string;
     menuList?: I_LeftMenuListItem[][];
+    fullWidth?: boolean;
 }
 
 export interface I_Framework {

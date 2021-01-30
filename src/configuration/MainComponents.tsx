@@ -1,3 +1,4 @@
+import MoreMenu from '../components/MainLayout/components/MoreMenu';
 import Posts from '../components/Posts';
 import TestIOBroker from '../components/TestIOBroker';
 
@@ -7,28 +8,22 @@ export interface I_MainComponentsConfiguration {
     icon: string;
     to: string;
     component: any;
-    onMainBottomNavigation: boolean;
-    linkActive: boolean;
-    linkExact: boolean;
+    onMainBottomNavigation?: boolean; // if it should be showed on the MainBottomMenu (default false)
+    onMoreMenuNavigation?: boolean; // if it should be showed on the MoreMenu Component (default false)
+    linkActive?: boolean; // if it should be acitve on the router (default false)
+    linkExact?: boolean; // default false
 }
-export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
-    {
-        label: 'Home',
-        value: '',
-        icon: 'restore',
-        to: '/',
-        component: Posts,
-        onMainBottomNavigation: false,
-        linkActive: true,
-        linkExact: true,
-    },
+
+// to be filled
+const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
     {
         label: 'Posts',
         value: 'posts',
         icon: 'email',
         to: '/posts',
         component: Posts,
-        onMainBottomNavigation: true,
+        onMainBottomNavigation: false,
+        onMoreMenuNavigation: true,
         linkActive: true,
         linkExact: false,
     },
@@ -38,11 +33,44 @@ export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
         icon: 'email',
         to: '/testiobroker',
         component: TestIOBroker,
-        onMainBottomNavigation: true,
+        onMainBottomNavigation: false,
+        onMoreMenuNavigation: true,
         linkActive: true,
         linkExact: false,
     },
 ];
+
+// nothing to do
+export const generateMainComponentConfiguration = (): I_MainComponentsConfiguration[] => {
+    if (MainComponentsConfiguration_.find((c) => c.to === '/') === undefined) {
+        MainComponentsConfiguration_.unshift({
+            label: 'Home',
+            value: '',
+            icon: 'home',
+            to: '/',
+            component: Posts,
+            onMoreMenuNavigation: true,
+            linkActive: true,
+            linkExact: true,
+        });
+    }
+    if (MainComponentsConfiguration_.find((c) => c.onMoreMenuNavigation) !== undefined) {
+        MainComponentsConfiguration_.push({
+            label: 'More',
+            value: 'moreMenu',
+            icon: 'more_horiz',
+            to: '/moremenu',
+            component: MoreMenu,
+            onMainBottomNavigation: true,
+            onMoreMenuNavigation: false,
+            linkActive: true,
+            linkExact: false,
+        });
+    }
+    return MainComponentsConfiguration_;
+};
+
+export const MainComponentsConfiguration = generateMainComponentConfiguration();
 
 /**
  * Returns the link with label. If not available it returns the one with 'Home' Link

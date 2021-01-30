@@ -130,6 +130,11 @@ const ScrollingTitleBar = (props: ScrollingTitleBarProps): JSX.Element => {
                             ? context.leftComponent.name
                             : ''
                     }
+                    fullWidth={
+                        context.leftComponent !== undefined && context.leftComponent.fullWidth !== undefined
+                            ? context.leftComponent.fullWidth
+                            : false
+                    }
                 />
             )}
         </>

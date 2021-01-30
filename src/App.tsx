@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { createMuiTheme, MuiThemeProvider, useMediaQuery } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainLayout from './components/MainLayout';
-import IOBrokerHelper from './components/MainLayout/components/IOBrokerHelper';
+import IOBrokerHelper from './redux/features/ioBroker/IOBrokerHelper';
 
 const themeDark = (prefersDarkMode: boolean) =>
     createMuiTheme({
@@ -42,7 +42,7 @@ const App = (): JSX.Element => {
 
     return (
         <MuiThemeProvider theme={theme}>
-            <IOBrokerHelper />
+            <IOBrokerHelper updateStatus={(e: string) => console.log(e)} />
             <CssBaseline />
             <MainLayout />
         </MuiThemeProvider>

@@ -7,9 +7,9 @@ import {
     ioBrokerUpdateStateFromMiddleware,
     ioBrokerSetObjectsFromMiddleware,
     ioBrokerUpdateObjectFromMiddleware,
-} from '../../../redux/features/ioBroker/ioBrokerSlice';
+} from './ioBrokerSlice';
 
-const IOBrokerHelper = (): null => {
+const IOBrokerHelper = (props: { updateStatus: any }): null => {
     const dispatch = useDispatch();
     const loadIoBroker = () => {
         const servConn = (window as { [key: string]: any }).servConn;
@@ -25,19 +25,23 @@ const IOBrokerHelper = (): null => {
                 onConnChange: function (isConnected: any) {
                     if (isConnected) {
                         console.log('connected');
+                        props.updateStatus('connected');
                         servConn.getStates(function (err: any, _states: any) {
                             dispatch(ioBrokerSetServConnFromMiddleware(servConn));
                             if (_states !== undefined) {
                                 dispatch(ioBrokerSetStatesFromMiddleware(Object.assign({}, _states)));
+                                props.updateStatus('states loaded');
                             }
                         });
                         servConn.getObjects(function (err: any, _objects: any) {
                             if (_objects !== undefined) {
                                 dispatch(ioBrokerSetObjectsFromMiddleware(Object.assign({}, _objects)));
+                                props.updateStatus('object loaded');
                             }
                         });
                     } else {
                         console.log('disconnected');
+                        props.updateStatus('connected');
                     }
                 },
                 onRefresh: function () {
@@ -53,7 +57,7 @@ const IOBrokerHelper = (): null => {
                 },
                 onObjectChange: (id: any, object: any) => {
                     setTimeout(function () {
-                        console.log(object);
+                        // console.log(object);
                         if (object !== undefined && id !== undefined) {
                             dispatch(ioBrokerUpdateObjectFromMiddleware({ id, object }));
                         }

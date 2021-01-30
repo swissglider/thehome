@@ -42,11 +42,11 @@ const MainContent = (props: MainContentProps): JSX.Element => {
             <div className={classes.subContent}>
                 <Switch>
                     {configurations
-                        .filter((config1) => config1.linkActive)
+                        .filter((config1) => config1.linkActive !== undefined && config1.linkActive)
                         .map((config: I_MainComponentsConfiguration, index: number) => (
                             <Route
                                 key={`MainContent_${index}`}
-                                exact={config.linkExact}
+                                exact={config.linkExact !== undefined && config.linkExact}
                                 path={config.to}
                                 component={config.component}
                             />

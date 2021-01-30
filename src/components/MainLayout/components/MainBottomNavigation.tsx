@@ -49,7 +49,7 @@ const MainBottomNavigation = (props: MainBottomNavigationProps): JSX.Element => 
             ref={props.paramRef}
         >
             {buttons
-                .filter((button) => button.onMainBottomNavigation)
+                .filter((button) => button.onMainBottomNavigation !== undefined && button.onMainBottomNavigation)
                 .map((button: I_MainComponentsConfiguration, index: number) => (
                     <BottomNavigationAction
                         key={`MainBottomNavigation_${index}`}
