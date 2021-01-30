@@ -10,7 +10,6 @@ import {
 } from '../../redux/features/ioBroker/ioBrokerSlice';
 import { RootState } from '../../redux/Store';
 import { FrameworkContext } from '../../utils/FrameworkContext';
-import SplashScreen from '../MainLayout/components/SplashScreen';
 
 const RightComponent = (): JSX.Element => {
     const dispatch = useDispatch();
