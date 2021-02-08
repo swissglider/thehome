@@ -3,7 +3,7 @@ import { createMuiTheme, MuiThemeProvider, useMediaQuery } from '@material-ui/co
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainLayout from './components/MainLayout';
 import SplashScreen from './components/MainLayout/components/SplashScreen';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     ACTION_IOBROKER_INIT,
     selector_getConnectionStatus,
@@ -41,7 +41,7 @@ const App = (): JSX.Element => {
         // Information to show when updates are here for this app..
         test;
     });
-    const ioBrokerStatus = useSelector(selector_getConnectionStatus(), shallowEqual);
+    const ioBrokerStatus = useSelector(selector_getConnectionStatus());
 
     const loadSocket = () => {
         const script = document.createElement('script');

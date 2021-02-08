@@ -1,7 +1,6 @@
 import { Switch } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { RootState } from '../../redux/Store';
+import { useDispatch, useSelector } from 'react-redux';
 import { FrameworkContext } from '../../utils/FrameworkContext';
 import { I_ioBrokerObject } from '../PlaceOverview/interfaces/IoBrokerInterfaces';
 import { I_ioBrokerState } from '../PlaceOverview/interfaces/IoBrokerInterfaces';
@@ -9,18 +8,16 @@ import {
     ACTION_IOBROKER_UPDATE_STATE,
     selector_getDisplayName,
     selector_getIOBObjectByID,
-    selector_selectIOBrokerState,
+    selector_getStateByID,
 } from '../PlaceOverview/features/reducers/ioBrokerSlice';
+
+const testID = 'deconz.0.lights.00158d00032daf87.on';
 
 const RightComponent = (): JSX.Element => {
     const dispatch = useDispatch();
-    const state: I_ioBrokerState | undefined = useSelector(
-        (state: RootState) => selector_selectIOBrokerState(state, 'deconz.0.lights.00158d00032daf87.on'),
-        shallowEqual,
-    );
+    const state: I_ioBrokerState | undefined = useSelector(selector_getStateByID(testID));
     const handleChange = () => {
-        if (state !== undefined)
-            dispatch(ACTION_IOBROKER_UPDATE_STATE('deconz.0.lights.00158d00032daf87.on', !state.val));
+        if (state !== undefined) dispatch(ACTION_IOBROKER_UPDATE_STATE(testID, !state.val));
     };
     return (
         <>
@@ -36,18 +33,11 @@ const RightComponent = (): JSX.Element => {
 const TestIOBroker = (): JSX.Element => {
     const dispatch = useDispatch();
     const [context, setContext] = useContext(FrameworkContext);
-    const state: I_ioBrokerState | undefined = useSelector(
-        (state: RootState) => selector_selectIOBrokerState(state, 'deconz.0.lights.00158d00032daf87.on'),
-        shallowEqual,
-    );
-    const object: I_ioBrokerObject | undefined = useSelector(
-        selector_getIOBObjectByID('deconz.0.lights.00158d00032daf87.on'),
-        shallowEqual,
-    );
+    const state: I_ioBrokerState | undefined = useSelector(selector_getStateByID(testID));
+    const object: I_ioBrokerObject | undefined = useSelector(selector_getIOBObjectByID(testID));
 
     const handleChange = () => {
-        if (state !== undefined)
-            dispatch(ACTION_IOBROKER_UPDATE_STATE('deconz.0.lights.00158d00032daf87.on', !state.val));
+        if (state !== undefined) dispatch(ACTION_IOBROKER_UPDATE_STATE(testID, !state.val));
     };
 
     useEffect(() => {
@@ -58,7 +48,7 @@ const TestIOBroker = (): JSX.Element => {
         setContext(context_);
     }, []);
 
-    const displayName = useSelector(selector_getDisplayName('deconz.0.lights.00158d00032daf87.on'), shallowEqual);
+    const displayName = useSelector(selector_getDisplayName('deconz.0.lights.00158d00032daf87.on'));
 
     return (
         <>

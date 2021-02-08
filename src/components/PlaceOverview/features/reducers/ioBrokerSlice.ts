@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice, EntityState } from '@reduxjs/toolkit';
+import { RootState } from '../../../../redux/Store';
 import {
     I_ioBrokerObject,
     I_ioBrokerState,
@@ -142,5 +143,17 @@ export const {
     IOBROKER_SET_STATES_FROM_MIDDLEWARE,
     IOBROKE_UPDATE_STATE,
 } = ioBrokerSlice.actions;
+
+export const {
+    selectAll: selector_selectIOBrokerStates,
+    selectById: selector_selectIOBrokerState,
+    selectIds: selector_selectIOBrokerStateIds,
+} = ioBrokerStatesAdapter.getSelectors((state: RootState) => state.ioBroker.ioBrokerStates);
+
+export const {
+    selectAll: selector_selectIOBrokerObjects,
+    selectById: selector_selectIOBrokerObject,
+    selectIds: selector_selectIOBrokerObjectIds,
+} = ioBrokerObjectsAdapter.getSelectors((state: RootState) => state.ioBroker.ioBrokerObjects);
 
 export default ioBrokerSlice.reducer;

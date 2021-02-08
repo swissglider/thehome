@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
-import { useSelector, shallowEqual } from 'react-redux';
-import { selector_getStateValueByID, selector_getUnitBySummarizedID } from '../features/reducers/ioBrokerSlice';
+import { useSelector } from 'react-redux';
+import { selector_getStateByID } from '../features/reducers/ioBrokerSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,12 +26,15 @@ export interface I_PlaceOverviewSensorValue_Props {
 
 const PlaceOverviewSensorValue = ({ summarizedID }: I_PlaceOverviewSensorValue_Props): JSX.Element => {
     const classes = useStyles();
-    const value = useSelector(selector_getStateValueByID(summarizedID), shallowEqual);
-    const { unit, icon } = useSelector(selector_getUnitBySummarizedID(summarizedID), shallowEqual);
+    const m = summarizedID.split('.');
+    const tempID = m[m.length - 2];
+    const { val } = useSelector(selector_getStateByID(summarizedID));
+    const unit = useSelector(selector_getStateByID(`thehome.0.states.unit.${tempID}.unit`))?.val;
+    const icon = useSelector(selector_getStateByID(`thehome.0.states.unit.${tempID}.icon`))?.val;
     return (
         <div className={classes.root}>
             <Avatar className={classes.image} src={icon} />
-            {`${value} ${unit !== undefined ? unit : ''}`}
+            {`${val} ${unit !== undefined ? unit : ''}`}
         </div>
     );
 };

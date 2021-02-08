@@ -1,11 +1,11 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles, Button, CardMedia } from '@material-ui/core';
 import PlaceOverviewSensorValue from './PlaceOverviewSensorValue';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
     selector_getAllSensorAvaragesIDByTheHomeFolder,
     selector_getDisplayName,
-    selector_getEnumImage,
+    selector_getIOBObjectByID,
 } from '../features/reducers/ioBrokerSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -55,9 +55,9 @@ export interface I_PlaceOverviewItem_Props {
 
 const PlaceOverviewItem = ({ id, theHomeFolder }: I_PlaceOverviewItem_Props): JSX.Element => {
     const classes = useStyles();
-    const srcImg = useSelector(selector_getEnumImage(id), shallowEqual);
-    const sensorAvarages = useSelector(selector_getAllSensorAvaragesIDByTheHomeFolder(theHomeFolder), shallowEqual);
-    const displayName = useSelector(selector_getDisplayName(id), shallowEqual);
+    const srcImg = useSelector(selector_getIOBObjectByID(id))?.common.icon;
+    const sensorAvarages = useSelector(selector_getAllSensorAvaragesIDByTheHomeFolder(theHomeFolder));
+    const displayName = useSelector(selector_getDisplayName(id));
     console.log('hallo');
     return (
         <>

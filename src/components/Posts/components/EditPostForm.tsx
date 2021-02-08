@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getMainComponentsConfigurationByLabel } from '../../../configuration/MainComponents';
 
@@ -10,10 +10,7 @@ export const EditPostForm = (): JSX.Element => {
     const { postId } = useParams<Record<string, string | undefined>>();
     const hL = getMainComponentsConfigurationByLabel('Posts').to;
 
-    const post: I_Post | undefined = useSelector(
-        (state: RootState) => state.posts.find((post) => post.id === postId),
-        shallowEqual,
-    );
+    const post: I_Post | undefined = useSelector((state: RootState) => state.posts.find((post) => post.id === postId));
     if (post === undefined) {
         return <div>ERROR</div>;
     }
