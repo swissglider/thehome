@@ -25,12 +25,16 @@ export const selector_getAllSensorAvaragesIDByTheHomeFolder1 = (theHomeFolder: s
 
 export const selector_getAllSensorAvaragesIDByTheHomeFolder = (theHomeFolder: string) => ({
     ioBroker: { ioBrokerStates },
-}: RootState): string[] => {
-    return ioBrokerStatesAdapter
+}: RootState): string[] =>
+    ioBrokerStatesAdapter
         .getSelectors()
         .selectIds(ioBrokerStates)
-        .filter((key) => key.toString().startsWith(theHomeFolder) && key.toString().endsWith('av')) as string[];
-};
+        .filter((key) => {
+            if (key === undefined) {
+                return;
+            }
+            return key.toString().startsWith(theHomeFolder) && key.toString().endsWith('av');
+        }) as string[];
 
 export const selector_getStateValueByID = (id: string) => ({ ioBroker: { ioBrokerStates } }: RootState): any => {
     const ent = ioBrokerStates.entities[id];

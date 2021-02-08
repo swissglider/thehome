@@ -95,6 +95,9 @@ const ioBrokerSlice = createSlice({
                 else ioBrokerStatesAdapter.removeOne(state.ioBrokerStates, action.payload.id);
             },
             prepare(id: string, state: I_ioBrokerState) {
+                if (id === undefined) {
+                    console.log(state);
+                }
                 if (state) state['_id'] = id;
                 return { payload: { id, state }, meta: {}, error: {} };
             },
@@ -106,6 +109,9 @@ const ioBrokerSlice = createSlice({
                 else ioBrokerStatesAdapter.removeOne(state.ioBrokerStates, action.payload.id);
             },
             prepare(id: string, state: I_ioBrokerState) {
+                if (id === undefined) {
+                    console.log(state);
+                }
                 if (state) state['_id'] = id;
                 return { payload: { id, state }, meta: {}, error: {} };
             },
