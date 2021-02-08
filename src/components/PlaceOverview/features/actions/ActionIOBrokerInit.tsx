@@ -1,9 +1,5 @@
-import {
-    IOBROKER_NAME,
-    IOBROKER_INSTANCE,
-    IOBROKER_URL_IOSOCKET,
-    DEVELOPMENT_MODE_USE_DUMMY_DATA,
-} from '../../../../configuration/Application';
+import { Dispatch } from 'react';
+import { IOBROKER_NAME, IOBROKER_INSTANCE, IOBROKER_URL_IOSOCKET } from '../../../../configuration/Application';
 import { DummyStateDatas } from '../../services/DummyDatas';
 import {
     IOBROKER_SET_SERVER_CONNECTION_FROM_MIDDLEWARE,
@@ -16,7 +12,7 @@ import {
 } from '../reducers/ioBrokerSlice';
 import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from './ActionIOBrokerTestSendTo';
 
-export const ACTION_IOBROKER_INIT = (dispatch: any, getState: any) => {
+export const ACTION_IOBROKER_INIT = (dispatch: Dispatch<any>): void => {
     const servConn = (window as { [key: string]: any }).servConn;
     servConn.namespace = IOBROKER_NAME + '.' + IOBROKER_INSTANCE;
     servConn._useStorage = false;

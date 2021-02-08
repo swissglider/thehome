@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const IOBrokerMiddleware = (storeAPI: any) => (next: any) => (action: any): any => {
     // if (action.type !== undefined && action.type.startsWith('SENTO/LITTLEHELPER/GENERAL')) {
     //     console.log('middleware: ', action);

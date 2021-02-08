@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const _getGeneralFromLittleHelper = (servConn: any) => {
+const _getGeneralFromLittleHelper = (servConn: any): { [key: string]: any } => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
         servConn.sendTo(
             'swissgliders-little-helpers.0',
@@ -8,7 +9,7 @@ const _getGeneralFromLittleHelper = (servConn: any) => {
             {
                 message: 'hallo',
             },
-            (e: any) => resolve(e),
+            (e: { [key: string]: any }) => resolve(e),
         );
     });
 };
