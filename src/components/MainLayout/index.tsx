@@ -34,11 +34,11 @@ const useStylesApp = makeStyles((theme: Theme) =>
 export interface MainLayoutProps {
     test?: string;
 }
-const InitAction = (): JSX.Element => <></>;
+const InitAction = (): JSX.Element => <div></div>;
 
 const initialState: I_Framework = {
     title: 'The HOME',
-    subNavButtons: [{ title: 'Home', to: '/', icon: 'home' }],
+    subNavButtons: [],
     rightComponent: <InitAction />,
 };
 

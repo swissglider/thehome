@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { I_Post, selectPosts } from '../../../redux/features/posts/postsSlice';
 import { Link, useHistory } from 'react-router-dom';
 import { PostAuthor } from './PostAuthor';
@@ -47,7 +47,7 @@ const useStylesPostsList = makeStyles((theme: Theme) =>
 
 export const PostsList = (): JSX.Element => {
     const classes = useStylesPostsList();
-    const posts: I_Post[] = useSelector(selectPosts);
+    const posts: I_Post[] = useSelector(selectPosts, shallowEqual);
     const extPosts: I_PostMenuItem[] = posts.map(
         (post: I_Post): I_PostMenuItem => {
             const ref = useRef<HTMLDivElement>(null);

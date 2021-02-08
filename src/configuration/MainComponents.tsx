@@ -1,4 +1,6 @@
+import React from 'react';
 import MoreMenu from '../components/MainLayout/components/MoreMenu';
+import PlaceOverview from '../components/PlaceOverview';
 import Posts from '../components/Posts';
 import TestIOBroker from '../components/TestIOBroker';
 
@@ -16,6 +18,17 @@ export interface I_MainComponentsConfiguration {
 
 // to be filled
 const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
+    {
+        label: 'Homes',
+        value: 'homes',
+        icon: 'home',
+        to: '/homes',
+        component: PlaceOverview,
+        onMainBottomNavigation: true,
+        onMoreMenuNavigation: false,
+        linkActive: true,
+        linkExact: false,
+    },
     {
         label: 'Posts',
         value: 'posts',
@@ -48,7 +61,12 @@ export const generateMainComponentConfiguration = (): I_MainComponentsConfigurat
             value: '',
             icon: 'home',
             to: '/',
-            component: Posts,
+            component:
+                MainComponentsConfiguration_[0] && MainComponentsConfiguration_[0].component ? (
+                    MainComponentsConfiguration_[0].component
+                ) : (
+                    <div>This is the default home</div>
+                ),
             onMoreMenuNavigation: true,
             linkActive: true,
             linkExact: true,

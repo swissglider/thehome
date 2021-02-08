@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { postAdded } from '../../../redux/features/posts/postsSlice';
 import { RootState } from '../../../redux/Store';
 
@@ -10,7 +10,7 @@ export const AddPostForm = (): JSX.Element => {
 
     const dispatch = useDispatch();
 
-    const users = useSelector((state: RootState) => state.users);
+    const users = useSelector((state: RootState) => state.users, shallowEqual);
 
     const onTitleChanged = (e: any) => setTitle(e.target.value);
     const onContentChanged = (e: any) => setContent(e.target.value);

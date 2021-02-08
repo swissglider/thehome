@@ -40,22 +40,26 @@ const SubNavigationButtons = (): JSX.Element => {
 
     return (
         <>
-            <div className={classes.buttonGroupContainer}>
-                {context.subNavButtons.map((button: I_SubNavButton, index: number) => (
-                    <Button
-                        key={index}
-                        variant="contained"
-                        color={button.color !== undefined ? button.color : 'primary'}
-                        className={button.className !== undefined ? button.className : classes.button}
-                        startIcon={<Icon>{button.icon}</Icon>}
-                        component={Link}
-                        to={button.to}
-                    >
-                        {button.title}
-                    </Button>
-                ))}
-            </div>
-            <Divider className={classes.divider} variant="fullWidth" />
+            {context.subNavButtons.length > 0 && (
+                <>
+                    <div className={classes.buttonGroupContainer}>
+                        {context.subNavButtons.map((button: I_SubNavButton, index: number) => (
+                            <Button
+                                key={index}
+                                variant="contained"
+                                color={button.color !== undefined ? button.color : 'primary'}
+                                className={button.className !== undefined ? button.className : classes.button}
+                                startIcon={<Icon>{button.icon}</Icon>}
+                                component={Link}
+                                to={button.to}
+                            >
+                                {button.title}
+                            </Button>
+                        ))}
+                    </div>
+                    <Divider className={classes.divider} variant="fullWidth" />
+                </>
+            )}
         </>
     );
 };

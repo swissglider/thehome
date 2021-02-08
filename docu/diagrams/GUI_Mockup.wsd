@@ -38,6 +38,10 @@ component GUI {
         # on()
         # off()
     }
+    object StateTypeComponentSmall
+    object StateTypeComponentText
+    object StateTypeComponentImage
+    object StateTypeComponentBig
 }
 
 component Geo {
