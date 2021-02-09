@@ -1,6 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { I_ioBrokerObject } from '.';
 import { RootState } from '../../../../redux/Store';
+import { IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER } from './actions';
+import { I_ioBrokerObject } from './interfaces';
 
 export const ioBrokerObjectsAdapter = createEntityAdapter<I_ioBrokerObject>({
     // Assume IDs are stored in a field other than `book.id`
@@ -30,9 +31,21 @@ const ioBrokerObjectsSlice = createSlice({
             },
         },
     },
-    // extraReducers: (builder) => {
-    //     builder;
-    // },
+    extraReducers: (builder) => {
+        builder
+            .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.pending, (state, action) => {
+                console.log('pending', action);
+                state.status = 'loading';
+            })
+            .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.fulfilled, (state, action) => {
+                console.log('fulfilled', action);
+                ioBrokerObjectsAdapter.setAll(state, action);
+                state.status = 'loaded';
+            })
+            .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.rejected, (state, action) => {
+                console.log('rejected', action);
+            });
+    },
 });
 
 export const {

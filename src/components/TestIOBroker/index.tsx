@@ -2,13 +2,14 @@ import { Switch } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FrameworkContext } from '../../utils/FrameworkContext';
-import { selector_getStateByID } from '../PlaceOverview/features/ioBrokerStates/selectors';
-import { ACTION_IOBROKER_UPDATE_STATE, I_ioBrokerState } from '../PlaceOverview/features/ioBrokerStates';
+import { I_ioBrokerObject } from '../PlaceOverview/features/ioBrokerObjects/interfaces';
 import {
-    I_ioBrokerObject,
-    selector_getDisplayName,
     selector_getIOBObjectByID,
-} from '../PlaceOverview/features/ioBrokerObjects';
+    selector_getDisplayName,
+} from '../PlaceOverview/features/ioBrokerObjects/selectors';
+import { ACTION_IOBROKER_UPDATE_STATE } from '../PlaceOverview/features/ioBrokerStates/actions';
+import { I_ioBrokerState } from '../PlaceOverview/features/ioBrokerStates/interfaces';
+import { selector_getStateByID } from '../PlaceOverview/features/ioBrokerStates/selectors';
 
 const testID = 'deconz.0.lights.00158d00032daf87.on';
 

@@ -1,14 +1,10 @@
 import { Dispatch } from 'react';
 import { IOBROKER_INSTANCE, IOBROKER_NAME, IOBROKER_URL_IOSOCKET } from '../../../../configuration/Application';
-import { DummyStateDatas } from '../../services/DummyDatas';
-import { IOBROKER_SET_OBJECTS_FROM_MIDDLEWARE, IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE } from '../ioBrokerObjects/slice';
-import { IOBROKER_SET_STATES_FROM_MIDDLEWARE, IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE } from '../ioBrokerStates/slice';
-import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from './ActionIOBrokerTestSendTo';
-import {
-    IOBROKER_SET_SERVER_CONNECTION_FROM_MIDDLEWARE,
-    IOBROKER_SET_SERVER_CONNECTION_STATE,
-    IOBROKER_SET_SERVER_CONNECTION_STATE_LOADED,
-} from './slice';
+import { IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER } from '../ioBrokerObjects/actions';
+import { IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE } from '../ioBrokerObjects/slice';
+import { IOBROKER_GET_ALL_STATES_FROM_IOBROKER } from '../ioBrokerStates/actions';
+import { IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE } from '../ioBrokerStates/slice';
+import { IOBROKER_SET_SERVER_CONNECTION_STATE } from './slice';
 
 export const ACTION_IOBROKER_INIT = (dispatch: Dispatch<any>): void => {
     const servConn = (window as { [key: string]: any }).servConn;
@@ -26,20 +22,10 @@ export const ACTION_IOBROKER_INIT = (dispatch: Dispatch<any>): void => {
                 if (isConnected) {
                     dispatch(IOBROKER_SET_SERVER_CONNECTION_STATE('connected'));
                     dispatch(IOBROKER_SET_SERVER_CONNECTION_STATE('loading'));
-                    servConn.getStates(function (err: any, _states: any) {
-                        dispatch(IOBROKER_SET_SERVER_CONNECTION_FROM_MIDDLEWARE(servConn));
-                        if (_states !== undefined) {
-                            dispatch(IOBROKER_SET_STATES_FROM_MIDDLEWARE({ ...DummyStateDatas, ..._states }));
-                            dispatch(IOBROKER_SET_SERVER_CONNECTION_STATE_LOADED('states_loaded'));
-                        }
-                    });
-                    servConn.getObjects(function (err: any, _objects: any) {
-                        if (_objects !== undefined) {
-                            dispatch(IOBROKER_SET_OBJECTS_FROM_MIDDLEWARE(Object.assign({}, _objects)));
-                            dispatch(IOBROKER_SET_SERVER_CONNECTION_STATE_LOADED('object_loaded'));
-                            dispatch(IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER('test'));
-                        }
-                    });
+
+                    dispatch(IOBROKER_GET_ALL_STATES_FROM_IOBROKER(servConn));
+
+                    dispatch(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER(servConn));
                 } else {
                     dispatch(IOBROKER_SET_SERVER_CONNECTION_STATE('disconnected'));
                 }

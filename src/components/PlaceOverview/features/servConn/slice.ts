@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { T_ioBrokerServerConnectionState } from '.';
 import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from './ActionIOBrokerTestSendTo';
+import { T_ioBrokerServerConnectionState } from './interfaces';
 
 interface I_ioBrokerServerConnectionStates {
     [key: string]: boolean;
