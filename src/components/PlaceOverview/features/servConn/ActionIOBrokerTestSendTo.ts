@@ -18,6 +18,6 @@ export const IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER = createAsyncThunk<string, 
     'SENTO/LITTLEHELPER/GENERAL',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (text: string, { dispatch, extra, getState, rejectWithValue, requestId, signal }): Promise<any> => {
-        return await _getGeneralFromLittleHelper((getState() as any)['ioBroker']['servConn']);
+        return await _getGeneralFromLittleHelper((getState() as any)['ioBrokerServConn']['servConn']);
     },
 );

@@ -2,8 +2,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import FieldsetBorders from '../../../utils/FieldsetBorders';
-import { I_ioBrokerState } from '../interfaces/IoBrokerInterfaces';
-import { selector_getStateByID } from '../features/reducers/ioBrokerSlice';
+import { I_ioBrokerState } from '../features/ioBrokerStates';
+import { selector_getStateByID } from '../features/ioBrokerStates/selectors';
 import PlaceOverviewItem, { I_PlaceOverviewItem_Props } from './PlaceOverviewItem';
 
 const COMPONENTNAME = 'PlaceOverviewContainer';

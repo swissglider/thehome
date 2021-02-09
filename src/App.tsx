@@ -4,10 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MainLayout from './components/MainLayout';
 import SplashScreen from './components/MainLayout/components/SplashScreen';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    ACTION_IOBROKER_INIT,
-    selector_getConnectionStatus,
-} from './components/PlaceOverview/features/reducers/ioBrokerSlice';
+import { ACTION_IOBROKER_INIT, selector_getConnectionStatus } from './components/PlaceOverview/features/servConn';
 
 const themeDark = (prefersDarkMode: boolean) =>
     createMuiTheme({

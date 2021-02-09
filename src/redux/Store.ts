@@ -1,5 +1,8 @@
 import { Action, configureStore, getDefaultMiddleware, ThunkAction } from '@reduxjs/toolkit';
-import ioBrokerReducer, { IOBrokerMiddleware } from '../components/PlaceOverview/features/reducers/ioBrokerSlice';
+import ioBrokerObjectsReducer from '../components/PlaceOverview/features/ioBrokerObjects/slice';
+import ioBrokerStateReducer from '../components/PlaceOverview/features/ioBrokerStates/slice';
+import { IOBrokerMiddleware } from '../components/PlaceOverview/features/servConn/middleware';
+import ioBrokerServConnReducer from '../components/PlaceOverview/features/servConn/slice';
 import counterReducer from './features/counter/counterSlice';
 import postsReducer from './features/posts/postsSlice';
 import usersReducer from './features/users/usersSlice';
@@ -9,7 +12,9 @@ export const store = configureStore({
         posts: postsReducer,
         counter: counterReducer,
         users: usersReducer,
-        ioBroker: ioBrokerReducer,
+        ioBrokerServConn: ioBrokerServConnReducer,
+        ioBrokerStates: ioBrokerStateReducer,
+        ioBrokerObjects: ioBrokerObjectsReducer,
     },
     middleware: [...getDefaultMiddleware({ immutableCheck: false, serializableCheck: false }), IOBrokerMiddleware],
 });

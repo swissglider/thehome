@@ -3,21 +3,24 @@ export const IOBrokerMiddleware = (storeAPI: any) => (next: any) => (action: any
     // if (action.type !== undefined && action.type.startsWith('SENTO/LITTLEHELPER/GENERAL')) {
     //     console.log('middleware: ', action);
     // }
-    if (action.type !== undefined && action.type === 'IOBROKER/IOBROKER_SET_SERVER_CONNECTION_STATE') {
+    if (action.type !== undefined && action.type === 'IOBROKER_SERVCONN/IOBROKER_SET_SERVER_CONNECTION_STATE') {
         next(action);
-        const t_state = storeAPI.getState().ioBroker.serverConnectionState;
+        const t_state = storeAPI.getState().ioBrokerServConn.serverConnectionState;
         console.log('IoBroker connection state : ', t_state);
         if (['none', 'connecting', 'disconnected'].includes(t_state)) {
-            storeAPI.dispatch({ type: 'IOBROKER/IOBROKER_SET_SERVER_CONNECTION_STATE_RESET_LOADING' });
+            storeAPI.dispatch({ type: 'IOBROKER_SERVCONN/IOBROKER_SET_SERVER_CONNECTION_STATE_RESET_LOADING' });
         }
     }
 
-    if (action.type !== undefined && action.type.startsWith('IOBROKER/IOBROKER_SET_SERVER_CONNECTION_STATE_')) {
+    if (
+        action.type !== undefined &&
+        action.type.startsWith('IOBROKER_SERVCONN/IOBROKER_SET_SERVER_CONNECTION_STATE_')
+    ) {
         console.log(action);
         next(action);
-        const t_state = storeAPI.getState().ioBroker.serverConnectionStates;
+        const t_state = storeAPI.getState().ioBrokerServConn.serverConnectionStates;
         if (Object.values(t_state).every((e) => e)) {
-            storeAPI.dispatch({ type: 'IOBROKER/IOBROKER_SET_SERVER_CONNECTION_STATE', payload: 'loaded' });
+            storeAPI.dispatch({ type: 'IOBROKER_SERVCONN/IOBROKER_SET_SERVER_CONNECTION_STATE', payload: 'loaded' });
         }
         return;
     }

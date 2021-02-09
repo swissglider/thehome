@@ -1,16 +1,14 @@
 import { Dispatch } from 'react';
-import { IOBROKER_NAME, IOBROKER_INSTANCE, IOBROKER_URL_IOSOCKET } from '../../../../configuration/Application';
+import { IOBROKER_INSTANCE, IOBROKER_NAME, IOBROKER_URL_IOSOCKET } from '../../../../configuration/Application';
 import { DummyStateDatas } from '../../services/DummyDatas';
+import { IOBROKER_SET_OBJECTS_FROM_MIDDLEWARE, IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE } from '../ioBrokerObjects/slice';
+import { IOBROKER_SET_STATES_FROM_MIDDLEWARE, IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE } from '../ioBrokerStates/slice';
+import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from './ActionIOBrokerTestSendTo';
 import {
     IOBROKER_SET_SERVER_CONNECTION_FROM_MIDDLEWARE,
-    IOBROKER_SET_OBJECTS_FROM_MIDDLEWARE,
-    IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE,
-    IOBROKER_SET_STATES_FROM_MIDDLEWARE,
-    IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE,
     IOBROKER_SET_SERVER_CONNECTION_STATE,
     IOBROKER_SET_SERVER_CONNECTION_STATE_LOADED,
-} from '../reducers/ioBrokerSlice';
-import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from './ActionIOBrokerTestSendTo';
+} from './slice';
 
 export const ACTION_IOBROKER_INIT = (dispatch: Dispatch<any>): void => {
     const servConn = (window as { [key: string]: any }).servConn;
