@@ -11,3 +11,5 @@ export const selector_getAllSensorAvaragesIDByTheHomeFolder = (theHomeFolder: st
     );
 
 export const selector_getStateByID = (id: string) => (state: RootState): any => selector_selectIOBrokerState(state, id);
+
+export const selector_getStatesStatus = () => (state: RootState): any => state.ioBrokerStates.status;

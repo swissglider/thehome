@@ -13,3 +13,4 @@ export const selector_getDisplayName = (id: string) => (state: RootState): strin
         ? IOBrokerNameTools.getValueByLanguageFromObject(displayName)
         : IOBrokerNameTools.getValueByLanguageFromObject(entity.common.name);
 };
+export const selector_getObjectsStatus = () => (state: RootState): any => state.ioBrokerObjects.status;
