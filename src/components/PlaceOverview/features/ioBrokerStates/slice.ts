@@ -29,9 +29,6 @@ const ioBrokerStatesSlice = createSlice({
                 else ioBrokerStatesAdapter.removeOne(state, action.payload.id);
             },
             prepare(id: string, state: I_ioBrokerState) {
-                if (id === undefined) {
-                    console.log(state);
-                }
                 if (state) state['_id'] = id;
                 return { payload: { id, state }, meta: {}, error: {} };
             },
@@ -55,6 +52,7 @@ const ioBrokerStatesSlice = createSlice({
             })
             .addCase(IOBROKER_GET_ALL_STATES_FROM_IOBROKER.rejected, (state, action) => {
                 console.log('rejected', action);
+                // TODO ERRORHANDLING
             });
     },
 });

@@ -39,7 +39,9 @@ const App = (): JSX.Element => {
         // Information to show when updates are here for this app..
         test;
     });
-    const ioBrokerStatus = useSelector(selector_getConnectionStatus());
+    const ioBrokerServConnStatus = useSelector(selector_getConnectionStatus());
+
+    const appLoaded = ioBrokerServConnStatus === 'loaded';
 
     const loadSocket = () => {
         const script = document.createElement('script');
@@ -64,7 +66,7 @@ const App = (): JSX.Element => {
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />
-            {ioBrokerStatus === 'loaded' ? <MainLayout /> : <SplashScreen ioBrokerStatus={ioBrokerStatus} />}
+            {appLoaded ? <MainLayout /> : <SplashScreen />}
         </MuiThemeProvider>
     );
 };

@@ -4,6 +4,7 @@ import Loader from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { selector_getStatesStatus } from '../../PlaceOverview/features/ioBrokerStates/selectors';
 import { selector_getObjectsStatus } from '../../PlaceOverview/features/ioBrokerObjects/selectors';
+import { selector_getConnectionStatus } from '../../PlaceOverview/features/servConn/selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,12 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-interface I_SplashScreen_Props {
-    ioBrokerStatus: string;
-}
-
-const SplashScreen = ({ ioBrokerStatus }: I_SplashScreen_Props): JSX.Element => {
+const SplashScreen = (): JSX.Element => {
     const classes = useStyles();
+    const ioBrokerStatus = useSelector(selector_getConnectionStatus());
     const statesStatus = useSelector(selector_getStatesStatus());
     const objectsStatus = useSelector(selector_getObjectsStatus());
 

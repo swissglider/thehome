@@ -44,6 +44,7 @@ const ioBrokerObjectsSlice = createSlice({
             })
             .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.rejected, (state, action) => {
                 console.log('rejected', action);
+                // TODO ERRORHANDLING
             });
     },
 });

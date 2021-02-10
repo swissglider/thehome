@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { servConn } from './slice';
 
-const _getGeneralFromLittleHelper = (servConn: any): { [key: string]: any } => {
+const _getGeneralFromLittleHelper = (): { [key: string]: any } => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
         servConn.sendTo(
@@ -18,6 +19,6 @@ export const IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER = createAsyncThunk<string, 
     'SENTO/LITTLEHELPER/GENERAL',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (text: string, { dispatch, extra, getState, rejectWithValue, requestId, signal }): Promise<any> => {
-        return await _getGeneralFromLittleHelper((getState() as any)['ioBrokerServConn']['servConn']);
+        return await _getGeneralFromLittleHelper();
     },
 );
