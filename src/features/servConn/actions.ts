@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { IOBROKER_INSTANCE, IOBROKER_NAME, IOBROKER_URL_IOSOCKET } from '../../../../configuration/Application';
+import { IOBROKER_NAME, IOBROKER_URL_IOSOCKET } from '../../configuration/Application';
 import { IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE } from '../ioBrokerObjects/slice';
 import { IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE } from '../ioBrokerStates/slice';
 import { ACTION_IOBROKER_SERV_CONN_INIT, IOBROKER_SERV_CONN_INIT, servConn } from './slice';
@@ -16,7 +16,8 @@ export const _initServCon = (dispatch: any): Promise<any> => {
         if (servConn !== undefined) {
             servConn.init(
                 {
-                    name: IOBROKER_NAME + '.' + IOBROKER_INSTANCE, // optional - default 'vis.0'
+                    // name: IOBROKER_NAME + '.' + IOBROKER_INSTANCE, // optional - default 'vis.0'
+                    name: IOBROKER_NAME, // optional - default 'vis.0'
                     connLink: IOBROKER_URL_IOSOCKET, // optional URL of the socket.io adapter
                     socketSession: '', // optional - used by authentication
                 },

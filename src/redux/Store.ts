@@ -1,8 +1,8 @@
 import { Action, configureStore, getDefaultMiddleware, ThunkAction } from '@reduxjs/toolkit';
-import ioBrokerObjectsReducer from '../components/PlaceOverview/features/ioBrokerObjects/slice';
-import ioBrokerStateReducer from '../components/PlaceOverview/features/ioBrokerStates/slice';
-import { IOBrokerMiddleware } from '../components/PlaceOverview/features/servConn/middleware';
-import ioBrokerServConnReducer from '../components/PlaceOverview/features/servConn/slice';
+import ioBrokerObjectsReducer from '../features/ioBrokerObjects/slice';
+import ioBrokerStateReducer from '../features/ioBrokerStates/slice';
+import { IOBrokerMiddleware } from '../features/servConn/middleware';
+import ioBrokerServConnReducer from '../features/servConn/slice';
 import counterReducer from './features/counter/counterSlice';
 import postsReducer from './features/posts/postsSlice';
 import usersReducer from './features/users/usersSlice';

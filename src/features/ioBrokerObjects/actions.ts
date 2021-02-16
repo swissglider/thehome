@@ -1,6 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../../../redux/Store';
-import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from '../servConn/ActionIOBrokerTestSendTo';
+import { RootState } from '../../redux/Store';
+import {
+    IOBROKER_GET_All_FUNCTIONS_STATE_LIST,
+    IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER,
+    IOBROKER_GET_HOME_CONTAINER,
+} from '../servConn/ActionIOBrokerTestSendTo';
 import { servConn } from '../servConn/slice';
 
 const _getAllStates = (dispatch: any): Promise<any> => {
@@ -8,11 +12,18 @@ const _getAllStates = (dispatch: any): Promise<any> => {
         servConn.getObjects(function (err: any, _objects: any) {
             if (_objects !== undefined) {
                 dispatch(IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER('test'));
+                dispatch(IOBROKER_GET_HOME_CONTAINER('test'));
+                dispatch(IOBROKER_GET_All_FUNCTIONS_STATE_LIST('test'));
                 resolve(_objects);
             } else {
                 reject({ err, _objects });
                 // TODO ERRORHANDLING
             }
+            // const test = { ..._objects['system.adapter.device-availability.0'] };
+            // test['native']['excludeCollection'].push('hallo Guido');
+            // servConn._socket.emit('setObject', 'system.adapter.device-availability.0', test, (e: any, a: any) =>
+            //     console.log(e, a),
+            // );
         });
     });
 };

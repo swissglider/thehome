@@ -2,9 +2,9 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Loader from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
-import { selector_getStatesStatus } from '../../PlaceOverview/features/ioBrokerStates/selectors';
-import { selector_getObjectsStatus } from '../../PlaceOverview/features/ioBrokerObjects/selectors';
-import { selector_getConnectionStatus } from '../../PlaceOverview/features/servConn/selectors';
+import { selector_getStatesStatus } from '../../../features/ioBrokerStates/selectors';
+import { selector_getObjectsStatus } from '../../../features/ioBrokerObjects/selectors';
+import { selector_getConnectionStatus } from '../../../features/servConn/selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

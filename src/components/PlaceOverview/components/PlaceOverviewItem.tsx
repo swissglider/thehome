@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles, Theme, createStyles, Button, CardMedia } from '@material-ui/core';
 import PlaceOverviewSensorValue from './PlaceOverviewSensorValue';
 import { useSelector } from 'react-redux';
-import { selector_getAllSensorAvaragesIDByTheHomeFolder } from '../features/ioBrokerStates/selectors';
-import { selector_getIOBObjectByID, selector_getDisplayName } from '../features/ioBrokerObjects/selectors';
+import { selector_getAllSensorAvaragesIDByTheHomeFolder } from '../../../features/ioBrokerStates/selectors';
+import { selector_getIOBObjectByID, selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

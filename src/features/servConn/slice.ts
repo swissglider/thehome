@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IOBROKER_INSTANCE, IOBROKER_NAME } from '../../../../configuration/Application';
-import { IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER } from './ActionIOBrokerTestSendTo';
+import { IOBROKER_NAME } from '../../configuration/Application';
+import {
+    IOBROKER_GET_All_FUNCTIONS_STATE_LIST,
+    IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER,
+    IOBROKER_GET_HOME_CONTAINER,
+} from './ActionIOBrokerTestSendTo';
 import { _initServCon } from './actions';
 import { T_ioBrokerServerConnectionState } from './interfaces';
 
@@ -29,7 +33,8 @@ const ioBrokerSlice = createSlice({
         IOBROKER_SERV_CONN_INIT() {
             servConn = (window as { [key: string]: any }).servConn;
             if (servConn !== undefined) {
-                servConn.namespace = IOBROKER_NAME + '.' + IOBROKER_INSTANCE;
+                // servConn.namespace = IOBROKER_NAME + '.' + IOBROKER_INSTANCE;
+                servConn.namespace = IOBROKER_NAME;
                 servConn._useStorage = false;
             }
         },
@@ -46,6 +51,24 @@ const ioBrokerSlice = createSlice({
                 console.log('fulfilled', _action);
             })
             .addCase(IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER.rejected, (_state, _action) => {
+                console.log('rejected', _action);
+            })
+            .addCase(IOBROKER_GET_HOME_CONTAINER.pending, (_state, _action) => {
+                console.log('pending', _action);
+            })
+            .addCase(IOBROKER_GET_HOME_CONTAINER.fulfilled, (_state, _action) => {
+                console.log('fulfilled', _action);
+            })
+            .addCase(IOBROKER_GET_HOME_CONTAINER.rejected, (_state, _action) => {
+                console.log('rejected', _action);
+            })
+            .addCase(IOBROKER_GET_All_FUNCTIONS_STATE_LIST.pending, (_state, _action) => {
+                console.log('pending', _action);
+            })
+            .addCase(IOBROKER_GET_All_FUNCTIONS_STATE_LIST.fulfilled, (_state, _action) => {
+                console.log('fulfilled', _action);
+            })
+            .addCase(IOBROKER_GET_All_FUNCTIONS_STATE_LIST.rejected, (_state, _action) => {
                 console.log('rejected', _action);
             })
             .addCase(ACTION_IOBROKER_SERV_CONN_INIT.pending, (_state, _action) => {

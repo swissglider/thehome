@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../../../redux/Store';
+import { RootState } from '../../redux/Store';
 import { IOBROKER_GET_ALL_STATES_FROM_IOBROKER } from './actions';
 import { I_ioBrokerState } from './interfaces';
 

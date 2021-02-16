@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Dispatch } from 'react';
-import { DEVELOPMENT_MODE_USE_DUMMY_DATA } from '../../../../configuration/Application';
-import { RootState } from '../../../../redux/Store';
-import { DummyStateDatas } from '../../services/DummyDatas';
+import { DummyStateDatas } from '../../components/PlaceOverview/services/DummyDatas';
+import { DEVELOPMENT_MODE_USE_DUMMY_DATA } from '../../configuration/Application';
+import { RootState } from '../../redux/Store';
 import { servConn } from '../servConn/slice';
 import { I_ioBrokerState, T_ioBroker_Value } from './interfaces';
 import { IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE } from './slice';
@@ -30,6 +30,8 @@ const _getAllStates = (dispatch: any): { [key: string]: any } => {
                     resolve({ ...DummyStateDatas, ..._states });
                 } else {
                     resolve(_states);
+                    servConn.emit('log', 'Hallo ich bin ein Log');
+                    servConn.emit('error', 'Hallo ich bin ein Log');
                 }
             } else {
                 reject({ err, _states });

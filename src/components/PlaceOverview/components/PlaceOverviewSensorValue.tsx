@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { selector_getStateByID } from '../features/ioBrokerStates/selectors';
+import { selector_getStateByID } from '../../../features/ioBrokerStates/selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

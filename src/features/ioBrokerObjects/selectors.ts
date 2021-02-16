@@ -1,5 +1,5 @@
-import { RootState } from '../../../../redux/Store';
-import IOBrokerNameTools from '../../services/IOBrokerNameTools';
+import IOBrokerNameTools from '../../components/PlaceOverview/services/IOBrokerNameTools';
+import { RootState } from '../../redux/Store';
 import { selector_selectIOBrokerObject } from './slice';
 
 export const selector_getIOBObjectByID = (id: string) => (state: RootState): any =>
