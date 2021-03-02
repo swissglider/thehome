@@ -32,7 +32,7 @@ const useStylesApp = makeStyles((theme: Theme) =>
 );
 
 export interface MainLayoutProps {
-    test?: string;
+    test?: any;
 }
 const InitAction = (): JSX.Element => <div></div>;
 

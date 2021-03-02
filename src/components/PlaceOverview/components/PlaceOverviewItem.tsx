@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles, Button, CardMedia } from '@material-ui/core';
-import PlaceOverviewSensorValue from './PlaceOverviewSensorValue';
 import { useSelector } from 'react-redux';
-import { selector_getAllSensorAvaragesIDByTheHomeFolder } from '../../../features/ioBrokerStates/selectors';
+
 import { selector_getIOBObjectByID, selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
+import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
+import PlaceOverviewValues from './PlaceOverviewValues';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -46,15 +47,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface I_PlaceOverviewItem_Props {
-    id: string;
-    theHomeFolder: string;
+    homeContainer: I_HOME_CONTAINER;
 }
 
-const PlaceOverviewItem = ({ id, theHomeFolder }: I_PlaceOverviewItem_Props): JSX.Element => {
+const PlaceOverviewItem = ({ homeContainer }: I_PlaceOverviewItem_Props): JSX.Element => {
     const classes = useStyles();
-    const srcImg = useSelector(selector_getIOBObjectByID(id))?.common.icon;
-    const sensorAvarages = useSelector(selector_getAllSensorAvaragesIDByTheHomeFolder(theHomeFolder));
-    const displayName = useSelector(selector_getDisplayName(id));
+    const srcImg = useSelector(selector_getIOBObjectByID(homeContainer.id))?.common.icon;
+    const displayName = useSelector(selector_getDisplayName(homeContainer.id));
     console.log('hallo');
     return (
         <>
@@ -65,19 +64,7 @@ const PlaceOverviewItem = ({ id, theHomeFolder }: I_PlaceOverviewItem_Props): JS
                 </div>
                 <div className={classes.rightContainer}>
                     <div className={classes.title}>{displayName}</div>
-                    <div className={classes.sensorContainer}>
-                        {sensorAvarages.map((summarizedID: string, index: number) => (
-                            <div key={`PlaceOverviewItem_sensor${index}`} className={classes.sensor}>
-                                <PlaceOverviewSensorValue summarizedID={summarizedID} />
-                            </div>
-                        ))}
-                    </div>
-                    <div className={classes.sensorContainer}>
-                        <div className={classes.sensor}>1</div>
-                        <div className={classes.sensor}>2</div>
-                        <div className={classes.sensor}>3</div>
-                        <div className={classes.sensor}>3</div>
-                    </div>
+                    <PlaceOverviewValues homeContainer={homeContainer} />
                 </div>
             </Button>
             {/* </FieldsetBorders> */}

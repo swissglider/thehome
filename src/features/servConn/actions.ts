@@ -32,12 +32,14 @@ export const _initServCon = (dispatch: any): Promise<any> => {
                     },
                     onUpdate: function (id: any, state: any) {
                         if (state !== undefined && id !== undefined) {
+                            // console.log(state);
                             dispatch(IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE(id, state));
                         }
                         // TODO ERRORHANDLING
                     },
                     onObjectChange: (id: any, object: any) => {
                         if (object !== undefined && id !== undefined) {
+                            console.log(object);
                             dispatch(IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE(id, object));
                         }
                         // TODO ERRORHANDLING
@@ -69,8 +71,8 @@ export const _initServCon = (dispatch: any): Promise<any> => {
                         console.log(err.command, err.arg);
                     },
                 },
-                true, // autosubscribe all objects
-                true, // autosubscribe all states
+                false, // autosubscribe all objects
+                false, // autosubscribe all states
             );
         }
     });

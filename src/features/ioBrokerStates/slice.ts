@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/Store';
-import { IOBROKER_GET_ALL_STATES_FROM_IOBROKER } from './actions';
+import { IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER } from './actions';
 import { I_ioBrokerState } from './interfaces';
 
 export const ioBrokerStatesAdapter = createEntityAdapter<I_ioBrokerState>({
@@ -36,12 +36,10 @@ const ioBrokerStatesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(IOBROKER_GET_ALL_STATES_FROM_IOBROKER.pending, (state, action) => {
-                console.log('pending', action);
+            .addCase(IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(IOBROKER_GET_ALL_STATES_FROM_IOBROKER.fulfilled, (state, action) => {
-                console.log('fulfilled', action);
+            .addCase(IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER.fulfilled, (state, action) => {
                 const states = { ...action.payload };
                 for (const [key, value] of Object.entries(states)) {
                     if (value) (value as I_ioBrokerState)['_id'] = key;
@@ -50,8 +48,9 @@ const ioBrokerStatesSlice = createSlice({
                 ioBrokerStatesAdapter.setAll(state, states);
                 state.status = 'loaded';
             })
-            .addCase(IOBROKER_GET_ALL_STATES_FROM_IOBROKER.rejected, (state, action) => {
+            .addCase(IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER.rejected, (state, action) => {
                 console.log('rejected', action);
+                state;
                 // TODO ERRORHANDLING
             });
     },

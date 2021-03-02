@@ -2,9 +2,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import FieldsetBorders from '../../../utils/FieldsetBorders';
-import { I_ioBrokerState } from '../../../features/ioBrokerStates/interfaces';
-import { selector_getStateByID } from '../../../features/ioBrokerStates/selectors';
-import PlaceOverviewItem, { I_PlaceOverviewItem_Props } from './PlaceOverviewItem';
+import PlaceOverviewItem from './PlaceOverviewItem';
+import { selector_getHomeContainers } from '../../../features/servConn/selectors';
+import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 
 const COMPONENTNAME = 'PlaceOverviewContainer';
 
@@ -24,17 +24,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HomeSelect = (): JSX.Element => {
     const classes = useStyles();
-    const homeEnumIDs: I_ioBrokerState | undefined = useSelector(selector_getStateByID('thehome.0.states.home.list'));
+
+    const homeContainers: I_HOME_CONTAINER[] | undefined = useSelector(selector_getHomeContainers());
+    // const homeEnumIDs: I_ioBrokerState | undefined = useSelector(selector_getStateByID('thehome.0.states.home.list'));
     console.log('selectHome');
+    console.log(homeContainers);
     return (
         <FieldsetBorders componentName={COMPONENTNAME}>
-            {homeEnumIDs !== undefined ? (
+            {homeContainers !== undefined ? (
                 <div className={classes.container}>
-                    {(homeEnumIDs.val as I_PlaceOverviewItem_Props[]).map(
-                        (props: I_PlaceOverviewItem_Props, index: number) => (
-                            <PlaceOverviewItem key={`home_select_${index}`} {...props} />
-                        ),
-                    )}
+                    {homeContainers.map((hc: I_HOME_CONTAINER, index: number) => (
+                        <PlaceOverviewItem key={`home_select_${index}`} homeContainer={hc} />
+                    ))}
                 </div>
             ) : (
                 <div>no home found</div>

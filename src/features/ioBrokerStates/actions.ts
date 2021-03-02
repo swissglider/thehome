@@ -1,7 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Dispatch } from 'react';
-import { DummyStateDatas } from '../../components/PlaceOverview/services/DummyDatas';
-import { DEVELOPMENT_MODE_USE_DUMMY_DATA } from '../../configuration/Application';
 import { RootState } from '../../redux/Store';
 import { servConn } from '../servConn/slice';
 import { I_ioBrokerState, T_ioBroker_Value } from './interfaces';
@@ -21,18 +19,11 @@ export const ACTION_IOBROKER_UPDATE_STATE = (id: string, value: T_ioBroker_Value
     }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _getAllStates = (dispatch: any): { [key: string]: any } => {
+const _getSelectedStates = (states: string[]): Promise<{ [key: string]: any }> => {
     return new Promise((resolve, reject) => {
-        servConn.getStates(function (err: any, _states: any) {
+        servConn.getStates(states, function (err: any, _states: any) {
             if (_states !== undefined) {
-                if (DEVELOPMENT_MODE_USE_DUMMY_DATA) {
-                    resolve({ ...DummyStateDatas, ..._states });
-                } else {
-                    resolve(_states);
-                    servConn.emit('log', 'Hallo ich bin ein Log');
-                    servConn.emit('error', 'Hallo ich bin ein Log');
-                }
+                resolve(_states);
             } else {
                 reject({ err, _states });
                 // TODO ERRORHANDLING
@@ -41,11 +32,9 @@ const _getAllStates = (dispatch: any): { [key: string]: any } => {
     });
 };
 
-export const IOBROKER_GET_ALL_STATES_FROM_IOBROKER = createAsyncThunk<any>(
-    'IOBROKER_STATES/IOBROKER_GET_ALL_STATES_FROM_IOBROKER',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (_nothing: any, { dispatch, extra, getState, rejectWithValue, requestId, signal }): Promise<any> =>
-        _getAllStates(dispatch),
+export const IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER = createAsyncThunk<{ [key: string]: any }, string[]>(
+    'IOBROKER_STATES/IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER',
+    async (states: string[]): Promise<any> => _getSelectedStates(states),
     {
         condition: (_nothing: any, { getState }: { getState: () => RootState; extra: any }) =>
             getState().ioBrokerServConn.status && servConn.getIsConnected(),

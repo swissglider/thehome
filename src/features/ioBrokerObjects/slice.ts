@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../redux/Store';
-import { IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER } from './actions';
+import { IOBROKER_GET_SELECTED_OBJECTS_FROM_IOBROKER } from './actions';
 import { I_ioBrokerObject } from './interfaces';
 
 export const ioBrokerObjectsAdapter = createEntityAdapter<I_ioBrokerObject>({
@@ -33,17 +33,16 @@ const ioBrokerObjectsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.pending, (state, action) => {
-                console.log('pending', action);
+            .addCase(IOBROKER_GET_SELECTED_OBJECTS_FROM_IOBROKER.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.fulfilled, (state, action) => {
-                console.log('fulfilled', action);
+            .addCase(IOBROKER_GET_SELECTED_OBJECTS_FROM_IOBROKER.fulfilled, (state, action) => {
                 ioBrokerObjectsAdapter.setAll(state, action);
                 state.status = 'loaded';
             })
-            .addCase(IOBROKER_GET_ALL_OBJECTS_FROM_IOBROKER.rejected, (state, action) => {
+            .addCase(IOBROKER_GET_SELECTED_OBJECTS_FROM_IOBROKER.rejected, (state, action) => {
                 console.log('rejected', action);
+                state;
                 // TODO ERRORHANDLING
             });
     },

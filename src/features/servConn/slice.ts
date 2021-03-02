@@ -1,22 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IOBROKER_NAME } from '../../configuration/Application';
-import {
-    IOBROKER_GET_All_FUNCTIONS_STATE_LIST,
-    IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER,
-    IOBROKER_GET_HOME_CONTAINER,
-} from './ActionIOBrokerTestSendTo';
+import { IOBROKER_GET_HOME_CONTAINER } from './ActionIOBrokerTestSendTo';
 import { _initServCon } from './actions';
-import { T_ioBrokerServerConnectionState } from './interfaces';
+import { I_HOME_CONTAINER, T_ioBrokerServerConnectionState } from './interfaces';
 
 export let servConn: any | undefined = undefined;
 
 interface I_ioBrokerReducerState {
     status: T_ioBrokerServerConnectionState;
+    homeContainers: I_HOME_CONTAINER[] | undefined;
+    homeContainersLoaded: boolean;
     error: string | null;
 }
 
 const initialState: I_ioBrokerReducerState = {
     status: 'none',
+    homeContainers: undefined,
+    homeContainersLoaded: false,
     error: null,
 };
 
@@ -44,43 +44,29 @@ const ioBrokerSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER.pending, (_state, _action) => {
-                console.log('pending', _action);
-            })
-            .addCase(IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER.fulfilled, (_state, _action) => {
-                console.log('fulfilled', _action);
-            })
-            .addCase(IOBROKER_GET_GENERAL_FROM_LITTLE_HELPER.rejected, (_state, _action) => {
-                console.log('rejected', _action);
-            })
             .addCase(IOBROKER_GET_HOME_CONTAINER.pending, (_state, _action) => {
-                console.log('pending', _action);
+                _state.homeContainersLoaded = false;
             })
             .addCase(IOBROKER_GET_HOME_CONTAINER.fulfilled, (_state, _action) => {
-                console.log('fulfilled', _action);
+                _state.homeContainers = _action.payload;
+                _state.homeContainersLoaded = true;
             })
             .addCase(IOBROKER_GET_HOME_CONTAINER.rejected, (_state, _action) => {
+                // TODO ERRORHANDLING
                 console.log('rejected', _action);
-            })
-            .addCase(IOBROKER_GET_All_FUNCTIONS_STATE_LIST.pending, (_state, _action) => {
-                console.log('pending', _action);
-            })
-            .addCase(IOBROKER_GET_All_FUNCTIONS_STATE_LIST.fulfilled, (_state, _action) => {
-                console.log('fulfilled', _action);
-            })
-            .addCase(IOBROKER_GET_All_FUNCTIONS_STATE_LIST.rejected, (_state, _action) => {
-                console.log('rejected', _action);
+                _state.error = 'Somethind went wrong while loading the home containers';
+                _state.homeContainersLoaded = false;
             })
             .addCase(ACTION_IOBROKER_SERV_CONN_INIT.pending, (_state, _action) => {
                 _state.status = 'connecting';
             })
             .addCase(ACTION_IOBROKER_SERV_CONN_INIT.fulfilled, (_state, _action) => {
-                // TODO ERRORHANDLING
                 _state.status = _action.payload;
             })
             .addCase(ACTION_IOBROKER_SERV_CONN_INIT.rejected, (_state, _action) => {
                 console.log('rejected', _action);
                 // TODO ERRORHANDLING
+                _state.error = 'Somethind went wrong while init the connection to ioBroker';
             });
     },
 });
