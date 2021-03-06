@@ -2,14 +2,32 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IOBROKER_NAME } from '../../configuration/Application';
 import { IOBROKER_GET_HOME_CONTAINER } from './ActionIOBrokerTestSendTo';
 import { _initServCon } from './actions';
-import { I_HOME_CONTAINER, T_ioBrokerServerConnectionState } from './interfaces';
+import { T_HOME_CONTAINER_LIST, T_ioBrokerServerConnectionState } from './interfaces';
 
 export let servConn: any | undefined = undefined;
 
+export interface I_Type_Params {
+    unit?: string;
+    read?: boolean;
+    write?: boolean;
+    type?: string;
+    functionID?: string;
+    name?: string | { [lan: string]: string };
+    color?: string;
+    icon?: string;
+    icon_false?: string;
+    icon_true?: string;
+}
+
+export interface I_FunctionTypes {
+    [functionID: string]: I_Type_Params;
+}
+
 interface I_ioBrokerReducerState {
     status: T_ioBrokerServerConnectionState;
-    homeContainers: I_HOME_CONTAINER[] | undefined;
+    homeContainers: T_HOME_CONTAINER_LIST | undefined;
     homeContainersLoaded: boolean;
+    functionTypes: I_FunctionTypes;
     error: string | null;
 }
 
@@ -17,6 +35,7 @@ const initialState: I_ioBrokerReducerState = {
     status: 'none',
     homeContainers: undefined,
     homeContainersLoaded: false,
+    functionTypes: {},
     error: null,
 };
 
@@ -40,6 +59,9 @@ const ioBrokerSlice = createSlice({
         },
         IOBROKER_SERV_CONN_SET_STATUS(state, action) {
             state.status = action.payload;
+        },
+        IOBROKER_SERV_CONN_SET_FUNCTION_TYPES(state, action) {
+            state.functionTypes = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -71,6 +93,10 @@ const ioBrokerSlice = createSlice({
     },
 });
 
-export const { IOBROKER_SERV_CONN_INIT, IOBROKER_SERV_CONN_SET_STATUS } = ioBrokerSlice.actions;
+export const {
+    IOBROKER_SERV_CONN_INIT,
+    IOBROKER_SERV_CONN_SET_STATUS,
+    IOBROKER_SERV_CONN_SET_FUNCTION_TYPES,
+} = ioBrokerSlice.actions;
 
 export default ioBrokerSlice.reducer;

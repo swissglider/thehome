@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 export interface I_SubNavButton {
     title: string;
@@ -41,3 +41,43 @@ export interface I_FrameworkContextValue {
 }
 
 export const FrameworkContext = React.createContext<any[]>([{}, {}]);
+
+export const useSetTitle = (title: string): void => {
+    const [context, setContext] = useContext(FrameworkContext);
+
+    useEffect(() => {
+        const context_ = { ...context };
+        context_.title = title;
+        setContext(context_);
+    }, []);
+};
+
+export const useSetSubNavButtons = (subNavButtons: I_SubNavButton[]): void => {
+    const [context, setContext] = useContext(FrameworkContext);
+
+    useEffect(() => {
+        const context_ = { ...context };
+        context_.subNavButtons = subNavButtons;
+        setContext(context_);
+    }, []);
+};
+
+export const useSetLeftElement = (leftElement: I_LeftComponent): void => {
+    const [context, setContext] = useContext(FrameworkContext);
+
+    useEffect(() => {
+        const context_ = { ...context };
+        context_.leftElement = leftElement;
+        setContext(context_);
+    }, []);
+};
+
+export const useSetRightComponent = (rightComponent: any): void => {
+    const [context, setContext] = useContext(FrameworkContext);
+
+    useEffect(() => {
+        const context_ = { ...context };
+        context_.rightComponent = rightComponent;
+        setContext(context_);
+    }, []);
+};

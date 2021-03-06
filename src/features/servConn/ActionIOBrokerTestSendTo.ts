@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { I_HOME_CONTAINER } from './interfaces';
+import { T_HOME_CONTAINER_LIST } from './interfaces';
 import { servConn } from './slice';
 
-const _getHomeContainer = (): Promise<I_HOME_CONTAINER[]> => {
+const _getHomeContainer = (): Promise<T_HOME_CONTAINER_LIST> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
         servConn.sendTo(
@@ -11,17 +11,17 @@ const _getHomeContainer = (): Promise<I_HOME_CONTAINER[]> => {
             {
                 message: 'hallo',
             },
-            (e: I_HOME_CONTAINER[]) => resolve(e),
+            (e: T_HOME_CONTAINER_LIST) => resolve(e),
         );
     });
 };
 
 // type < Return type of the payload creator, First argument to the payload creator , ThunkAPI >
-export const IOBROKER_GET_HOME_CONTAINER = createAsyncThunk<I_HOME_CONTAINER[], any, any>(
+export const IOBROKER_GET_HOME_CONTAINER = createAsyncThunk<T_HOME_CONTAINER_LIST, any, any>(
     'SENTO/TESTREACT/GETHOMECONTAINER',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (forNothing: any, { dispatch, extra, getState, rejectWithValue, requestId, signal }): Promise<any> => {
-        return (await _getHomeContainer()) as I_HOME_CONTAINER[];
+        return (await _getHomeContainer()) as T_HOME_CONTAINER_LIST;
     },
 );
 

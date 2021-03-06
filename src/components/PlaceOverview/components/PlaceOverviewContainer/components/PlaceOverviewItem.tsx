@@ -2,9 +2,11 @@ import React from 'react';
 import { makeStyles, Theme, createStyles, Button, CardMedia } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
-import { selector_getIOBObjectByID, selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
-import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
-import PlaceOverviewValues from './PlaceOverviewValues';
+import { selector_getIOBObjectByID, selector_getDisplayName } from '../../../../../features/ioBrokerObjects/selectors';
+import { I_HOME_CONTAINER } from '../../../../../features/servConn/interfaces';
+import DeviceOverviewPresenter from './DeviceOverviewPresenter';
+import { Link } from 'react-router-dom';
+import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,13 +50,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface I_PlaceOverviewItem_Props {
     homeContainer: I_HOME_CONTAINER;
+    pathArray: string[];
 }
 
-const PlaceOverviewItem = ({ homeContainer }: I_PlaceOverviewItem_Props): JSX.Element => {
+const PlaceOverviewItem = ({ homeContainer, pathArray }: I_PlaceOverviewItem_Props): JSX.Element => {
     const classes = useStyles();
     const srcImg = useSelector(selector_getIOBObjectByID(homeContainer.id))?.common.icon;
     const displayName = useSelector(selector_getDisplayName(homeContainer.id));
-    console.log('hallo');
+    const newPathArray = [...pathArray];
+    newPathArray.push(homeContainer.id);
+    const location = useGetHomeContainerLocationTo({ pathArray: newPathArray });
     return (
         <>
             {/* <FieldsetBorders componentName={COMPONENTNAME}> */}
@@ -63,8 +68,10 @@ const PlaceOverviewItem = ({ homeContainer }: I_PlaceOverviewItem_Props): JSX.El
                     <CardMedia component="img" src={srcImg} />
                 </div>
                 <div className={classes.rightContainer}>
-                    <div className={classes.title}>{displayName}</div>
-                    <PlaceOverviewValues homeContainer={homeContainer} />
+                    <Button to={location} component={Link}>
+                        <div className={classes.title}>{displayName}</div>
+                    </Button>
+                    <DeviceOverviewPresenter homeContainer={homeContainer} />
                 </div>
             </Button>
             {/* </FieldsetBorders> */}

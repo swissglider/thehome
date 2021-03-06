@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ACTION_IOBROKER_INIT } from './features/servConn/actions';
 import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './features/servConn/selectors';
 import { AppDispatch } from './redux/Store';
+import { useGenerateCategoryFunctionsMap } from './components/PlaceOverview/hooks/FunctionCategoryHooks';
 
 const themeDark = (prefersDarkMode: boolean) =>
     createMuiTheme({
@@ -29,6 +30,11 @@ const themeDark = (prefersDarkMode: boolean) =>
             },
         },
     });
+
+const _App = (): JSX.Element => {
+    useGenerateCategoryFunctionsMap();
+    return <MainLayout />;
+};
 
 const App = (): JSX.Element => {
     const [statesLoaded, setStatesLoaded] = useState<boolean>(false);
@@ -88,7 +94,7 @@ const App = (): JSX.Element => {
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />
-            {statesLoaded && containerLoaded ? <MainLayout /> : <SplashScreen />}
+            {statesLoaded && containerLoaded ? <_App /> : <SplashScreen />}
         </MuiThemeProvider>
     );
 };
