@@ -72,6 +72,7 @@ const ioBrokerSlice = createSlice({
             .addCase(IOBROKER_GET_HOME_CONTAINER.fulfilled, (_state, _action) => {
                 _state.homeContainers = _action.payload;
                 _state.homeContainersLoaded = true;
+                console.log(_action.payload);
             })
             .addCase(IOBROKER_GET_HOME_CONTAINER.rejected, (_state, _action) => {
                 // TODO ERRORHANDLING

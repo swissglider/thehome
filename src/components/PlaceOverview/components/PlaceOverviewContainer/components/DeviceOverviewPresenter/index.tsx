@@ -22,16 +22,19 @@ const useStyles = makeStyles(() =>
 
 export interface I_PlaceOverviewXContainer_Props extends I_Extended_Type_Params {
     categoryID: string;
+    pathArray?: string[];
 }
 
 const DOPTypeContainer = ({
     categoryID,
     categoryTypeList,
     childComponent,
+    pathArray,
 }: {
     categoryID: string;
     categoryTypeList: I_Extended_Type_Params[];
     childComponent: any;
+    pathArray: string[];
 }): JSX.Element => {
     const classes = useStyles();
     return (
@@ -40,6 +43,7 @@ const DOPTypeContainer = ({
                 React.createElement(childComponent, {
                     key: index,
                     categoryID: categoryID,
+                    pathArray: pathArray,
                     ...params,
                 }),
             )}
@@ -49,9 +53,10 @@ const DOPTypeContainer = ({
 
 export interface I_PlaceOverviewValues_Props {
     homeContainer: I_HOME_CONTAINER;
+    pathArray: string[];
 }
 
-const DeviceOverviewPresenter = ({ homeContainer }: I_PlaceOverviewValues_Props): JSX.Element => {
+const DeviceOverviewPresenter = ({ homeContainer, pathArray }: I_PlaceOverviewValues_Props): JSX.Element => {
     const blacklist = [
         'enum.functions.rain',
         'enum.functions.wind_',
@@ -64,16 +69,19 @@ const DeviceOverviewPresenter = ({ homeContainer }: I_PlaceOverviewValues_Props)
             <DOPTypeContainer
                 categoryID={'switchList'}
                 categoryTypeList={switchList}
+                pathArray={pathArray}
                 childComponent={PlaceOverviewSwitchContainer}
             />
             <DOPTypeContainer
                 categoryID={'booleanList'}
                 categoryTypeList={booleanList}
+                pathArray={pathArray}
                 childComponent={PlaceOverviewBooleanContainer}
             />
             <DOPTypeContainer
                 categoryID={'numberList'}
                 categoryTypeList={numberList}
+                pathArray={pathArray}
                 childComponent={PlaceOverviewNumberContainer}
             />
         </>

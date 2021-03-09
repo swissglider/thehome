@@ -3,6 +3,10 @@ export interface I_ioBrokerObject {
     common: {
         name: string | { [key: string]: string };
         icon?: string;
+        unit?: string;
+        write?: boolean;
+        read?: boolean;
+        type?: string;
     };
     native: {
         swissglider?: {

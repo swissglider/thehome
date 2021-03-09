@@ -72,6 +72,7 @@ export const useSetLeftElement = (leftElement: I_LeftComponent): void => {
     }, []);
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useSetRightComponent = (rightComponent: any): void => {
     const [context, setContext] = useContext(FrameworkContext);
 

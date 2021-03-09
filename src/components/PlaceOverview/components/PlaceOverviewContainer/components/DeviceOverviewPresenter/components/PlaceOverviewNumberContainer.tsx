@@ -1,30 +1,22 @@
 import React from 'react';
-import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { I_PlaceOverviewXContainer_Props } from '..';
 import { useSelector } from 'react-redux';
 import { selector_getAvValueFromList } from '../../../../../../../features/ioBrokerStates/selectors';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        imageWithValue: {
-            width: theme.spacing(2),
-            height: theme.spacing(2),
-            marginRight: theme.spacing(0.8),
-            marginTop: theme.spacing(0.6),
-        },
-    }),
-);
+import { useGetHomeContainerLocationTo } from '../../../../../hooks/PlaceOverviewHooks';
 
 const PlaceOverviewNumberContainer = (props: I_PlaceOverviewXContainer_Props): JSX.Element => {
-    const classes = useStyles();
-
     const value = useSelector(selector_getAvValueFromList(props.membersStateList));
+    const goTo = props.pathArray
+        ? useGetHomeContainerLocationTo({
+              pathArray: props.pathArray,
+              layout: 'standard_function_type_overview',
+              functionType: props.functionID,
+          }).goToLocation
+        : () => {
+              return;
+          };
 
-    return (
-        <>
-            <Avatar className={classes.imageWithValue} src={props.icon} /> {`${value} ${props.unit}`}
-        </>
-    );
+    return <div onClick={goTo}>{`${value} ${props.unit}`}</div>;
 };
 
 export default PlaceOverviewNumberContainer;

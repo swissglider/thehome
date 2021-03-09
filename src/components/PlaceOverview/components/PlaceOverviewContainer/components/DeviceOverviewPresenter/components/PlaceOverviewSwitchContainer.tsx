@@ -2,7 +2,8 @@ import React from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { I_PlaceOverviewXContainer_Props } from '..';
 import { selector_getAvOnValueFromList } from '../../../../../../../features/ioBrokerStates/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ACTION_IOBROKER_UPDATE_STATE } from '../../../../../../../features/ioBrokerStates/actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,11 +18,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const PlaceOverviewSwitchContainer = (props: I_PlaceOverviewXContainer_Props): JSX.Element => {
     const classes = useStyles();
-    const changeState = () => {
-        return;
-    };
+    const dispatch = useDispatch();
     const value = useSelector(selector_getAvOnValueFromList(props.membersStateList));
     const icon = value === undefined ? props.icon : value === true ? props.icon_true : props.icon_false;
+
+    const changeState = () => {
+        for (const id of props.membersStateList) {
+            dispatch(ACTION_IOBROKER_UPDATE_STATE(id, !value));
+        }
+    };
 
     return (
         <>
