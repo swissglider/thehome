@@ -1,4 +1,4 @@
-import { Action, configureStore, getDefaultMiddleware, ThunkAction } from '@reduxjs/toolkit';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import ioBrokerObjectsReducer from '../features/ioBrokerObjects/slice';
 import ioBrokerStateReducer from '../features/ioBrokerStates/slice';
 import { IOBrokerMiddleware } from '../features/servConn/middleware';
@@ -16,7 +16,9 @@ export const store = configureStore({
         ioBrokerStates: ioBrokerStateReducer,
         ioBrokerObjects: ioBrokerObjectsReducer,
     },
-    middleware: [...getDefaultMiddleware({ immutableCheck: false, serializableCheck: false }), IOBrokerMiddleware],
+    // middleware: [...getDefaultMiddleware({ immutableCheck: false, serializableCheck: false }), IOBrokerMiddleware],
+    middleware: (getDefaultMiddlewares) =>
+        getDefaultMiddlewares({ immutableCheck: false, serializableCheck: false }).concat(IOBrokerMiddleware),
 });
 
 // const rootReducer = combineReducers({

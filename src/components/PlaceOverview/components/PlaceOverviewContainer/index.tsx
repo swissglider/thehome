@@ -1,21 +1,8 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles, Button } from '@material-ui/core';
-import FieldsetBorders from '../../../../utils/FieldsetBorders';
+import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import PlaceOverviewItem from './components/PlaceOverviewItem';
 import { I_HOME_CONTAINER, T_HOME_CONTAINER_LIST } from '../../../../features/servConn/interfaces';
-import { useHistory } from 'react-router-dom';
-import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
-import {
-    useSetLeftElement,
-    useSetRightComponent,
-    useSetSubNavButtons,
-    useSetTitle,
-} from '../../../../utils/FrameworkContext';
 import SensorOverviewItem from './components/SensorOverviewItem';
-import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
-import StandardFunctionTypeOverview from '../StandardFunctionTypeOverview';
-
-const COMPONENTNAME = 'PlaceOverviewContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -47,6 +34,7 @@ export interface I_Container_Props {
     homeContainer?: I_HOME_CONTAINER;
     layout?: string;
     functionType?: string;
+    deviceID?: string;
 }
 
 export const HomesContainerVertical = ({ pathArray, childLists }: I_Container_Props): JSX.Element => {
@@ -127,7 +115,7 @@ export const SensorTypesHorizontal = ({ pathArray, homeContainer }: I_Container_
     );
 };
 
-const StandardPlaceOverviewContainer = (props: I_Container_Props): JSX.Element => {
+export const StandardPlaceOverviewContainer = (props: I_Container_Props): JSX.Element => {
     const classes = useStyles();
     return (
         <div className={classes.homesContainer}>
@@ -151,47 +139,6 @@ const StandardPlaceOverviewContainer = (props: I_Container_Props): JSX.Element =
     );
 };
 
-const PlaceOverviewContainer = (): JSX.Element => {
-    const hcPorps = useHomeContainer();
-
-    let container: any;
-    switch (hcPorps.layout) {
-        case 'homes': {
-            container = HomesContainerVertical;
-            break;
-        }
-        case 'standard_place_overview': {
-            container = StandardPlaceOverviewContainer;
-            break;
-        }
-        case 'standard_function_type_overview': {
-            container = StandardFunctionTypeOverview;
-            break;
-        }
-        default: {
-            container = HomesContainerVertical;
-        }
-    }
-
-    const BackComponent = (): JSX.Element => {
-        const history = useHistory();
-        const onClick = (): void => {
-            history.goBack();
-        };
-        return <Button onClick={onClick}>Back</Button>;
-    };
-
-    useSetTitle('Home');
-    useSetSubNavButtons([]);
-    useSetLeftElement({});
-    useSetRightComponent(hcPorps.pathArray.length === 0 ? <div></div> : <BackComponent />);
-
-    return (
-        <FieldsetBorders componentName={COMPONENTNAME}>
-            <PlaceOverviewBreadcrumbs {...hcPorps} />
-            {React.createElement(container, { ...hcPorps })}
-        </FieldsetBorders>
-    );
-};
+const PlaceOverviewContainer = HomesContainerVertical;
 
 export default PlaceOverviewContainer;

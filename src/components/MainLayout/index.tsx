@@ -76,7 +76,7 @@ const MainLayout = (): JSX.Element => {
         }
     };
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/thehome">
             <div className="App">
                 <FrameworkContext.Provider value={[frameworkContext, setFrameworkContext]}>
                     <MainIconBar

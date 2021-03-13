@@ -1,5 +1,5 @@
-import { createStyles, Icon, List, ListItem, makeStyles, Theme } from '@material-ui/core';
 import React from 'react';
+import { createStyles, Icon, List, ListItem, makeStyles, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
 import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
@@ -14,7 +14,7 @@ import PlaceOverviewSwitchContainer from './PlaceOverviewContainer/components/De
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         mainList: {
-            backgroundColor: '#cfd8dc',
+            backgroundColor: theme.palette.background.paper,
             marginLeft: theme.spacing(1.5),
             marginRight: theme.spacing(1.5),
             marginTop: theme.spacing(1.5),
@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: theme.spacing(0.8),
         },
         itemListItem: (props: { level: number }) => ({
-            backgroundColor: '#eceff1',
+            // backgroundColor: '#eceff1',
+            backgroundColor: theme.palette.action.hover,
             paddingTop: theme.spacing(0.2),
             paddingBottom: theme.spacing(0.2),
             paddingLeft: theme.spacing(1 + props.level + 1),
@@ -88,12 +89,19 @@ const StandardFunctionTypeOverviewValue = (props: {
     deviceID: string;
     functionType: I_Type_Params;
     functionTypeID: string;
+    pathArray: string[];
 }): JSX.Element => {
     const classes = useStyles({ level: 0 });
     const displaName = useSelector(selector_getDisplayName(props.deviceID));
+    const { goToLocation } = useGetHomeContainerLocationTo({
+        pathArray: props.pathArray,
+        layout: 'standard_device_overview',
+        deviceID: props.deviceID,
+        functionType: props.functionTypeID,
+    });
     return (
         <>
-            <div className={classes.endValueWithImage}>
+            <div className={classes.endValueWithImage} onClick={goToLocation}>
                 <Icon color="disabled" fontSize="small">
                     info_outlined
                 </Icon>
@@ -165,7 +173,7 @@ const StandardFunctionTypeOverviewHC = (props: {
             {props.functionTypeID in props.homeContainer.localMemberStateIDs &&
                 props.homeContainer.localMemberStateIDs[props.functionTypeID].map((id: string, index: number) => (
                     <ListItem className={classes.itemListItem} key={`StandardFunctionTypeOverviewHC1_${index}`}>
-                        <StandardFunctionTypeOverviewValue deviceID={id} {...props} />
+                        <StandardFunctionTypeOverviewValue deviceID={id} {...props} pathArray={pathArray} />
                     </ListItem>
                 ))}
             {re

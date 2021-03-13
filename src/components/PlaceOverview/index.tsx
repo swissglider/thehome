@@ -1,19 +1,65 @@
+import { Button } from '@material-ui/core';
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import PlaceOverviewContainer from './components/PlaceOverviewContainer';
+import { useHistory } from 'react-router-dom';
+import FieldsetBorders from '../../utils/FieldsetBorders';
+import {
+    useSetTitle,
+    useSetSubNavButtons,
+    useSetLeftElement,
+    useSetRightComponent,
+} from '../../utils/FrameworkContext';
+import PlaceOverviewContainer, { StandardPlaceOverviewContainer } from './components/PlaceOverviewContainer';
+import PlaceOverviewBreadcrumbs from './components/PlaceOverviewContainer/components/PlaceOverviewBreadcrumbs';
+import StandardDeviceOverview from './components/StandardDeviceOverview';
+import StandardFunctionTypeOverview from './components/StandardFunctionTypeOverview';
+import { useHomeContainer } from './hooks/PlaceOverviewHooks';
+
+const COMPONENTNAME = 'PlaceOverview';
 
 const PlaceOverview = (): JSX.Element => {
-    const { path } = useRouteMatch();
+    const hcPorps = useHomeContainer();
+
+    let container: any;
+    switch (hcPorps.layout) {
+        case 'homes': {
+            container = PlaceOverviewContainer;
+            break;
+        }
+        case 'standard_place_overview': {
+            container = StandardPlaceOverviewContainer;
+            break;
+        }
+        case 'standard_function_type_overview': {
+            container = StandardFunctionTypeOverview;
+            break;
+        }
+        case 'standard_device_overview': {
+            container = StandardDeviceOverview;
+            break;
+        }
+        default: {
+            container = PlaceOverviewContainer;
+        }
+    }
+
+    const BackComponent = (): JSX.Element => {
+        const history = useHistory();
+        const onClick = (): void => {
+            history.goBack();
+        };
+        return <Button onClick={onClick}>Back</Button>;
+    };
+
+    useSetTitle('Home');
+    useSetSubNavButtons([]);
+    useSetLeftElement({});
+    useSetRightComponent(hcPorps.pathArray.length === 0 ? <div></div> : <BackComponent />);
 
     return (
-        <>
-            <Switch>
-                <Route path={path} component={PlaceOverviewContainer} />
-                {/* <Route exact path={`${path}/singlepost/:postId`} component={SinglePostPage} />
-            <Route exact path={`${path}/editPost/:postId`} component={EditPostForm} />
-            <Route exact path={`${path}/addPost`} component={AddPostForm} /> */}
-            </Switch>
-        </>
+        <FieldsetBorders componentName={COMPONENTNAME}>
+            <PlaceOverviewBreadcrumbs {...hcPorps} />
+            {React.createElement(container, { ...hcPorps })}
+        </FieldsetBorders>
     );
 };
 

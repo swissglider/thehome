@@ -53,7 +53,8 @@ const App = (): JSX.Element => {
 
     const loadSocket = () => {
         const script = document.createElement('script');
-        script.src = '/js/services/conn.js';
+
+        script.src = process.env.NODE_ENV === 'production' ? '/thehome/js/services/conn.js' : '/js/services/conn.js';
         script.async = true;
         script.onload = () => dispatch<any>(ACTION_IOBROKER_INIT);
         document.body.appendChild(script);
@@ -61,7 +62,8 @@ const App = (): JSX.Element => {
 
     useEffect(() => {
         const script = document.createElement('script');
-        script.src = `/js/services/socket.io.js`;
+        script.src =
+            process.env.NODE_ENV === 'production' ? `/thehome/js/services/socket.io.js` : `/js/services/socket.io.js`;
         script.async = true;
         script.onload = () => loadSocket();
         document.body.appendChild(script);

@@ -9,12 +9,14 @@ export interface I_UseHomeContainer_Result {
     childLists?: T_HOME_CONTAINER_LIST | undefined; // if homeContainer is set it is not used
     layout?: string;
     functionType?: string;
+    deviceID?: string;
 }
 
 interface I_State {
     pathArray: string[];
     layout?: string;
     functionType?: string;
+    deviceID?: string;
 }
 
 interface I_Location {
@@ -43,6 +45,7 @@ export const useHomeContainer = (): I_UseHomeContainer_Result => {
         location.state?.pathArray && Array.isArray(location.state?.pathArray) ? location.state.pathArray : [];
     const layout = location.state?.layout;
     const functionType = location.state?.functionType;
+    const deviceID = location.state?.deviceID;
     if (pathArray.length === 0) return { pathArray: pathArray, childLists: { ...allHCs } };
     let tempHClist = allHCs ?? {};
     let tempHC: I_HOME_CONTAINER | undefined = undefined;
@@ -54,5 +57,11 @@ export const useHomeContainer = (): I_UseHomeContainer_Result => {
             break;
         }
     }
-    return { pathArray: pathArray, homeContainer: tempHC, layout: layout, functionType: functionType };
+    return {
+        pathArray: pathArray,
+        homeContainer: tempHC,
+        layout: layout,
+        functionType: functionType,
+        deviceID: deviceID,
+    };
 };
