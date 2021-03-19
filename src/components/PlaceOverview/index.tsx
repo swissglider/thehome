@@ -8,8 +8,9 @@ import {
     useSetLeftElement,
     useSetRightComponent,
 } from '../../utils/FrameworkContext';
+import PlaceDetail from './components/PlaceDetail';
+import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
 import PlaceOverviewContainer, { StandardPlaceOverviewContainer } from './components/PlaceOverviewContainer';
-import PlaceOverviewBreadcrumbs from './components/PlaceOverviewContainer/components/PlaceOverviewBreadcrumbs';
 import StandardDeviceOverview from './components/StandardDeviceOverview';
 import StandardFunctionTypeOverview from './components/StandardFunctionTypeOverview';
 import { useHomeContainer } from './hooks/PlaceOverviewHooks';
@@ -35,6 +36,10 @@ const PlaceOverview = (): JSX.Element => {
         }
         case 'standard_device_overview': {
             container = StandardDeviceOverview;
+            break;
+        }
+        case 'place_detail': {
+            container = PlaceDetail;
             break;
         }
         default: {

@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { I_HOME_CONTAINER, T_HOME_CONTAINER_LIST } from '../../../features/servConn/interfaces';
-import { selector_getHomeContainerList } from '../../../features/servConn/selectors';
+import { selector_getFunctionTypeByID, selector_getHomeContainerList } from '../../../features/servConn/selectors';
+import { I_Type_Params } from '../../../features/servConn/slice';
 
 export interface I_UseHomeContainer_Result {
     pathArray: string[];
@@ -64,4 +65,10 @@ export const useHomeContainer = (): I_UseHomeContainer_Result => {
         functionType: functionType,
         deviceID: deviceID,
     };
+};
+
+export const getFunctionType = (): I_Type_Params | undefined => {
+    const hcPorps = useHomeContainer();
+    if (hcPorps.functionType === undefined) return undefined;
+    return useSelector(selector_getFunctionTypeByID(hcPorps.functionType));
 };

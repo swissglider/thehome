@@ -1,9 +1,9 @@
 import React from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { I_PlaceOverviewXContainer_Props } from '..';
-import { selector_getAvOnValueFromList } from '../../../../../../../features/ioBrokerStates/selectors';
+import { selector_getAvOnValueFromList } from '../../../../../../../../../features/ioBrokerStates/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { ACTION_IOBROKER_UPDATE_STATE } from '../../../../../../../features/ioBrokerStates/actions';
+import { ACTION_IOBROKER_UPDATE_STATE } from '../../../../../../../../../features/ioBrokerStates/actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

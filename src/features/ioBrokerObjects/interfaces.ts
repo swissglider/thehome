@@ -7,6 +7,7 @@ export interface I_ioBrokerObject {
         write?: boolean;
         read?: boolean;
         type?: string;
+        states?: string;
     };
     native: {
         swissglider?: {

@@ -3,16 +3,23 @@ import { RootState } from '../../redux/Store';
 import { servConn } from '../servConn/slice';
 
 const _getSelectedObjects = (objects: string[]): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        servConn.getObjects(objects, function (err: any, _objects: any) {
-            if (_objects !== undefined) {
-                resolve(_objects);
-            } else {
-                reject({ err, _objects });
-                // TODO ERRORHANDLING
-            }
+    const getObject = (id: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            servConn.getObject(id, false, function (err: any, _object: any) {
+                if (_object !== undefined) {
+                    resolve(_object);
+                } else {
+                    reject({ err, _object });
+                    // TODO ERRORHANDLING
+                }
+            });
         });
-    });
+    };
+    const promises: Promise<any>[] = [];
+    for (const id of objects) {
+        promises.push(getObject(id));
+    }
+    return Promise.all(promises);
 };
 
 export const IOBROKER_GET_SELECTED_OBJECTS_FROM_IOBROKER = createAsyncThunk<{ [key: string]: any }, string[]>(

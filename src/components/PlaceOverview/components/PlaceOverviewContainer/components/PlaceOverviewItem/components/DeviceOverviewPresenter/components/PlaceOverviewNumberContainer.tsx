@@ -1,8 +1,8 @@
 import React from 'react';
 import { I_PlaceOverviewXContainer_Props } from '..';
 import { useSelector } from 'react-redux';
-import { selector_getAvValueFromList } from '../../../../../../../features/ioBrokerStates/selectors';
-import { useGetHomeContainerLocationTo } from '../../../../../hooks/PlaceOverviewHooks';
+import { selector_getAvValueFromList } from '../../../../../../../../../features/ioBrokerStates/selectors';
+import { useGetHomeContainerLocationTo } from '../../../../../../../hooks/PlaceOverviewHooks';
 
 const PlaceOverviewNumberContainer = (props: I_PlaceOverviewXContainer_Props): JSX.Element => {
     const value = useSelector(selector_getAvValueFromList(props.membersStateList));

@@ -8,6 +8,14 @@ import { ACTION_IOBROKER_INIT } from './features/servConn/actions';
 import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './features/servConn/selectors';
 import { AppDispatch } from './redux/Store';
 import { useGenerateCategoryFunctionsMap } from './components/PlaceOverview/hooks/FunctionCategoryHooks';
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import catalogDE from './locales/de/messages.js';
+import { LANGUAGE } from './configuration/Application';
+
+// i18n.load('en', catalogEN.messages);
+i18n.load('de', catalogDE.messages);
+i18n.activate(LANGUAGE);
 
 const themeDark = (prefersDarkMode: boolean) =>
     createMuiTheme({
@@ -33,7 +41,11 @@ const themeDark = (prefersDarkMode: boolean) =>
 
 const _App = (): JSX.Element => {
     useGenerateCategoryFunctionsMap();
-    return <MainLayout />;
+    return (
+        <I18nProvider i18n={i18n}>
+            <MainLayout />
+        </I18nProvider>
+    );
 };
 
 const App = (): JSX.Element => {

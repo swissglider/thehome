@@ -1,12 +1,15 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles, Button, CardMedia } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, Button, CardMedia, Icon } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
-import { selector_getIOBObjectByID, selector_getDisplayName } from '../../../../../features/ioBrokerObjects/selectors';
-import { I_HOME_CONTAINER } from '../../../../../features/servConn/interfaces';
-import DeviceOverviewPresenter from './DeviceOverviewPresenter';
+import {
+    selector_getIOBObjectByID,
+    selector_getDisplayName,
+} from '../../../../../../features/ioBrokerObjects/selectors';
+import { I_HOME_CONTAINER } from '../../../../../../features/servConn/interfaces';
+import DeviceOverviewPresenter from './components/DeviceOverviewPresenter';
 import { Link } from 'react-router-dom';
-import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
+import { useGetHomeContainerLocationTo } from '../../../../hooks/PlaceOverviewHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -53,6 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: 50,
             flexGrow: 1,
         },
+        margin: {
+            position: 'absolute',
+            top: theme.spacing(0.5),
+            right: theme.spacing(0.5),
+            color: theme.palette.text.disabled,
+            padding: '0px 0px',
+            textAlign: 'center',
+        },
     }),
 );
 
@@ -70,6 +81,7 @@ const PlaceOverviewItem = ({ homeContainer, pathArray, withoutLink }: I_PlaceOve
     newPathArray.push(homeContainer.id);
     const { location } = useGetHomeContainerLocationTo({ pathArray: newPathArray, layout: 'standard_place_overview' });
     const linkProps = withoutLink === undefined || withoutLink === false ? { to: location, component: Link } : {};
+
     const WithOrWithoutLink = ({ children }: any): JSX.Element => {
         return withoutLink === undefined || withoutLink === false ? (
             <Button {...linkProps}>{children}</Button>
@@ -77,10 +89,17 @@ const PlaceOverviewItem = ({ homeContainer, pathArray, withoutLink }: I_PlaceOve
             <>{children}</>
         );
     };
+    const { goToLocation } = useGetHomeContainerLocationTo({
+        pathArray: newPathArray,
+        layout: 'place_detail',
+    });
     return (
         <>
             {/* <FieldsetBorders componentName={COMPONENTNAME}> */}
             <Button className={classes.button}>
+                <Icon onClick={goToLocation} fontSize="small" className={classes.margin}>
+                    info_outlined
+                </Icon>
                 <div className={classes.icon}>
                     <WithOrWithoutLink>
                         <CardMedia component="img" src={srcImg} />
@@ -91,7 +110,7 @@ const PlaceOverviewItem = ({ homeContainer, pathArray, withoutLink }: I_PlaceOve
                         <div className={classes.title}>{displayName}</div>
                     </WithOrWithoutLink>
 
-                    <DeviceOverviewPresenter pathArray={pathArray} homeContainer={homeContainer} />
+                    <DeviceOverviewPresenter pathArray={newPathArray} homeContainer={homeContainer} />
                 </div>
             </Button>
             {/* </FieldsetBorders> */}

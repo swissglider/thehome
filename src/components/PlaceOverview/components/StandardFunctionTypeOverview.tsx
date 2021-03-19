@@ -7,9 +7,9 @@ import { selector_getFunctionTypes } from '../../../features/servConn/selectors'
 import { I_Type_Params, I_FunctionTypes } from '../../../features/servConn/slice';
 import { useGetHomeContainerLocationTo, useHomeContainer } from '../hooks/PlaceOverviewHooks';
 import { I_Container_Props } from './PlaceOverviewContainer';
-import PlaceOverviewBooleanContainer from './PlaceOverviewContainer/components/DeviceOverviewPresenter/components/PlaceOverviewBooleanContainer';
-import PlaceOverviewNumberContainer from './PlaceOverviewContainer/components/DeviceOverviewPresenter/components/PlaceOverviewNumberContainer';
-import PlaceOverviewSwitchContainer from './PlaceOverviewContainer/components/DeviceOverviewPresenter/components/PlaceOverviewSwitchContainer';
+import PlaceOverviewBooleanContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/PlaceOverviewBooleanContainer';
+import PlaceOverviewNumberContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/PlaceOverviewNumberContainer';
+import PlaceOverviewSwitchContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/PlaceOverviewSwitchContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -114,7 +114,7 @@ const StandardFunctionTypeOverviewValue = (props: {
     );
 };
 
-const StandardFunctionTypeOverviewFolederElement = (props: {
+const StandardFunctionTypeOverviewFolderElement = (props: {
     displayName: string | undefined;
     functionTypeID: string;
     pathArray: string[];
@@ -163,7 +163,7 @@ const StandardFunctionTypeOverviewHC = (props: {
     return (
         <>
             <ListItem className={classes.mainListItem}>
-                <StandardFunctionTypeOverviewFolederElement
+                <StandardFunctionTypeOverviewFolderElement
                     displayName={displayName}
                     functionTypeID={props.functionTypeID}
                     pathArray={pathArray}

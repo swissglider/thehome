@@ -1,13 +1,13 @@
 import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core';
-import { I_HOME_CONTAINER } from '../../../../../../features/servConn/interfaces';
+import { I_HOME_CONTAINER } from '../../../../../../../../features/servConn/interfaces';
 import PlaceOverviewBooleanContainer from './components/PlaceOverviewBooleanContainer';
 import PlaceOverviewNumberContainer from './components/PlaceOverviewNumberContainer';
 import PlaceOverviewSwitchContainer from './components/PlaceOverviewSwitchContainer';
 import {
     I_Extended_Type_Params,
     useGenerateBooleanSwitchNumberCategories,
-} from '../../../../hooks/FunctionCategoryHooks';
+} from '../../../../../../hooks/FunctionCategoryHooks';
 
 const useStyles = makeStyles(() =>
     createStyles({

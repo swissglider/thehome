@@ -2,8 +2,8 @@ import React from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { I_PlaceOverviewXContainer_Props } from '..';
 import { useSelector } from 'react-redux';
-import { selector_getAvOnValueFromList } from '../../../../../../../features/ioBrokerStates/selectors';
-import { useGetHomeContainerLocationTo } from '../../../../../hooks/PlaceOverviewHooks';
+import { selector_getAvOnValueFromList } from '../../../../../../../../../features/ioBrokerStates/selectors';
+import { useGetHomeContainerLocationTo } from '../../../../../../../hooks/PlaceOverviewHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
