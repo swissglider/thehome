@@ -34,21 +34,21 @@ export interface MainContentProps {
 const MainContent = (props: MainContentProps): JSX.Element => {
     const classes = useStyles({ scrollPos: props.scrollPos, marginStartValue: props.marginStartValue });
 
-    const buttons: I_MainComponentsConfiguration[] = MainComponentsConfiguration;
+    const configurations: I_MainComponentsConfiguration[] = MainComponentsConfiguration;
 
     return (
         <div className={classes.content}>
             <SubNavigationButtons />
             <div className={classes.subContent}>
                 <Switch>
-                    {buttons
-                        .filter((button) => button.linkActive)
-                        .map((button: I_MainComponentsConfiguration, index: number) => (
+                    {configurations
+                        .filter((config1) => config1.linkActive !== undefined && config1.linkActive)
+                        .map((config: I_MainComponentsConfiguration, index: number) => (
                             <Route
                                 key={`MainContent_${index}`}
-                                exact={button.linkExact}
-                                path={button.to}
-                                component={button.component}
+                                exact={config.linkExact !== undefined && config.linkExact}
+                                path={config.to}
+                                component={config.component}
                             />
                         ))}
                     <Redirect to="/" />

@@ -1,0 +1,118 @@
+@startuml
+
+title Components - Component Diagram
+
+component Function {
+    object Device{
+        <b><color:blue>Gui States</color></b>
+        states: [{name; value; type, id}]
+        <b><color:blue>Gui Functions</color></b>
+    }
+    object Channel{
+        <b><color:blue>Gui States</color></b>
+        states: [{name; value; type, id}]
+        <b><color:blue>Gui Functions</color></b>
+    }
+    object State{
+        <size:14><b>value</b></size>
+    }
+    object StateTypeGroup{
+        <b><color:blue>Gui States</color></b>
+        <b><color:blue>Gui Functions</color></b>
+        <b><color:red>Function States</color></b>
+        states: [{name; value; type, id}]
+    }
+    
+}
+
+component GUI {
+    object StateType{
+        <b><color:blue>Gui States</color></b>
+        # Icon
+        # Control
+        # BackgroundImage
+        <b><color:blue>Gui Functions</color></b>
+        # push()
+        # up()
+        # down()
+        # on()
+        # off()
+    }
+    object StateTypeComponentSmall
+    object StateTypeComponentText
+    object StateTypeComponentImage
+    object StateTypeComponentBig
+}
+
+component Geo {
+    object Home{
+        <b><color:blue>Gui States</color></b>
+        # statesAv: [{name; value; type}]
+        # statesMax: [{name; value; type}]
+        # statesMin: [{name; value; type}]
+        # statesControl: [{name; value; type, states}]
+        <b><color:blue>Gui Functions</color></b>
+        <b><color:red>Function States</color></b>
+        states: [{name; value; type, id}]
+    }
+    object Zone{
+        <b><color:blue>Gui States</color></b>
+        # statesAv: [{name; value; type}]
+        # statesMax: [{name; value; type}]
+        # statesMin: [{name; value; type}]
+        # statesControl: [{name; value; type, states}]
+        <b><color:blue>Gui Functions</color></b>
+        <b><color:red>Function States</color></b>
+        states: [{name; value; type, id}]
+    }
+    object Area{
+        <b><color:blue>Gui States</color></b>
+        # statesAv: [{name; value; type}]
+        # statesMax: [{name; value; type}]
+        # statesMin: [{name; value; type}]
+        # statesControl: [{name; value; type, states}]
+        <b><color:blue>Gui Functions</color></b>
+        <b><color:red>Function States</color></b>
+        states: [{name; value; type, id}]
+    }
+    object Floor{
+        <b><color:blue>Gui States</color></b>
+        # statesAv: [{name; value; type}]
+        # statesMax: [{name; value; type}]
+        # statesMin: [{name; value; type}]
+        # statesControl: [{name; value; type, states}]
+        <b><color:blue>Gui Functions</color></b>
+        <b><color:red>Function States</color></b>
+        states: [{name; value; type, id}]
+    }
+    object Room{
+        <b><color:blue>Gui States</color></b>
+        # statesAv: [{name; value; type}]
+        # statesMax: [{name; value; type}]
+        # statesMin: [{name; value; type}]
+        # statesControl: [{name; value; type, states}]
+        <b><color:blue>Gui Functions</color></b>
+        <b><color:red>Function States</color></b>
+        states: [{name; value; type, id}]
+    }
+}
+
+
+Device "1" *-- "1..*" Channel
+Channel "1" *-- "1..*" State
+
+Home "1" *-- "0..*" Zone
+Home "1" *-- "0..*" Area
+Area "1" *-- "0..*" Floor
+Floor "1" *-- "0..*" Room
+
+Room "1" o-- "0..*" Device
+Zone "1" o-- "0..*" Device
+
+StateTypeGroup "1" o-- "0..*" State
+StateType -- State
+
+Geo ..> StateType
+Function ..> StateType
+
+@enduml

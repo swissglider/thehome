@@ -32,15 +32,14 @@ const useStylesApp = makeStyles((theme: Theme) =>
 );
 
 export interface MainLayoutProps {
-    test?: string;
+    test?: any;
 }
-
-const InitAction = (): JSX.Element => <></>;
+const InitAction = (): JSX.Element => <div></div>;
 
 const initialState: I_Framework = {
     title: 'The HOME',
-    subNavButtons: [{ title: 'Home', to: '/', icon: 'home' }],
-    component: <InitAction />,
+    subNavButtons: [],
+    rightComponent: <InitAction />,
 };
 
 const MainLayout = (): JSX.Element => {
@@ -77,7 +76,7 @@ const MainLayout = (): JSX.Element => {
         }
     };
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/thehome">
             <div className="App">
                 <FrameworkContext.Provider value={[frameworkContext, setFrameworkContext]}>
                     <MainIconBar
@@ -96,7 +95,6 @@ const MainLayout = (): JSX.Element => {
                     <div className={classes.child} ref={childRef} onScroll={onScroll} id="ScrollContainer">
                         <MainContent scrollPos={scrollPos} marginStartValue={scrollingTitleHeight} />
                     </div>
-
                     {MainComponentsConfiguration.find((c) => c.onMainBottomNavigation) !== undefined && (
                         <MainBottomNavigation paramRef={bottonNavRef} />
                     )}

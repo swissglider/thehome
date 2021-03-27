@@ -1,6 +1,8 @@
-import FireStoreTest2 from '../components/FB_Links';
-import FireStoreTest from '../components/FireStoreTest';
+import React from 'react';
+import MoreMenu from '../components/MainLayout/components/MoreMenu';
+import PlaceOverview from '../components/PlaceOverview';
 import Posts from '../components/Posts';
+import TestIOBroker from '../components/TestIOBroker';
 
 export interface I_MainComponentsConfiguration {
     label: string;
@@ -8,20 +10,24 @@ export interface I_MainComponentsConfiguration {
     icon: string;
     to: string;
     component: any;
-    onMainBottomNavigation: boolean;
-    linkActive: boolean;
-    linkExact: boolean;
+    onMainBottomNavigation?: boolean; // if it should be showed on the MainBottomMenu (default false)
+    onMoreMenuNavigation?: boolean; // if it should be showed on the MoreMenu Component (default false)
+    linkActive?: boolean; // if it should be acitve on the router (default false)
+    linkExact?: boolean; // default false
 }
-export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
+
+// to be filled
+const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
     {
-        label: 'Home',
-        value: '',
-        icon: 'restore',
-        to: '/',
-        component: Posts,
-        onMainBottomNavigation: false,
+        label: 'Homes',
+        value: 'homes',
+        icon: 'home',
+        to: '/homes',
+        component: PlaceOverview,
+        onMainBottomNavigation: true,
+        onMoreMenuNavigation: false,
         linkActive: true,
-        linkExact: true,
+        linkExact: false,
     },
     {
         label: 'Posts',
@@ -29,31 +35,60 @@ export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
         icon: 'email',
         to: '/posts',
         component: Posts,
-        onMainBottomNavigation: true,
-        linkActive: true,
-        linkExact: false,
-    },
-    {
-        label: 'FireStoreTest',
-        value: 'fireTest',
-        icon: 'local_fire_department',
-        to: '/fireTest',
-        component: FireStoreTest,
         onMainBottomNavigation: false,
+        onMoreMenuNavigation: true,
         linkActive: true,
         linkExact: false,
     },
     {
-        label: 'Links',
-        value: 'fireTest2',
-        icon: 'link',
-        to: '/fireTest2',
-        component: FireStoreTest2,
-        onMainBottomNavigation: true,
+        label: 'TestIOBroker',
+        value: 'testiobroker',
+        icon: 'email',
+        to: '/testiobroker',
+        component: TestIOBroker,
+        onMainBottomNavigation: false,
+        onMoreMenuNavigation: true,
         linkActive: true,
         linkExact: false,
     },
 ];
+
+// nothing to do
+export const generateMainComponentConfiguration = (): I_MainComponentsConfiguration[] => {
+    if (MainComponentsConfiguration_.find((c) => c.to === '/') === undefined) {
+        MainComponentsConfiguration_.unshift({
+            label: 'Home',
+            value: '',
+            icon: 'home',
+            to: '/',
+            component:
+                MainComponentsConfiguration_[0] && MainComponentsConfiguration_[0].component ? (
+                    MainComponentsConfiguration_[0].component
+                ) : (
+                    <div>This is the default home</div>
+                ),
+            onMoreMenuNavigation: true,
+            linkActive: true,
+            linkExact: true,
+        });
+    }
+    if (MainComponentsConfiguration_.find((c) => c.onMoreMenuNavigation) !== undefined) {
+        MainComponentsConfiguration_.push({
+            label: 'More',
+            value: 'moreMenu',
+            icon: 'more_horiz',
+            to: '/moremenu',
+            component: MoreMenu,
+            onMainBottomNavigation: true,
+            onMoreMenuNavigation: false,
+            linkActive: true,
+            linkExact: false,
+        });
+    }
+    return MainComponentsConfiguration_;
+};
+
+export const MainComponentsConfiguration = generateMainComponentConfiguration();
 
 /**
  * Returns the link with label. If not available it returns the one with 'Home' Link

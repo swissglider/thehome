@@ -18,7 +18,7 @@ const Posts = (): JSX.Element => {
             { title: 'Posts', to: path, icon: 'mail_outline' },
             { title: 'Add Post', to: `${path}/addPost`, icon: 'post_add' },
         ];
-        context_.component = <div>Posts</div>;
+        context_.rightComponent = <div>Posts</div>;
         setContext(context_);
     }, []);
     return (

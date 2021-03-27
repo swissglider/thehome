@@ -1,8 +1,9 @@
-import { Action, configureStore, getDefaultMiddleware, ThunkAction } from '@reduxjs/toolkit';
-import { actionTypes, firebaseReducer } from 'react-redux-firebase';
-import { firestoreReducer } from 'redux-firestore';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import ioBrokerObjectsReducer from '../features/ioBrokerObjects/slice';
+import ioBrokerStateReducer from '../features/ioBrokerStates/slice';
+import { IOBrokerMiddleware } from '../features/servConn/middleware';
+import ioBrokerServConnReducer from '../features/servConn/slice';
 import counterReducer from './features/counter/counterSlice';
-import fireStoreTestReducer from './features/fireStoreTest/fireStoreTestSlice';
 import postsReducer from './features/posts/postsSlice';
 import usersReducer from './features/users/usersSlice';
 
@@ -11,16 +12,27 @@ export const store = configureStore({
         posts: postsReducer,
         counter: counterReducer,
         users: usersReducer,
-        goals: fireStoreTestReducer,
-        firebase: firebaseReducer,
-        firestore: firestoreReducer,
+        ioBrokerServConn: ioBrokerServConnReducer,
+        ioBrokerStates: ioBrokerStateReducer,
+        ioBrokerObjects: ioBrokerObjectsReducer,
     },
-    middleware: getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: [actionTypes.LOGIN],
-        },
-    }),
+    // middleware: [...getDefaultMiddleware({ immutableCheck: false, serializableCheck: false }), IOBrokerMiddleware],
+    middleware: (getDefaultMiddlewares) =>
+        getDefaultMiddlewares({ immutableCheck: false, serializableCheck: false }).concat(IOBrokerMiddleware),
 });
 
+// const rootReducer = combineReducers({
+//     posts: postsReducer,
+//     counter: counterReducer,
+//     users: usersReducer,
+//     ioBroker: ioBrokerReducer,
+// });
+
+// const middlewareEnhancer = applyMiddleware(IOBrokerMiddleware, thunkMiddleware);
+// const composeEnhancers = composeWithDevTools(middlewareEnhancer);
+
+// export const store1 = createStore(rootReducer, composeEnhancers);
+
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
