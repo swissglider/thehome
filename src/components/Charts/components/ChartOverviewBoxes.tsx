@@ -35,7 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const DivAround = ({ title, value }: PropsWithChildren<{ title: JSX.Element; value: string }>) => {
+const DivAround = ({
+    title,
+    value,
+    withUnit,
+}: PropsWithChildren<{ title: JSX.Element; value: string; withUnit?: boolean }>) => {
+    withUnit = withUnit ?? true;
     const functionType = getFunctionType();
     if (functionType === undefined) return null;
     const color = useMemo(
@@ -50,7 +55,7 @@ const DivAround = ({ title, value }: PropsWithChildren<{ title: JSX.Element; val
                 <div className={classes.buttonText}>{title}</div>
                 <div>
                     {value}
-                    {functionType.unit ?? ''}
+                    {withUnit ? functionType.unit ?? '' : ''}
                 </div>
             </div>
         </>
@@ -86,7 +91,9 @@ export const CurrentValueLastUpdateDate = (): JSX.Element | null => {
 
     const state = useSelector(selector_getStateByID(hcPorps.deviceID));
     const time = moment(state.ts).locale('de-ch').format('lll');
-    return <DivAround title={<Trans id="chartOvervewBoxes.lastupdate">Last update</Trans>} value={time} />;
+    return (
+        <DivAround title={<Trans id="chartOvervewBoxes.lastupdate">Last update</Trans>} value={time} withUnit={false} />
+    );
 };
 
 export const CurrentValueImage = (): JSX.Element | null => {
