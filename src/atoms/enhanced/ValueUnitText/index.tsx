@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core';
-import TypographyComponent, { T_TypographyComponent_Variants } from '../../base/TypographyComponent';
+import TypographyComponent from '../../base/TypographyComponent';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -12,29 +12,24 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-export interface I_ValueUnitText_Props {
-    value: string | JSX.Element;
+export interface I_ValueUnitText_Props extends Omit<ComponentProps<typeof TypographyComponent>, 'children'> {
+    value: string;
     unit?: string;
     withUnit?: boolean;
-    onClick?: () => void;
-    variant?: T_TypographyComponent_Variants;
     noWrap?: boolean;
     spaceBeforeUnit?: boolean;
 }
 
 const ValueUnitText = (props: I_ValueUnitText_Props): JSX.Element => {
     const { value, unit, withUnit, noWrap, spaceBeforeUnit, ...args } = { ...props };
-    const _withUnit = withUnit ?? true;
-    const classes = useStyles();
-    const classesParams = noWrap !== undefined && noWrap === true ? { className: classes.noWrap } : {};
-    const spacer = spaceBeforeUnit ? <span>&nbsp;</span> : '';
+    const classesParams = noWrap !== undefined && noWrap === true ? { className: useStyles().noWrap } : {};
 
     return (
         <TypographyComponent {...args}>
             <div {...classesParams}>
                 {value}
-                {spacer}
-                {unit && _withUnit ? unit : ''}
+                {spaceBeforeUnit ? <span>&nbsp;</span> : ''}
+                {unit && (withUnit ?? true) ? unit : ''}
             </div>
         </TypographyComponent>
     );

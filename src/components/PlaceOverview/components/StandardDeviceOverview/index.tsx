@@ -2,20 +2,16 @@ import React, { useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { T_DURATION, C_DEFAULT_DURATION } from '../../../Charts';
 import { TimeLengthSelector } from '../../../Charts/components/TimeLengthSelection';
-import {
-    CurrentValueImage,
-    CurrentValueLastUpdateDate,
-    CurrentValueMaxBox,
-    CurrentValueMinBox,
-} from '../../../Charts/components/ChartOverviewBoxes';
+import { CurrentValueImage } from '../../../Charts/components/ChartOverviewBoxes';
 import { useGetCurrentIOBFunctionType } from '../../../../hooks/PlaceOverviewHooks';
 import { selector_getDisplayName } from '../../../../features/ioBrokerObjects/selectors';
 import { useSingleChartDataCalculator } from '../../../Charts/hooks/SingleChartDataCalculator';
 import { useSelector } from 'react-redux';
 import NumberChart from './components/NumberChart';
 import { I_Container_Props } from '../PlaceOverviewContainer';
-import { CurrentValueChartBox } from '../../../../molecules/CurrentValueChartBox';
-import { CurrentValueAvarageBox } from '../../../../molecules/CurrentValueAvarageBox';
+import IOBContextCountedValueTitleBox from '../../../../molecules/base/IOBContextCountedValueTitleBox';
+import { selector_getStateByID } from '../../../../features/ioBrokerStates/selectors';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -46,6 +42,8 @@ const StandardDeviceOverview = ({ deviceID }: I_Container_Props): JSX.Element | 
     const classes = useStyles({ color: color });
     const functionName = useSelector(selector_getDisplayName(functionType.functionID)) ?? '';
     const deviceName = useSelector(selector_getDisplayName(deviceID));
+    const currentState = useSelector(selector_getStateByID(deviceID));
+    const timeStamp = moment(currentState.ts).locale('de-ch').format('lll');
 
     const { data, allVal, calcHistory } = useSingleChartDataCalculator(deviceID, valueType);
 
@@ -79,12 +77,24 @@ const StandardDeviceOverview = ({ deviceID }: I_Container_Props): JSX.Element | 
                 <TimeLengthSelector duration={duration} handleChange={handleChange} />
             </div>
             <div className={classes.buttonRoot}>
-                <CurrentValueChartBox />
+                <IOBContextCountedValueTitleBox title="chartOvervewBoxes.lastval" value={currentState.val.toString()} />
                 {valueType === 'number' && (
                     <>
-                        <CurrentValueAvarageBox allValues={allVal} type="number" />
-                        <CurrentValueMaxBox allValues={allVal} />
-                        <CurrentValueMinBox allValues={allVal} />
+                        <IOBContextCountedValueTitleBox
+                            title="chartOvervewBoxes.avval"
+                            countMethod="av"
+                            allValues={allVal}
+                        />
+                        <IOBContextCountedValueTitleBox
+                            title="chartOvervewBoxes.maxval"
+                            countMethod="max"
+                            allValues={allVal}
+                        />
+                        <IOBContextCountedValueTitleBox
+                            title="chartOvervewBoxes.minval"
+                            countMethod="min"
+                            allValues={allVal}
+                        />
                     </>
                 )}
             </div>
@@ -92,7 +102,11 @@ const StandardDeviceOverview = ({ deviceID }: I_Container_Props): JSX.Element | 
                 {React.createElement(container, { data, color, unit, functionName, deviceName })}
             </div>
             <div className={classes.buttonRoot}>
-                <CurrentValueLastUpdateDate />
+                <IOBContextCountedValueTitleBox
+                    title="chartOvervewBoxes.lastupdate"
+                    value={timeStamp.toString()}
+                    withUnit={false}
+                />
                 <CurrentValueImage />
             </div>
         </div>

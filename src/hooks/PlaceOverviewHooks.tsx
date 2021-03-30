@@ -88,5 +88,7 @@ export const useHomeContainer = (): I_UseHomeContainer_Result => {
 export const useGetCurrentIOBFunctionType = (): I_Type_Params | undefined => {
     const hcPorps = useHomeContainer();
     if (hcPorps.functionType === undefined) return undefined;
-    return useSelector(selector_getFunctionTypeByID(hcPorps.functionType));
+    const params = { ...useSelector(selector_getFunctionTypeByID(hcPorps.functionType)) };
+    if (typeof params.color === 'boolean') delete params.color;
+    return params;
 };

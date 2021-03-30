@@ -13,7 +13,7 @@ export interface I_Type_Params {
     type?: string;
     functionID?: string;
     name?: string | { [lan: string]: string };
-    color?: string | boolean;
+    color?: string;
     icon?: string;
     icon_false?: string;
     icon_true?: string;

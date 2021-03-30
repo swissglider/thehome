@@ -84,29 +84,21 @@ HeaderWithoutUnit2.args = {
     onClicked: undefined,
 };
 
-export const HeaderDivWithUnit = Template.bind({});
-HeaderDivWithUnit.args = {
-    value: <div>10</div>,
-    unit: '°C',
-    variant: 'header',
-    onClicked: undefined,
-};
-
-export const HeaderDivWithUnitNoWrap = Template.bind({});
-HeaderDivWithUnitNoWrap.args = {
-    value: <div>10</div>,
+export const HeaderWithUnitNoWrap = Template.bind({});
+HeaderWithUnitNoWrap.args = {
+    value: '10',
     unit: '°C',
     variant: 'header',
     noWrap: true,
     onClicked: undefined,
 };
 
-export const HeaderDivWithUnitNoWrapWithSpace = Template.bind({});
-HeaderDivWithUnitNoWrapWithSpace.args = {
-    value: <div>10</div>,
+export const HeaderWithUnitSpaceNoWrap = Template.bind({});
+HeaderWithUnitSpaceNoWrap.args = {
+    value: '10',
     unit: '°C',
     variant: 'header',
-    noWrap: true,
+    noWrap: false,
     spaceBeforeUnit: true,
     onClicked: undefined,
 };

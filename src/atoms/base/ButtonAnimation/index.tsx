@@ -20,7 +20,7 @@ const useStyles = makeStyles(() =>
 
 export interface I_ButtonAnimation_Props {
     children: JSX.Element;
-    withAnimation: boolean;
+    withAnimation?: boolean;
 }
 
 const ButtonAnimation = (props: I_ButtonAnimation_Props): JSX.Element => {

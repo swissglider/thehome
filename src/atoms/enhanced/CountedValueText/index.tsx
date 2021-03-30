@@ -1,18 +1,11 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { T_CountMethod, useGetCountedValue } from '../../../hooks/CountingHooks';
-import { T_TypographyComponent_Variants } from '../../base/TypographyComponent';
 import ValueUnitText from '../ValueUnitText';
 
-export interface I_AvarageText_Props {
+export interface I_AvarageText_Props extends Omit<ComponentProps<typeof ValueUnitText>, 'value'> {
     allValues: any[];
     countMethod: T_CountMethod;
     type?: string;
-    unit?: string;
-    withUnit?: boolean;
-    onClick?: () => void;
-    variant?: T_TypographyComponent_Variants;
-    noWrap?: boolean;
-    spaceBeforeUnit?: boolean;
 }
 
 const CountedValueText = (props: I_AvarageText_Props): JSX.Element => {

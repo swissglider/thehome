@@ -3,17 +3,17 @@ import { Story, Meta } from '@storybook/react';
 import IOBContextValueTitleBox from '.';
 import { MemoryRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selector_getFunctionTypes } from '../../features/servConn/selectors';
-import { useGetIOBFunctionTypeByIOBDeviceID } from '../../hooks/PlaceOverviewHooks';
-import IconComponent from '../../atoms/base/IconComponent';
-import TypographyComponent from '../../atoms/base/TypographyComponent';
+import { selector_getFunctionTypes } from '../../../features/servConn/selectors';
+import { useGetIOBFunctionTypeByIOBDeviceID } from '../../../hooks/PlaceOverviewHooks';
+import IconComponent from '../../../atoms/base/IconComponent';
+import TypographyComponent from '../../../atoms/base/TypographyComponent';
 
 const icon =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAAjElEQVQ4jWNgoDJgROZU19Q8UVFV/UOKAXdu32ZpbWmRgfFZkCVVVFX/6Ojqyd+7e4cow5SUVRgYGBgeIouxoCu6d/cOg7OrG1EG7t29C0OMiSidJIBRA4eLgQvmzaWugQlJydQ1EB8YNXAQGohSfN25fZuFl4fny5bvGzmI0fzi2bMfn798wSgCqQoAKqIjUPYlXwAAAAAASUVORK5CYII=';
 
 //👇 This default export determines where your story goes in the story list
 export default {
-    title: 'TheHome/Sub-Molecules/IOBContextValueTitleBox',
+    title: 'TheHome/Molecules/base/IOBContextValueTitleBox',
     component: IOBContextValueTitleBox,
     argTypes: {
         functionType: {
@@ -66,7 +66,6 @@ const Template: Story<any> = (args) => {
                 <IOBContextValueTitleBox
                     allValues={[args.value]}
                     countMethod="first"
-                    type="string"
                     withUnit={args.withUnit}
                     title={args.title}
                 />

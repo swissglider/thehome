@@ -156,27 +156,6 @@ LargeWithout.args = {
 LargeWithout.argTypes = { onClicked: { action: 'Door Clicked' } };
 LargeWithout.decorators = [(Story) => <Story />];
 
-export const Circle = Template.bind({});
-Circle.args = {
-    icon_false:
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAAlElEQVQ4je2SPQrDMAyFX4sP4lGgq3TsgTTI98gBPPYqAh9G0CwJ1D/QNkmXkm8yz/izQO+CBRG5hRDu2IC7ZxF5VKGqTs+NqOq0ekL7WykFZlZlzAwAw5yIqqwTmhlijF0GYJi3wmsr3Msp3E+3ZWb+qjYtv5/w7OEfCg/vYSckoq4Kr3cfT+juOaX09sEId8/reQbglHX3cPdLSQAAAABJRU5ErkJggg==',
-    icon_true:
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABdklEQVQ4jWMMnXLO8su3f6+2l5ncZaAAeHadUebhYhJjEedmSY8yF/W1WHfz1vP33zf++sOQa6LE/5sYQ87c+8jKyPi/X0qQw8dQXkBz39XX21kYGBgYAkwkhFz0JCw+fv1hvufCnf8/v99hitc5g9ewhVdMGOxUJf65GKh08XNzMPKwMTDsu/qagQWm4PDj/wz87OyMPhY6jFuPfWL4+bgDr4Ec7NsYvC10mG6+/c/w8d1/Bk9lRgYGBgYGJmRFH38yMLz7/p8Y3zIwMEDUfvyJKsaEXSn5YPAbCI8UWKAyMDAwHCdSs6oQI4OqEA4Dt9+FRIaKIPGuuf3uP8Od96gOGvxhOGoglQ3kZ2dgEOJkxKUWAwhxMjLws6OKwdOhrSwjw8evP/5vOXHn/8+f35jYVSvwGvbjyjeGLSeu/HMxUGHkF+OAu4KFgYGBYcOZF+8uPf6EVMCq/J53SwW/89gYGA7d/sh6+M4NeAHLwMDAwEjtKgAA2tSGeh5PDr4AAAAASUVORK5CYII=',
-    onClick: () => {
-        return;
-    },
-    size: 'root',
-    variants: 'circle',
-};
-Circle.argTypes = { onClicked: { action: 'Door Clicked' } };
-Circle.decorators = [
-    (Story) => (
-        <div style={{ margin: '3em' }}>
-            <Story />
-        </div>
-    ),
-];
-
 export const Circular = Template.bind({});
 Circular.args = {
     icon_false:
@@ -233,6 +212,28 @@ Square.args = {
 };
 Square.argTypes = { onClicked: { action: 'Door Clicked' } };
 Square.decorators = [
+    (Story) => (
+        <div style={{ margin: '3em' }}>
+            <Story />
+        </div>
+    ),
+];
+
+export const SquareWithoutAnimation = Template.bind({});
+SquareWithoutAnimation.args = {
+    icon_false:
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAAlElEQVQ4je2SPQrDMAyFX4sP4lGgq3TsgTTI98gBPPYqAh9G0CwJ1D/QNkmXkm8yz/izQO+CBRG5hRDu2IC7ZxF5VKGqTs+NqOq0ekL7WykFZlZlzAwAw5yIqqwTmhlijF0GYJi3wmsr3Msp3E+3ZWb+qjYtv5/w7OEfCg/vYSckoq4Kr3cfT+juOaX09sEId8/reQbglHX3cPdLSQAAAABJRU5ErkJggg==',
+    icon_true:
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABdklEQVQ4jWMMnXLO8su3f6+2l5ncZaAAeHadUebhYhJjEedmSY8yF/W1WHfz1vP33zf++sOQa6LE/5sYQ87c+8jKyPi/X0qQw8dQXkBz39XX21kYGBgYAkwkhFz0JCw+fv1hvufCnf8/v99hitc5g9ewhVdMGOxUJf65GKh08XNzMPKwMTDsu/qagQWm4PDj/wz87OyMPhY6jFuPfWL4+bgDr4Ec7NsYvC10mG6+/c/w8d1/Bk9lRgYGBgYGJmRFH38yMLz7/p8Y3zIwMEDUfvyJKsaEXSn5YPAbCI8UWKAyMDAwHCdSs6oQI4OqEA4Dt9+FRIaKIPGuuf3uP8Od96gOGvxhOGoglQ3kZ2dgEOJkxKUWAwhxMjLws6OKwdOhrSwjw8evP/5vOXHn/8+f35jYVSvwGvbjyjeGLSeu/HMxUGHkF+OAu4KFgYGBYcOZF+8uPf6EVMCq/J53SwW/89gYGA7d/sh6+M4NeAHLwMDAwEjtKgAA2tSGeh5PDr4AAAAASUVORK5CYII=',
+    onClick: () => {
+        return;
+    },
+    size: 'root',
+    variants: 'square',
+    withAnimation: false,
+};
+SquareWithoutAnimation.argTypes = { onClicked: { action: 'Door Clicked' } };
+SquareWithoutAnimation.decorators = [
     (Story) => (
         <div style={{ margin: '3em' }}>
             <Story />

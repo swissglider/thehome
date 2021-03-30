@@ -1,13 +1,13 @@
-import React from 'react';
-import { ButtonBase, createStyles, makeStyles, Theme } from '@material-ui/core';
+import React, { ComponentProps } from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Hex2rgbaConverter from '../../../utils/Hex2rgbaConverter';
-import { i18n } from '@lingui/core';
 import TypographyComponent from '../../base/TypographyComponent';
 import ButtonAnimation from '../../base/ButtonAnimation';
+import IconComponent, { T_IconComponent_Size, T_IconComponent_Variant } from '../../base/IconComponent';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
+        withDecoration: {
             padding: theme.spacing(0.5),
             display: 'flex',
             flexDirection: 'column',
@@ -22,25 +22,65 @@ const useStyles = makeStyles((theme: Theme) =>
                 return `linear-gradient(0deg, ${color1} 0%, ${color2} 35%, ${color3} 100%)`;
             },
         },
+        withOutDecoration: {
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            alignItems: 'center',
+        },
     }),
 );
 
-export interface I_ValueTitleBox_Props {
+export interface I_ValueTitleBox_Props extends Omit<ComponentProps<typeof ButtonAnimation>, 'children'> {
     title?: string;
-    value: JSX.Element;
+    value?: string | JSX.Element;
+    icon?: string;
+    size?: T_IconComponent_Size; // for icon only
+    variants?: T_IconComponent_Variant; // for icon only
     color?: string;
     onClick?: () => void;
     withColor?: boolean;
+    withoutDecoration?: boolean;
+    valueBold?: boolean;
 }
 
-const ValueTitleBox = ({ title, value, color, onClick, withColor }: I_ValueTitleBox_Props): JSX.Element | null => {
+const ValueTitleBox = ({
+    title,
+    icon,
+    size,
+    variants,
+    value,
+    color,
+    onClick,
+    withColor,
+    withoutDecoration,
+    withAnimation,
+    valueBold,
+}: I_ValueTitleBox_Props): JSX.Element | null => {
     const classes = useStyles({ color: withColor === undefined || withColor ? color : '#FFFFFF' });
     const withClickParam = onClick ? { onClick: onClick } : {};
+    const decorationParams =
+        withoutDecoration === true ? { className: classes.withOutDecoration } : { className: classes.withDecoration };
+
+    const _withAnimation = withAnimation !== false && onClick !== undefined;
+
     return (
-        <ButtonAnimation withAnimation={onClick !== undefined}>
-            <div className={classes.root} {...withClickParam}>
-                {title && <TypographyComponent variant="title">{title}</TypographyComponent>}
-                {value}
+        <ButtonAnimation withAnimation={_withAnimation}>
+            <div {...decorationParams} {...withClickParam}>
+                {title && (
+                    <TypographyComponent variant="title" withAnimation={false}>
+                        {title}
+                    </TypographyComponent>
+                )}
+                {value &&
+                    (typeof value === 'string' ? (
+                        <TypographyComponent variant={valueBold ? 'body_bold' : 'body'} withAnimation={false}>
+                            {value}
+                        </TypographyComponent>
+                    ) : (
+                        React.cloneElement(value, { withAnimation: false, variant: valueBold ? 'body_bold' : 'body' })
+                    ))}
+                {icon && <IconComponent icon={icon} withAnimation={false} size={size} variants={variants} />}
             </div>
         </ButtonAnimation>
     );

@@ -45,6 +45,16 @@ const themeDark = (prefersDarkMode: boolean) =>
         typography: {
             body2: {
                 fontSize: '0.9rem',
+                fontWeight: 400,
+            },
+            body1: {
+                fontSize: '0.9rem',
+                fontWeight: 600,
+            },
+            subtitle1: {
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                opacity: 0.7,
             },
         },
     });

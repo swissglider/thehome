@@ -3,10 +3,10 @@ import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import ButtonAnimation from '../ButtonAnimation';
 
 export const IconComponent_Size = ['root', 'small', 'large', 'open'] as const;
-type T_IconComponent_Size = typeof IconComponent_Size[number];
+export type T_IconComponent_Size = typeof IconComponent_Size[number];
 
-export const IconComponent_Variant = ['square', 'circle', 'circular', 'rounded'] as const;
-type T_IconComponent_Variant = typeof IconComponent_Variant[number];
+export const IconComponent_Variant = ['square', 'circular', 'rounded'] as const;
+export type T_IconComponent_Variant = typeof IconComponent_Variant[number];
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,29 +31,37 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export interface I_IconComponent_Props {
+const GetButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => (
+    <ButtonAnimation withAnimation={true}>{children}</ButtonAnimation>
+);
+
+const GetWithoutButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => <>{children}</>;
+
+export interface I_IconComponent_Props
+    extends Omit<ComponentProps<typeof ButtonAnimation>, 'children'>,
+        Omit<ComponentProps<typeof Avatar>, 'children'> {
     icon: string;
     onClick?: () => void;
     variants?: T_IconComponent_Variant;
-    sizes?: string;
-    srcSet?: string;
     size?: T_IconComponent_Size;
 }
 
 const IconComponent = (props: I_IconComponent_Props): JSX.Element => {
     const classes = useStyles();
-    const params: ComponentProps<typeof Avatar> = {};
-    params.src = props.icon;
-    if (props.onClick) params.onClick = props.onClick;
-    params.variant = props.variants ?? 'square';
-    if (props.sizes) params.sizes = props.sizes;
-    if (props.srcSet) params.srcSet = props.srcSet;
-    params.className = classes[props.size ?? 'root'];
+
+    const { variants, withAnimation, ...avatarProps } = { ...props };
+    avatarProps.variant = props.variants ?? 'square';
+    avatarProps.className = classes[props.size ?? 'root'];
+    avatarProps.src = props.icon;
+
+    const _withAnimation = withAnimation !== false && props.onClick !== undefined;
+
+    const ButtonAnimation_ = _withAnimation ? GetButtonAnimation : GetWithoutButtonAnimation;
 
     return (
-        <ButtonAnimation withAnimation={params.onClick !== undefined}>
-            <Avatar {...params} />
-        </ButtonAnimation>
+        <ButtonAnimation_>
+            <Avatar {...avatarProps} />
+        </ButtonAnimation_>
     );
 };
 
