@@ -1,14 +1,11 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles, Avatar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import {
-    selector_getAvOnValueFromList,
-    selector_getAvValueFromList,
-} from '../../../../../features/ioBrokerStates/selectors';
+import { selector_getAvValueFromList } from '../../../../../features/ioBrokerStates/selectors';
 import { I_HOME_CONTAINER } from '../../../../../features/servConn/interfaces';
 import { selector_getFunctionTypes } from '../../../../../features/servConn/selectors';
 import { I_FunctionTypes } from '../../../../../features/servConn/slice';
-import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
+import { useGetHomeContainerLocationTo } from '../../../../../hooks/PlaceOverviewHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -53,7 +50,7 @@ const ShowValue = ({ icon, value, unit }: any): JSX.Element => {
 };
 
 const SensorBooleanValueCalc = (props: any): JSX.Element => {
-    const tmpValue = useSelector(selector_getAvOnValueFromList(props.recursiveMemberIDsList));
+    const tmpValue = useSelector(selector_getAvValueFromList(props.recursiveMemberIDsList, 'boolean'));
     const icon =
         tmpValue === undefined
             ? props.functionTypes[props.sensorTypeID].icon
@@ -64,13 +61,13 @@ const SensorBooleanValueCalc = (props: any): JSX.Element => {
 };
 
 const SensorNumberValueCalc = (props: any): JSX.Element => {
-    const value = useSelector(selector_getAvValueFromList(props.recursiveMemberIDsList));
+    const value = useSelector(selector_getAvValueFromList(props.recursiveMemberIDsList, 'number'));
     const icon = props.functionTypes[props.sensorTypeID].icon;
     return <ShowValue icon={icon} value={value} unit={props.functionTypes[props.sensorTypeID].unit} />;
 };
 
 const SensorOtherValueCalc = (props: any): JSX.Element => {
-    const value = useSelector(selector_getAvValueFromList(props.recursiveMemberIDsList));
+    const value = useSelector(selector_getAvValueFromList(props.recursiveMemberIDsList, 'number'));
     const icon = props.functionTypes[props.sensorTypeID].icon;
     return <ShowValue icon={icon} value={value} unit={props.functionTypes[props.sensorTypeID].unit} />;
 };

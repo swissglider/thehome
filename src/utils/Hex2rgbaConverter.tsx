@@ -1,3 +1,27 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const rgba2HexConverter = (orig: any): string => {
+    let a,
+        // eslint-disable-next-line prefer-const
+        rgb = orig.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i),
+        alpha = ((rgb && rgb[4]) || '').trim(),
+        // eslint-disable-next-line prefer-const
+        hex = rgb
+            ? (rgb[1] | (1 << 8)).toString(16).slice(1) +
+              (rgb[2] | (1 << 8)).toString(16).slice(1) +
+              (rgb[3] | (1 << 8)).toString(16).slice(1)
+            : orig;
+    if (alpha !== '') {
+        a = alpha;
+    } else {
+        a = '0o1';
+    }
+
+    a = Math.round(a * 100) / 100;
+    alpha = Math.round(a * 255);
+
+    return hex;
+};
+
 const Hex2rgbaConverter = (hexCode: string, opacity: number): string => {
     let hex = hexCode.replace('#', '');
 

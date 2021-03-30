@@ -1,7 +1,7 @@
 import React from 'react';
 import { Breadcrumbs, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { I_UseHomeContainer_Result, useGetHomeContainerLocationTo } from '../hooks/PlaceOverviewHooks';
+import { I_UseHomeContainer_Result, useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
 import { selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -1,15 +1,13 @@
 import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { I_HOME_CONTAINER } from '../../../../../../../../features/servConn/interfaces';
-import PlaceOverviewBooleanContainer from './components/PlaceOverviewBooleanContainer';
-import PlaceOverviewNumberContainer from './components/PlaceOverviewNumberContainer';
-import PlaceOverviewSwitchContainer from './components/PlaceOverviewSwitchContainer';
+import SimpleDevicesAvarageContainer from './components/SimpleDevicesAvarageContainer';
 import {
     I_Extended_Type_Params,
     useGenerateBooleanSwitchNumberCategories,
 } from '../../../../../../hooks/FunctionCategoryHooks';
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         sensorContainer: {
             display: 'flex',
@@ -17,6 +15,19 @@ const useStyles = makeStyles(() =>
             flexWrap: 'nowrap',
             flexDirection: 'row',
         },
+        booleanList: {
+            width: theme.spacing(2),
+            height: theme.spacing(2),
+            marginRight: theme.spacing(0.8),
+            marginTop: theme.spacing(0.6),
+        },
+        switchList: {
+            width: theme.spacing(3.2),
+            height: theme.spacing(3.2),
+            marginRight: theme.spacing(0.8),
+            marginTop: theme.spacing(0.6),
+        },
+        numberList: {},
     }),
 );
 
@@ -39,14 +50,24 @@ const DOPTypeContainer = ({
     const classes = useStyles();
     return (
         <div className={classes.sensorContainer}>
-            {categoryTypeList.map((params: I_Extended_Type_Params, index: number) =>
-                React.createElement(childComponent, {
-                    key: index,
-                    categoryID: categoryID,
-                    pathArray: pathArray,
-                    ...params,
-                }),
-            )}
+            {categoryTypeList.map((params: I_Extended_Type_Params, index: number) => (
+                <div
+                    key={index}
+                    className={
+                        categoryID === 'switchList'
+                            ? classes.switchList
+                            : categoryID === 'booleanList'
+                            ? classes.booleanList
+                            : classes.numberList
+                    }
+                >
+                    {React.createElement(childComponent, {
+                        categoryID: categoryID,
+                        pathArray: pathArray,
+                        ...params,
+                    })}
+                </div>
+            ))}
         </div>
     );
 };
@@ -67,22 +88,22 @@ const DeviceOverviewPresenter = ({ homeContainer, pathArray }: I_PlaceOverviewVa
     return (
         <>
             <DOPTypeContainer
-                categoryID={'switchList'}
+                categoryID="switchList"
                 categoryTypeList={switchList}
                 pathArray={pathArray}
-                childComponent={PlaceOverviewSwitchContainer}
+                childComponent={SimpleDevicesAvarageContainer}
             />
             <DOPTypeContainer
-                categoryID={'booleanList'}
+                categoryID="booleanList"
                 categoryTypeList={booleanList}
                 pathArray={pathArray}
-                childComponent={PlaceOverviewBooleanContainer}
+                childComponent={SimpleDevicesAvarageContainer}
             />
             <DOPTypeContainer
-                categoryID={'numberList'}
+                categoryID="numberList"
                 categoryTypeList={numberList}
                 pathArray={pathArray}
-                childComponent={PlaceOverviewNumberContainer}
+                childComponent={SimpleDevicesAvarageContainer}
             />
         </>
     );

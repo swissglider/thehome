@@ -3,19 +3,19 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { T_DURATION, C_DEFAULT_DURATION } from '../../../Charts';
 import { TimeLengthSelector } from '../../../Charts/components/TimeLengthSelection';
 import {
-    CurrentValueAvarageBox,
-    CurrentValueChartBox,
     CurrentValueImage,
     CurrentValueLastUpdateDate,
     CurrentValueMaxBox,
     CurrentValueMinBox,
 } from '../../../Charts/components/ChartOverviewBoxes';
-import { getFunctionType } from '../../hooks/PlaceOverviewHooks';
+import { useGetCurrentIOBFunctionType } from '../../../../hooks/PlaceOverviewHooks';
 import { selector_getDisplayName } from '../../../../features/ioBrokerObjects/selectors';
 import { useSingleChartDataCalculator } from '../../../Charts/hooks/SingleChartDataCalculator';
 import { useSelector } from 'react-redux';
 import NumberChart from './components/NumberChart';
 import { I_Container_Props } from '../PlaceOverviewContainer';
+import { CurrentValueChartBox } from '../../../../molecules/CurrentValueChartBox';
+import { CurrentValueAvarageBox } from '../../../../molecules/CurrentValueAvarageBox';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const StandardDeviceOverview = ({ deviceID }: I_Container_Props): JSX.Element | null => {
     if (deviceID === undefined) return null;
     const [duration, setDuration] = React.useState<T_DURATION>(C_DEFAULT_DURATION);
-    const functionType = getFunctionType();
+    const functionType = useGetCurrentIOBFunctionType();
     if (functionType === undefined || functionType.functionID === undefined) return null;
     const color = functionType?.color && typeof functionType?.color === 'string' ? functionType?.color : '#8884d8';
     const unit = functionType?.unit ?? '';
@@ -82,9 +82,9 @@ const StandardDeviceOverview = ({ deviceID }: I_Container_Props): JSX.Element | 
                 <CurrentValueChartBox />
                 {valueType === 'number' && (
                     <>
-                        <CurrentValueAvarageBox allVal={allVal} />
-                        <CurrentValueMaxBox allVal={allVal} />
-                        <CurrentValueMinBox allVal={allVal} />
+                        <CurrentValueAvarageBox allValues={allVal} type="number" />
+                        <CurrentValueMaxBox allValues={allVal} />
+                        <CurrentValueMinBox allValues={allVal} />
                     </>
                 )}
             </div>

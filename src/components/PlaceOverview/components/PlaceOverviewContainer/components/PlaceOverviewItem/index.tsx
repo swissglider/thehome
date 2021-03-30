@@ -9,7 +9,7 @@ import {
 import { I_HOME_CONTAINER } from '../../../../../../features/servConn/interfaces';
 import DeviceOverviewPresenter from './components/DeviceOverviewPresenter';
 import { Link } from 'react-router-dom';
-import { useGetHomeContainerLocationTo } from '../../../../hooks/PlaceOverviewHooks';
+import { useGetHomeContainerLocationTo } from '../../../../../../hooks/PlaceOverviewHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

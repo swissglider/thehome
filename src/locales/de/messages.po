@@ -13,47 +13,53 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#~ msgid "Click me Test"
+#~ msgstr "Drücke mich ;-)"
+
+#~ msgid "Test Text"
+#~ msgstr "Ich bin ein Test text"
+
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:57
-msgid "chartOvervewBoxes.avval"
-msgstr "Ø"
+#~ msgid "chartOvervewBoxes.avval"
+#~ msgstr "Ø"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:71
-msgid "chartOvervewBoxes.lastupdate"
-msgstr " Letze Änderung"
+#~ msgid "chartOvervewBoxes.lastupdate"
+#~ msgstr " Letze Änderung"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:54
-msgid "chartOvervewBoxes.lastval"
-msgstr "Aktueller Wert"
+#~ msgid "chartOvervewBoxes.lastval"
+#~ msgstr "Aktueller Wert"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:60
-msgid "chartOvervewBoxes.maxval"
-msgstr "Max Wert"
+#~ msgid "chartOvervewBoxes.maxval"
+#~ msgstr "Max Wert"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:63
-msgid "chartOvervewBoxes.minval"
-msgstr "Min Wert"
+#~ msgid "chartOvervewBoxes.minval"
+#~ msgstr "Min Wert"
 
 #: src/components/Charts/components/TimeLengthSelection.tsx:16
 msgid "duration"
 msgstr "Dauer"
 
-#: src/components/Charts/types.tsx:6
+#: src/components/Charts/types.tsx:23
 msgid "duration.day"
 msgstr "Tag"
 
-#: src/components/Charts/types.tsx:5
+#: src/components/Charts/types.tsx:18
 msgid "duration.hour"
 msgstr "Stunde"
 
-#: src/components/Charts/types.tsx:8
+#: src/components/Charts/types.tsx:33
 msgid "duration.month"
 msgstr "Monat"
 
-#: src/components/Charts/types.tsx:7
+#: src/components/Charts/types.tsx:28
 msgid "duration.week"
 msgstr "Woche"
 
-#: src/components/Charts/types.tsx:9
+#: src/components/Charts/types.tsx:38
 msgid "duration.year"
 msgstr "Jahr"
 

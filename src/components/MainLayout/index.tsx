@@ -1,6 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { MainComponentsConfiguration } from '../../configuration/MainComponents';
 import { FrameworkContext, I_Framework } from '../../utils/FrameworkContext';
 import MainBottomNavigation from './components/MainBottomNavigation';
@@ -76,31 +75,29 @@ const MainLayout = (): JSX.Element => {
         }
     };
     return (
-        <BrowserRouter basename="/thehome">
-            <div className="App">
-                <FrameworkContext.Provider value={[frameworkContext, setFrameworkContext]}>
-                    <MainIconBar
-                        top={scrollingTitleHeight}
-                        scrollPos={scrollPos}
-                        scrollPositionStart={25}
-                        scrollStepRange={30}
-                    />
-                    <ScrollingTitleBar
-                        paramRef={scrollingTitleRef}
-                        scrollPos={scrollPos}
-                        scrollPositionStart={0}
-                        scrollPositionStop={30}
-                        marginStartValue={20}
-                    />
-                    <div className={classes.child} ref={childRef} onScroll={onScroll} id="ScrollContainer">
-                        <MainContent scrollPos={scrollPos} marginStartValue={scrollingTitleHeight} />
-                    </div>
-                    {MainComponentsConfiguration.find((c) => c.onMainBottomNavigation) !== undefined && (
-                        <MainBottomNavigation paramRef={bottonNavRef} />
-                    )}
-                </FrameworkContext.Provider>
-            </div>
-        </BrowserRouter>
+        <div className="App">
+            <FrameworkContext.Provider value={[frameworkContext, setFrameworkContext]}>
+                <MainIconBar
+                    top={scrollingTitleHeight}
+                    scrollPos={scrollPos}
+                    scrollPositionStart={25}
+                    scrollStepRange={30}
+                />
+                <ScrollingTitleBar
+                    paramRef={scrollingTitleRef}
+                    scrollPos={scrollPos}
+                    scrollPositionStart={0}
+                    scrollPositionStop={30}
+                    marginStartValue={20}
+                />
+                <div className={classes.child} ref={childRef} onScroll={onScroll} id="ScrollContainer">
+                    <MainContent scrollPos={scrollPos} marginStartValue={scrollingTitleHeight} />
+                </div>
+                {MainComponentsConfiguration.find((c) => c.onMainBottomNavigation) !== undefined && (
+                    <MainBottomNavigation paramRef={bottonNavRef} />
+                )}
+            </FrameworkContext.Provider>
+        </div>
     );
 };
 

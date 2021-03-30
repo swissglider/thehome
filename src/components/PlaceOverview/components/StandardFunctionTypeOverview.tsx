@@ -5,11 +5,9 @@ import { selector_getDisplayName } from '../../../features/ioBrokerObjects/selec
 import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 import { selector_getFunctionTypes } from '../../../features/servConn/selectors';
 import { I_Type_Params, I_FunctionTypes } from '../../../features/servConn/slice';
-import { useGetHomeContainerLocationTo, useHomeContainer } from '../hooks/PlaceOverviewHooks';
+import { useGetHomeContainerLocationTo, useHomeContainer } from '../../../hooks/PlaceOverviewHooks';
 import { I_Container_Props } from './PlaceOverviewContainer';
-import PlaceOverviewBooleanContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/PlaceOverviewBooleanContainer';
-import PlaceOverviewNumberContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/PlaceOverviewNumberContainer';
-import PlaceOverviewSwitchContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/PlaceOverviewSwitchContainer';
+import SimpleDevicesAvarageContainer from './PlaceOverviewContainer/components/PlaceOverviewItem/components/DeviceOverviewPresenter/components/SimpleDevicesAvarageContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,7 +43,17 @@ const useStyles = makeStyles((theme: Theme) =>
         endValueWithImage: { display: 'flex', flexWrap: 'nowrap', flexDirection: 'row' },
         endValue: {
             fontWeight: 'bold',
+            width: theme.spacing(2.2),
+            height: theme.spacing(2.2),
+            marginRight: theme.spacing(0.8),
+            marginTop: theme.spacing(0.6),
         },
+        folderValue: (props: { level: number }) => ({
+            width: theme.spacing(2),
+            height: theme.spacing(2),
+            marginRight: theme.spacing(5 - props.level),
+            marginTop: theme.spacing(0.6),
+        }),
         StandardFunctionTypeOverviewHCIcon: {
             width: theme.spacing(2),
             height: theme.spacing(2),
@@ -72,13 +80,13 @@ const StandardFunctionTypeOverviewAvValue = (props: {
     };
     switch (props.functionType.type) {
         case 'number':
-            return React.createElement(PlaceOverviewNumberContainer, newProps);
+            return React.createElement(SimpleDevicesAvarageContainer, newProps);
         case 'boolean':
             if (props.functionType.write === false) {
-                return React.createElement(PlaceOverviewBooleanContainer, newProps);
+                return React.createElement(SimpleDevicesAvarageContainer, newProps);
             }
             if (props.functionType.write === true) {
-                return React.createElement(PlaceOverviewSwitchContainer, newProps);
+                return React.createElement(SimpleDevicesAvarageContainer, newProps);
             }
             break;
     }
@@ -168,7 +176,9 @@ const StandardFunctionTypeOverviewHC = (props: {
                     functionTypeID={props.functionTypeID}
                     pathArray={pathArray}
                 />
-                <StandardFunctionTypeOverviewAvValue {...props} />
+                <div className={classes.folderValue}>
+                    <StandardFunctionTypeOverviewAvValue {...props} />
+                </div>
             </ListItem>
             {props.functionTypeID in props.homeContainer.localMemberStateIDs &&
                 props.homeContainer.localMemberStateIDs[props.functionTypeID].map((id: string, index: number) => (

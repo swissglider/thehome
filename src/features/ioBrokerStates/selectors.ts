@@ -23,16 +23,21 @@ export const selector_getStateByID = (id: string) => (state: RootState): any => 
 
 export const selector_getStatesStatus = () => (state: RootState): any => state.ioBrokerStates.status;
 
-export const selector_getAvValueFromList = (idsForAV: string[]) => (state: RootState): number => {
+export const selector_getAvValueFromList = (idsForAV: string[], selector?: string) => (
+    state: RootState,
+): boolean | number => {
     const values = idsForAV
         .filter((key) => selector_selectIOBrokerState(state, key) !== undefined)
         .map((key) => (selector_selectIOBrokerState(state, key) as I_ioBrokerState).val);
-    return Math.round(((values as number[]).reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
+    const _select = selector ?? typeof values[0];
+    return _select === 'number'
+        ? Math.round(((values as number[]).reduce((a, b) => a + b, 0) / values.length) * 10) / 10
+        : _select === 'boolean'
+        ? values.some((e) => e)
+        : false;
 };
 
-export const selector_getAvOnValueFromList = (idsForAV: string[]) => (state: RootState): boolean => {
-    const values = idsForAV
+export const selector_getAllValueFromIDList = (idsForAV: string[]) => (state: RootState): any[] =>
+    idsForAV
         .filter((key) => selector_selectIOBrokerState(state, key) !== undefined)
         .map((key) => (selector_selectIOBrokerState(state, key) as I_ioBrokerState).val);
-    return values.some((e) => e);
-};

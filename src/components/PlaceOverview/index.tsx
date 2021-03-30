@@ -13,7 +13,7 @@ import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
 import PlaceOverviewContainer, { StandardPlaceOverviewContainer } from './components/PlaceOverviewContainer';
 import StandardDeviceOverview from './components/StandardDeviceOverview';
 import StandardFunctionTypeOverview from './components/StandardFunctionTypeOverview';
-import { useHomeContainer } from './hooks/PlaceOverviewHooks';
+import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
 
 const COMPONENTNAME = 'PlaceOverview';
 
