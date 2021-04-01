@@ -25,7 +25,7 @@ msgstr ""
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:71
 #~ msgid "chartOvervewBoxes.lastupdate"
-#~ msgstr ""
+#~ msgstr "Last Update"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:54
 #~ msgid "chartOvervewBoxes.lastval"
@@ -38,6 +38,9 @@ msgstr ""
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:63
 #~ msgid "chartOvervewBoxes.minval"
 #~ msgstr ""
+
+#~ msgid "chartOvervewBoxes.timestamp"
+#~ msgstr "Timestamp"
 
 #: src/components/Charts/components/TimeLengthSelection.tsx:16
 msgid "duration"

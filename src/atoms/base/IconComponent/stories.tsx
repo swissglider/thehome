@@ -1,24 +1,12 @@
 import React, { ComponentProps, useState } from 'react';
 import { Story, Meta } from '@storybook/react';
-import IconComponent, { IconComponent_Size, IconComponent_Variant } from '.';
+import IconComponent from '.';
 
 //👇 This default export determines where your story goes in the story list
 export default {
     title: 'TheHome/Atoms/Base/IconComponent',
     component: IconComponent,
     argTypes: {
-        size: {
-            control: {
-                type: 'select',
-                options: IconComponent_Size,
-            },
-        },
-        variants: {
-            control: {
-                type: 'select',
-                options: IconComponent_Variant,
-            },
-        },
         icon_false: {
             table: {
                 disable: true,

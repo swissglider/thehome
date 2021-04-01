@@ -1,10 +1,18 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Variant } from '@material-ui/core/styles/createTypography';
 import { i18n } from '@lingui/core';
 import ButtonAnimation from '../ButtonAnimation';
 
-export const TypographyComponent_Variants = ['header', 'title', 'subtitle', 'body', 'body_bold'] as const;
+export const TypographyComponent_Variants = [
+    'header',
+    'title',
+    'subtitle',
+    'body',
+    'body_bold',
+    'caption',
+    'button',
+] as const;
 export type T_TypographyComponent_Variants = typeof TypographyComponent_Variants[number];
 
 const getMappedVariant = (variant: string): Variant => {
@@ -13,22 +21,20 @@ const getMappedVariant = (variant: string): Variant => {
             return 'h4';
         case 'title':
             return 'subtitle1';
-        case 'subtitle':
+        case 'body_bold':
             return 'subtitle2';
         case 'body':
             return 'body2';
-        case 'body_bold':
+        case 'body1':
             return 'body1';
+        case 'caption':
+            return 'caption';
+        case 'button':
+            return 'button';
         default:
             return 'body1';
     }
 };
-
-const GetButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => (
-    <ButtonAnimation withAnimation={true}>{children}</ButtonAnimation>
-);
-
-const GetWithoutButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => <>{children}</>;
 
 export interface I_TypographyComponent_Props {
     children: string | JSX.Element;
@@ -39,16 +45,16 @@ export interface I_TypographyComponent_Props {
 
 const TypographyComponent = (props: I_TypographyComponent_Props): JSX.Element => {
     const params: ComponentProps<typeof Typography> = {};
-    if (props.onClick) params.onClick = props.onClick;
-    params.variant = getMappedVariant(props.variant ?? 'body');
+    if (props.onClick) useMemo(() => (params.onClick = props.onClick), [props.onClick]);
+    params.variant = useMemo(() => getMappedVariant(props.variant ?? 'body'), [props.variant]);
 
-    // default with animation if onClick is available
-    const _withAnimation = props.withAnimation !== false && props.onClick !== undefined;
-
-    const ButtonAnimation_ = _withAnimation ? GetButtonAnimation : GetWithoutButtonAnimation;
+    const _withAnimation = useMemo(() => props.withAnimation !== false && props.onClick !== undefined, [
+        props.withAnimation,
+        props.onClick,
+    ]);
 
     return (
-        <ButtonAnimation_>
+        <ButtonAnimation withAnimation={_withAnimation}>
             <Typography component={'span'} {...params}>
                 {typeof props.children === 'string'
                     ? props.children
@@ -56,7 +62,7 @@ const TypographyComponent = (props: I_TypographyComponent_Props): JSX.Element =>
                         : undefined
                     : props.children}
             </Typography>
-        </ButtonAnimation_>
+        </ButtonAnimation>
     );
 };
 

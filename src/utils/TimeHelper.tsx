@@ -1,6 +1,4 @@
-import React from 'react';
-import { I_GET_HISTORY_PROPS_OPTIONS } from '../../features/servConn/ActionIOBrokerTestSendTo';
-import { Trans } from '@lingui/macro';
+import { I_GET_HISTORY_PROPS_OPTIONS } from '../features/servConn/ActionIOBrokerTestSendTo';
 
 // type T_DATAT_TYPE = 'string' | 'number' | 'bigint' | 'boolean' | 'symbol' | 'undefined' | 'object' | 'function';
 
@@ -13,7 +11,7 @@ type I_TIMES = { [day in T_TIMES]: number };
 
 // export type T_DURATION = 'hour' | 'day' | 'week' | 'month' | 'year';
 export type T_DURATION_NAME_STRUCT = {
-    [day in T_DURATION]: { name: JSX.Element; durationInMilliSec: number; stepsInMilliSec: number };
+    [day in T_DURATION]: { name: string; durationInMilliSec: number; stepsInMilliSec: number };
 };
 export type T_DURATION_HISTORY_OPTIONS_STRUCT = { [day in T_DURATION]: I_GET_HISTORY_PROPS_OPTIONS };
 
@@ -31,33 +29,33 @@ export const C_DEFAULT_DURATION: T_DURATION = 'week';
 
 const durationNameStruct: T_DURATION_NAME_STRUCT = {
     hour: {
-        name: <Trans id="duration.hour">hour</Trans>,
+        name: 'duration.hour',
         durationInMilliSec: C_IN_MILLISEC.hour,
         stepsInMilliSec: C_IN_MILLISEC.min,
     },
     day: {
-        name: <Trans id="duration.day">day</Trans>,
+        name: 'duration.day',
         durationInMilliSec: C_IN_MILLISEC.day,
         stepsInMilliSec: C_IN_MILLISEC.min,
     },
     week: {
-        name: <Trans id="duration.week">week</Trans>,
+        name: 'duration.week',
         durationInMilliSec: C_IN_MILLISEC.week,
         stepsInMilliSec: C_IN_MILLISEC.hour,
     },
     month: {
-        name: <Trans id="duration.month">month</Trans>,
+        name: 'duration.month',
         durationInMilliSec: C_IN_MILLISEC.month,
         stepsInMilliSec: C_IN_MILLISEC.hour,
     },
     year: {
-        name: <Trans id="duration.year">year</Trans>,
+        name: 'duration.year',
         durationInMilliSec: C_IN_MILLISEC.year,
         stepsInMilliSec: C_IN_MILLISEC.day,
     },
 };
 
-export const getDurationByLocal = (duration: T_DURATION): JSX.Element => {
+export const getDurationByLocal = (duration: T_DURATION): string => {
     return durationNameStruct[duration]['name'];
 };
 

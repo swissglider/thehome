@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useMemo } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core';
 import TypographyComponent from '../../base/TypographyComponent';
 
@@ -22,7 +22,10 @@ export interface I_ValueUnitText_Props extends Omit<ComponentProps<typeof Typogr
 
 const ValueUnitText = (props: I_ValueUnitText_Props): JSX.Element => {
     const { value, unit, withUnit, noWrap, spaceBeforeUnit, ...args } = { ...props };
-    const classesParams = noWrap !== undefined && noWrap === true ? { className: useStyles().noWrap } : {};
+    const classesParams = useMemo(
+        () => (noWrap !== undefined && noWrap === true ? { className: useStyles().noWrap } : {}),
+        [noWrap],
+    );
 
     return (
         <TypographyComponent {...args}>

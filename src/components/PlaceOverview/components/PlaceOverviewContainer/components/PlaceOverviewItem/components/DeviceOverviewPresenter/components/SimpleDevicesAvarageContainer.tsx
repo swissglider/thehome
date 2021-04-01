@@ -56,12 +56,12 @@ const SimpleDevicesAvarageContainer = (props: I_SimpleDevicesAvarageContainer): 
         );
     }
     if (props.type === 'boolean' && props.write === true && !useLink) {
-        return <IconComponent onClick={changeState} icon={icon ?? ''} />;
+        return <IconComponent onClick={changeState} icon={icon ?? ''} size="small" />;
     }
 
     return (
         <>
-            <IconComponent onClick={goTo} icon={icon ?? ''} />
+            <IconComponent onClick={goTo} icon={icon ?? ''} size="xsmall" />
         </>
     );
 };

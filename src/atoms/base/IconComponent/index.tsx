@@ -1,8 +1,8 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useMemo } from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import ButtonAnimation from '../ButtonAnimation';
 
-export const IconComponent_Size = ['root', 'small', 'large', 'open'] as const;
+export const IconComponent_Size = ['root', 'xsmall', 'small', 'large', 'open'] as const;
 export type T_IconComponent_Size = typeof IconComponent_Size[number];
 
 export const IconComponent_Variant = ['square', 'circular', 'rounded'] as const;
@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
                 margin: theme.spacing(1),
             },
         },
+        xsmall: {
+            width: theme.spacing(2),
+            height: theme.spacing(2),
+        },
         small: {
             width: theme.spacing(3),
             height: theme.spacing(3),
@@ -31,15 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const GetButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => (
-    <ButtonAnimation withAnimation={true}>{children}</ButtonAnimation>
-);
-
-const GetWithoutButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => <>{children}</>;
-
 export interface I_IconComponent_Props
     extends Omit<ComponentProps<typeof ButtonAnimation>, 'children'>,
-        Omit<ComponentProps<typeof Avatar>, 'children'> {
+        Omit<ComponentProps<typeof Avatar>, 'children' | 'variant'> {
     icon: string;
     onClick?: () => void;
     variants?: T_IconComponent_Variant;
@@ -49,19 +47,20 @@ export interface I_IconComponent_Props
 const IconComponent = (props: I_IconComponent_Props): JSX.Element => {
     const classes = useStyles();
 
-    const { variants, withAnimation, ...avatarProps } = { ...props };
-    avatarProps.variant = props.variants ?? 'square';
-    avatarProps.className = classes[props.size ?? 'root'];
+    const variant = useMemo(() => props.variants ?? 'square', [props.variants]) as T_IconComponent_Variant;
+    const { variants, withAnimation, ...avatarProps } = { variant, ...props };
+    avatarProps.className = useMemo(() => classes[props.size ?? 'root'], [props.size]);
     avatarProps.src = props.icon;
 
-    const _withAnimation = withAnimation !== false && props.onClick !== undefined;
-
-    const ButtonAnimation_ = _withAnimation ? GetButtonAnimation : GetWithoutButtonAnimation;
+    const _withAnimation = useMemo(() => withAnimation !== false && props.onClick !== undefined, [
+        withAnimation,
+        props.onClick,
+    ]);
 
     return (
-        <ButtonAnimation_>
+        <ButtonAnimation withAnimation={_withAnimation}>
             <Avatar {...avatarProps} />
-        </ButtonAnimation_>
+        </ButtonAnimation>
     );
 };
 

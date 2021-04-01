@@ -39,6 +39,9 @@ msgstr ""
 #~ msgid "chartOvervewBoxes.minval"
 #~ msgstr "Min Wert"
 
+#~ msgid "chartOvervewBoxes.timestamp"
+#~ msgstr "Timestamp"
+
 #: src/components/Charts/components/TimeLengthSelection.tsx:16
 msgid "duration"
 msgstr "Dauer"

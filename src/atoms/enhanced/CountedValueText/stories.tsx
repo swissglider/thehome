@@ -1,5 +1,5 @@
-import { Meta, Story } from '@storybook/react';
 import React, { ComponentProps } from 'react';
+import { Meta, Story } from '@storybook/react';
 import CountedValueText from '.';
 import { CountMethods } from '../../../hooks/CountingHooks';
 import { TypographyComponent_Variants } from '../../base/TypographyComponent';

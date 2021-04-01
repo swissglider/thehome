@@ -76,6 +76,13 @@ Body.args = {
     onClicked: undefined,
 };
 
+export const Caption = Template.bind({});
+Caption.args = {
+    children: 'Caption',
+    variant: 'caption',
+    onClicked: undefined,
+};
+
 export const Div = Template.bind({});
 Div.args = {
     children: (

@@ -49,6 +49,9 @@ const themeDark = (prefersDarkMode: boolean) =>
             },
             body1: {
                 fontSize: '0.9rem',
+            },
+            subtitle2: {
+                fontSize: '0.9rem',
                 fontWeight: 600,
             },
             subtitle1: {

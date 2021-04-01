@@ -1,20 +1,20 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getDurationTypeStructByDurationAndDataType, T_DURATION } from '..';
 import {
     IOBROKER_GET_HISTORY,
     I_GET_HISTORY_PROPS,
     I_History,
 } from '../../../features/servConn/ActionIOBrokerTestSendTo';
 import { AppDispatch } from '../../../redux/Store';
+import { getDurationTypeStructByDurationAndDataType, T_DURATION } from '../../../utils/TimeHelper';
 
 export const useSingleChartDataCalculator = (
     deviceID: string,
     valueType: string,
 ): {
     data: I_History[];
-    allVal: number[];
+    allValues: number[];
     calcHistory: (duration: T_DURATION) => void;
 } => {
     const [data, setData] = useState<I_History[]>([]);
@@ -55,5 +55,5 @@ export const useSingleChartDataCalculator = (
             });
     };
 
-    return { data, allVal, calcHistory };
+    return { data, allValues: allVal, calcHistory };
 };
