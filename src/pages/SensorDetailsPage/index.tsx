@@ -93,7 +93,7 @@ const SensorDetailsPage = ({ functionTypeID, deviceID }: I_Container_Props): JSX
                 countMethod="min"
             />
         ),
-        [duration],
+        [allValues, color, unit],
     );
     args.timeStampBox = useMemo(() => <TimeStampBox deviceID={deviceID} color={color} />, [color]);
     args.lastUpdateBox = useMemo(() => <LastChangeBox deviceID={deviceID} color={color} />, [color]);
@@ -109,9 +109,7 @@ const SensorDetailsPage = ({ functionTypeID, deviceID }: I_Container_Props): JSX
         ),
         [data, color, unit, functionName, deviceName],
     );
-    args.deviceIDBox = useMemo(() => <ValueTitleBox value={deviceID} withoutDecoration={true} variant="caption" />, [
-        deviceID,
-    ]);
+    args.deviceIDBox = <ValueTitleBox value={deviceID} withoutDecoration={true} variant="caption" />;
 
     return <SensorDetailsTemplate {...((args as unknown) as ComponentProps<typeof SensorDetailsTemplate>)} />;
 };
