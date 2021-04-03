@@ -1,82 +1,43 @@
-import { I_GET_HISTORY_PROPS_OPTIONS } from '../features/servConn/ActionIOBrokerTestSendTo';
+import { DateTime, Settings } from 'luxon';
 
-// type T_DATAT_TYPE = 'string' | 'number' | 'bigint' | 'boolean' | 'symbol' | 'undefined' | 'object' | 'function';
+const longFrom = 'HH:mm - dd.MMM.yyyy';
+const middlelongFrom = 'HH:mm - dd.M.yy';
+const weekDayTimeForm = 'EEE HH:mm';
+const shortDate = 'dd.MMM';
 
-export const C_DURATION = ['hour', 'day', 'week', 'month', 'year'] as const;
-export type T_DURATION = typeof C_DURATION[number];
-
-export const C_TIMES = ['sec', 'min', ...C_DURATION] as const;
-export type T_TIMES = typeof C_TIMES[number];
-type I_TIMES = { [day in T_TIMES]: number };
-
-// export type T_DURATION = 'hour' | 'day' | 'week' | 'month' | 'year';
-export type T_DURATION_NAME_STRUCT = {
-    [day in T_DURATION]: { name: string; durationInMilliSec: number; stepsInMilliSec: number };
-};
-export type T_DURATION_HISTORY_OPTIONS_STRUCT = { [day in T_DURATION]: I_GET_HISTORY_PROPS_OPTIONS };
-
-const C_IN_MILLISEC: I_TIMES = {
-    sec: 1000,
-    min: 1000 * 60,
-    hour: 1000 * 60 * 60,
-    day: 1000 * 60 * 60 * 24,
-    week: 1000 * 60 * 60 * 24 * 7,
-    month: 1000 * 60 * 60 * 24 * 30,
-    year: 1000 * 60 * 60 * 24 * 365,
-};
-
-export const C_DEFAULT_DURATION: T_DURATION = 'week';
-
-const durationNameStruct: T_DURATION_NAME_STRUCT = {
-    hour: {
-        name: 'duration.hour',
-        durationInMilliSec: C_IN_MILLISEC.hour,
-        stepsInMilliSec: C_IN_MILLISEC.min,
+const TimeHelper = {
+    getLongTimeFromMillisec: (milliseconds: any | number): string => {
+        const time = typeof milliseconds !== 'number' ? parseInt(milliseconds, 10) : milliseconds;
+        return DateTime.fromMillis(time).toFormat(longFrom);
     },
-    day: {
-        name: 'duration.day',
-        durationInMilliSec: C_IN_MILLISEC.day,
-        stepsInMilliSec: C_IN_MILLISEC.min,
+    getMiddleLongTimeFromMillisec: (milliseconds: any | number): string => {
+        const time = typeof milliseconds !== 'number' ? parseInt(milliseconds, 10) : milliseconds;
+        return DateTime.fromMillis(time).toFormat(middlelongFrom);
     },
-    week: {
-        name: 'duration.week',
-        durationInMilliSec: C_IN_MILLISEC.week,
-        stepsInMilliSec: C_IN_MILLISEC.hour,
+    getLongTimeFromValue: (
+        year: number,
+        month: number,
+        day: number,
+        hour: number,
+        minute: number,
+        second: number,
+    ): string => {
+        return DateTime.local(year, month, day, hour, minute, second).toFormat(longFrom);
     },
-    month: {
-        name: 'duration.month',
-        durationInMilliSec: C_IN_MILLISEC.month,
-        stepsInMilliSec: C_IN_MILLISEC.hour,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    getWeekDayTime: (milliseconds: any): string => {
+        const time = typeof milliseconds === 'number' ? milliseconds : parseInt(milliseconds, 10);
+        return DateTime.fromMillis(time).toFormat(weekDayTimeForm);
     },
-    year: {
-        name: 'duration.year',
-        durationInMilliSec: C_IN_MILLISEC.year,
-        stepsInMilliSec: C_IN_MILLISEC.day,
+
+    getShortDateFromMillisec: (milliseconds: any | number): string => {
+        const time = typeof milliseconds !== 'number' ? parseInt(milliseconds, 10) : milliseconds;
+        return DateTime.fromMillis(time).toFormat(shortDate);
+    },
+
+    setGlobalLocale(): void {
+        Settings.defaultLocale = 'en-nz';
     },
 };
 
-export const getDurationByLocal = (duration: T_DURATION): string => {
-    return durationNameStruct[duration]['name'];
-};
-
-export const getDurationInMilliSec = (duration: T_DURATION): number => {
-    return durationNameStruct[duration]['durationInMilliSec'];
-};
-
-export const getStepsInMilliSec = (duration: T_DURATION): number => {
-    return durationNameStruct[duration]['stepsInMilliSec'];
-};
-
-export const getDurationTypeStructByDurationAndDataType = (
-    duration: T_DURATION,
-    datatType: string,
-): I_GET_HISTORY_PROPS_OPTIONS => {
-    const return_struc: I_GET_HISTORY_PROPS_OPTIONS = {
-        start: new Date().getTime() - getDurationInMilliSec(duration),
-        end: new Date().getTime(),
-        step: getStepsInMilliSec(duration),
-        limit: false,
-        aggregate: datatType === 'number' ? 'average' : datatType === 'boolean' ? 'max' : 'max',
-    };
-    return return_struc;
-};
+export default TimeHelper;

@@ -11,7 +11,7 @@ import {
 import PlaceDetail from './components/PlaceDetail';
 import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
 import PlaceOverviewContainer, { StandardPlaceOverviewContainer } from './components/PlaceOverviewContainer';
-import StandardDeviceOverview from './components/StandardDeviceOverview';
+import SensorDetailsPage from '../../pages/SensorDetailsPage';
 import StandardFunctionTypeOverview from './components/StandardFunctionTypeOverview';
 import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
 
@@ -34,8 +34,8 @@ const PlaceOverview = (): JSX.Element => {
             container = StandardFunctionTypeOverview;
             break;
         }
-        case 'standard_device_overview': {
-            container = StandardDeviceOverview;
+        case 'sensor_details_page': {
+            container = SensorDetailsPage;
             break;
         }
         case 'place_detail': {

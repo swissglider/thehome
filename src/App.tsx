@@ -55,7 +55,7 @@ const themeDark = (prefersDarkMode: boolean) =>
                 fontWeight: 600,
             },
             subtitle1: {
-                fontSize: '1.1rem',
+                fontSize: '1.0rem',
                 fontWeight: 600,
                 opacity: 0.7,
             },

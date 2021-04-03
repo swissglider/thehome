@@ -78,7 +78,7 @@ const SensorOverviewItem = (props: I_SensorOverviewItem_Props): JSX.Element => {
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: props.pathArray,
         layout: 'standard_function_type_overview',
-        functionType: props.sensorTypeID,
+        functionTypeID: props.sensorTypeID,
     });
 
     return (

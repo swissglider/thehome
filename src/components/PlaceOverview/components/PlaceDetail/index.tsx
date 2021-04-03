@@ -4,15 +4,12 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useHomeContainer } from '../../../../hooks/PlaceOverviewHooks';
 import { useDispatch } from 'react-redux';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import moment from 'moment';
-import 'moment/locale/de-ch';
 import { I_GET_HISTORY_PROPS_OPTIONS } from '../../../../features/servConn/ActionIOBrokerTestSendTo';
 import { AppDispatch } from '../../../../redux/Store';
+import TimeHelper from '../../../../utils/TimeHelper';
 
 const CustomizedAxisTick = ({ x, y, payload }: { x: any; y: any; payload: any }) => {
-    moment.locale('de-ch');
-    // const dateTip = moment(payload.value).locale('de-ch').format('lll');
-    const dateTip = moment(payload.value).locale('de-ch').format('ddd DoMMM, HH:mm');
+    const dateTip = TimeHelper.getMiddleLongTimeFromMillisec(payload.value);
     return (
         <g transform={`translate(${x},${y})`}>
             <text x={35} y={0} dy={14} fontSize="0.80em" fontFamily="bold" textAnchor="end">
@@ -149,11 +146,7 @@ const PlaceDetail = (): JSX.Element => {
                     />
                     {/* <YAxis unit={unit} tickCount={3} /> */}
                     <YAxis tickCount={3} type="number" domain={['dataMin', 'dataMax']} />
-                    <Tooltip
-                        labelFormatter={(timestamp: number) =>
-                            moment(timestamp).locale('de-ch').format('ddd DoMM, HH:mm')
-                        }
-                    />
+                    <Tooltip labelFormatter={(timestamp: number) => TimeHelper.getWeekDayTime(timestamp)} />
                     {/* <Tooltip /> */}
                     {/* <Tooltip
                         content={<CustomTooltip functionName={functionName} unit={unit} />}

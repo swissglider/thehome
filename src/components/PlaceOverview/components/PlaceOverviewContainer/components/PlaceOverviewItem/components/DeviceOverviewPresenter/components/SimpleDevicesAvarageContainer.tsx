@@ -27,7 +27,7 @@ const SimpleDevicesAvarageContainer = (props: I_SimpleDevicesAvarageContainer): 
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: props.pathArray ?? [],
         layout: 'standard_function_type_overview',
-        functionType: props.functionID,
+        functionTypeID: props.functionID,
     });
 
     const changeState = () => {

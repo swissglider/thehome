@@ -33,7 +33,7 @@ export interface I_Container_Props {
     childLists?: T_HOME_CONTAINER_LIST;
     homeContainer?: I_HOME_CONTAINER;
     layout?: string;
-    functionType?: string;
+    functionTypeID?: string;
     deviceID?: string;
 }
 

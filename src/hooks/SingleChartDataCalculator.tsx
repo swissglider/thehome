@@ -1,13 +1,9 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-    IOBROKER_GET_HISTORY,
-    I_GET_HISTORY_PROPS,
-    I_History,
-} from '../../../features/servConn/ActionIOBrokerTestSendTo';
-import { AppDispatch } from '../../../redux/Store';
-import { getDurationTypeStructByDurationAndDataType, T_DURATION } from '../../../utils/TimeHelper';
+import { IOBROKER_GET_HISTORY, I_GET_HISTORY_PROPS, I_History } from '../features/servConn/ActionIOBrokerTestSendTo';
+import { AppDispatch } from '../redux/Store';
+import { getDurationTypeStructByDurationAndDataType, T_DURATION } from '../utils/DurationHelper';
 
 export const useSingleChartDataCalculator = (
     deviceID: string,
@@ -22,12 +18,10 @@ export const useSingleChartDataCalculator = (
     const dispatch1 = useDispatch<AppDispatch>();
 
     const calcHistory = (duration: T_DURATION): void => {
-        console.log('🚀 ~ file: SingleChartDataCalculator.tsx ~ line 26 ~ calcHistory ~ duration', duration);
         const historyProps: I_GET_HISTORY_PROPS = {
             id: deviceID as string,
             options: getDurationTypeStructByDurationAndDataType(duration, valueType),
         };
-        console.log(valueType);
         dispatch1(IOBROKER_GET_HISTORY(historyProps))
             .then(unwrapResult)
             .then((originalPromiseResult: I_History[]) => {
@@ -46,9 +40,9 @@ export const useSingleChartDataCalculator = (
                         ts: d.ts,
                     }));
                 setData(transData);
-                if (valueType === 'number') {
-                    setAllVal([...transData].map((d) => d.val));
-                }
+                // if (valueType === 'number') {
+                setAllVal([...transData].map((d) => d.val));
+                // }
             })
             .catch((rejectedValueOrSerializedError) => {
                 console.error(rejectedValueOrSerializedError);

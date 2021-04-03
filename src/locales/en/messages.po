@@ -29,43 +29,43 @@ msgstr ""
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:54
 #~ msgid "chartOvervewBoxes.lastval"
-#~ msgstr ""
+#~ msgstr "now"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:60
 #~ msgid "chartOvervewBoxes.maxval"
-#~ msgstr ""
+#~ msgstr "max"
 
 #: src/components/Charts/components/ChartOverviewBoxes.tsx:63
 #~ msgid "chartOvervewBoxes.minval"
-#~ msgstr ""
+#~ msgstr "min"
 
 #~ msgid "chartOvervewBoxes.timestamp"
 #~ msgstr "Timestamp"
 
 #: src/components/Charts/components/TimeLengthSelection.tsx:16
-msgid "duration"
-msgstr ""
+#~ msgid "duration"
+#~ msgstr ""
 
 #: src/components/Charts/types.tsx:23
-msgid "duration.day"
-msgstr "day"
+#~ msgid "duration.day"
+#~ msgstr "day"
 
 #: src/components/Charts/types.tsx:18
-msgid "duration.hour"
-msgstr "hour"
+#~ msgid "duration.hour"
+#~ msgstr "hour"
 
 #: src/components/Charts/types.tsx:33
-msgid "duration.month"
-msgstr "month"
+#~ msgid "duration.month"
+#~ msgstr "month"
 
 #: src/components/Charts/types.tsx:28
-msgid "duration.week"
-msgstr "week"
+#~ msgid "duration.week"
+#~ msgstr "week"
 
 #: src/components/Charts/types.tsx:38
-msgid "duration.year"
-msgstr "year"
+#~ msgid "duration.year"
+#~ msgstr "year"
 
 #: src/components/Charts/components/TimeLengthSelection.tsx:25
-msgid "refresh"
-msgstr ""
+#~ msgid "refresh"
+#~ msgstr ""

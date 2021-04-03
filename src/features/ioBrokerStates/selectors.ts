@@ -21,6 +21,18 @@ export const selector_getAllSensorBooleansIDByTheHomeFolder = (theHomeFolder: st
 
 export const selector_getStateByID = (id: string) => (state: RootState): any => selector_selectIOBrokerState(state, id);
 
+export const selector_getStateValueByID = (id: string) => (state: RootState): any => {
+    return selector_selectIOBrokerState(state, id)?.val;
+};
+
+export const selector_getStateTimeStampByID = (id: string) => (state: RootState): any => {
+    return selector_selectIOBrokerState(state, id)?.ts;
+};
+
+export const selector_getStateLastChangeByID = (id: string) => (state: RootState): any => {
+    return selector_selectIOBrokerState(state, id)?.lc;
+};
+
 export const selector_getStatesStatus = () => (state: RootState): any => state.ioBrokerStates.status;
 
 export const selector_getAvValueFromList = (idsForAV: string[], selector?: string) => (

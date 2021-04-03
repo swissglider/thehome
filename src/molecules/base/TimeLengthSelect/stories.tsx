@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react';
 import { Story, Meta } from '@storybook/react';
 import TimeLengthSelect from '.';
-import { C_DEFAULT_DURATION, T_DURATION } from '../../../utils/TimeHelper';
+import { C_DEFAULT_DURATION, T_DURATION } from '../../../utils/DurationHelper';
 
 export default {
     title: 'TheHome/Molecules/base/TimeLengthSelect',

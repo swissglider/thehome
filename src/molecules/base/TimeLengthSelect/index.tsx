@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import ValueTitleBox from '../ValueTitleBox';
-import { C_DURATION, getDurationByLocal, T_DURATION } from '../../../utils/TimeHelper';
+import { C_DURATION, getDurationByLocal, T_DURATION } from '../../../utils/DurationHelper';
 
 export interface I_TimeLengthSelector_Props {
     duration: T_DURATION;

@@ -4,7 +4,7 @@ import { ButtonBase, createStyles, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            display: 'inline-flex',
+            // display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
@@ -16,7 +16,7 @@ const useStyles = makeStyles(() =>
             margin: 0, // Remove the margin in Safari
             borderRadius: 0,
             padding: 0, // Remove the padding in Firefox
-            // cursor: 'pointer',
+            cursor: 'pointer',
             userSelect: 'none',
             verticalAlign: 'middle',
             '-moz-appearance': 'none', // Reset

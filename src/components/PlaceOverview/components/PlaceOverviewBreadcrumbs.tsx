@@ -57,7 +57,7 @@ const PlaceOverviewBreadcrumbs = (hcPorps: I_UseHomeContainer_Result): JSX.Eleme
         <Breadcrumbs className={classes.root} separator="/" aria-label="breadcrumb">
             <PlaceOverviewContainerBreadcrumbsHome />
             {hcPorps.pathArray.map((e, index, arr) =>
-                index === arr.length - 1 && !hcPorps.functionType ? (
+                index === arr.length - 1 && !hcPorps.functionTypeID ? (
                     <PlaceOverviewContainerBreadcrumbsElWithoutLink key={`Breadcrumbs12qw_${index}`} id={e} />
                 ) : (
                     <PlaceOverviewContainerBreadcrumbsEl
@@ -67,7 +67,7 @@ const PlaceOverviewBreadcrumbs = (hcPorps: I_UseHomeContainer_Result): JSX.Eleme
                     />
                 ),
             )}
-            {hcPorps.functionType && <PlaceOverviewContainerBreadcrumbsElWithoutLink id={hcPorps.functionType} />}
+            {hcPorps.functionTypeID && <PlaceOverviewContainerBreadcrumbsElWithoutLink id={hcPorps.functionTypeID} />}
         </Breadcrumbs>
     );
 };

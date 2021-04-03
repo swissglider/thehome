@@ -103,9 +103,9 @@ const StandardFunctionTypeOverviewValue = (props: {
     const displaName = useSelector(selector_getDisplayName(props.deviceID));
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: props.pathArray,
-        layout: 'standard_device_overview',
+        layout: 'sensor_details_page',
         deviceID: props.deviceID,
-        functionType: props.functionTypeID,
+        functionTypeID: props.functionTypeID,
     });
     return (
         <>
@@ -130,7 +130,7 @@ const StandardFunctionTypeOverviewFolderElement = (props: {
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: props.pathArray,
         layout: 'standard_function_type_overview',
-        functionType: props.functionTypeID,
+        functionTypeID: props.functionTypeID,
     });
     return (
         <div onClick={goToLocation}>
@@ -197,7 +197,7 @@ const StandardFunctionTypeOverviewHC = (props: {
 
 const StandardFunctionTypeOverview = (props: I_Container_Props): JSX.Element => {
     const classes = useStyles({ level: 0 });
-    const functionTypeID = props.functionType ?? 'enum.functions.light';
+    const functionTypeID = props.functionTypeID ?? 'enum.functions.light';
     const functionTypes: I_FunctionTypes = useSelector(selector_getFunctionTypes());
     const functionType: I_Type_Params = functionTypes[functionTypeID];
     if (!props.homeContainer) return <></>;
