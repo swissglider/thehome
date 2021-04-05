@@ -24,7 +24,7 @@ interface I_Location {
     state: I_State;
 }
 
-const getIOBFunctionTypeByIOBDeviceID = (deviceID: string, allHCs: T_HOME_CONTAINER_LIST): string | undefined => {
+const getIOBFunctionTypeIDByIOBDeviceID = (deviceID: string, allHCs: T_HOME_CONTAINER_LIST): string | undefined => {
     for (const value of Object.values(allHCs)) {
         for (const [functionID, deviceIDList] of Object.entries(value.recursiveMemberStateIDs)) {
             if (deviceIDList.includes(deviceID)) return functionID;
@@ -33,9 +33,9 @@ const getIOBFunctionTypeByIOBDeviceID = (deviceID: string, allHCs: T_HOME_CONTAI
     return undefined;
 };
 
-export const useGetIOBFunctionTypeByIOBDeviceID = (deviceID: string): string | undefined => {
+export const useGetIOBFunctionTypeIDByIOBDeviceID = (deviceID: string): string | undefined => {
     const allHCs: T_HOME_CONTAINER_LIST = useSelector(selector_getHomeContainerList()) ?? {};
-    return getIOBFunctionTypeByIOBDeviceID(deviceID, allHCs);
+    return getIOBFunctionTypeIDByIOBDeviceID(deviceID, allHCs);
 };
 
 export const useGetHomeContainerLocationTo = (
@@ -60,7 +60,7 @@ export const useHomeContainer = (): I_UseHomeContainer_Result => {
     const layout = location.state?.layout;
     const deviceID = location.state?.deviceID;
     const functionTypeID =
-        location.state?.functionTypeID ?? getIOBFunctionTypeByIOBDeviceID(deviceID ?? '', allHCs ?? {});
+        location.state?.functionTypeID ?? getIOBFunctionTypeIDByIOBDeviceID(deviceID ?? '', allHCs ?? {});
     if (pathArray.length === 0) return { pathArray: pathArray, childLists: { ...allHCs } };
     let tempHClist = allHCs ?? {};
     let tempHC: I_HOME_CONTAINER | undefined = undefined;

@@ -42,6 +42,9 @@ msgstr ""
 #~ msgid "chartOvervewBoxes.timestamp"
 #~ msgstr "Timestamp"
 
+#~ msgid "collapseAll"
+#~ msgstr "Schliesse alle"
+
 #: src/components/Charts/components/TimeLengthSelection.tsx:16
 #~ msgid "duration"
 #~ msgstr "Dauer"
@@ -65,6 +68,9 @@ msgstr ""
 #: src/components/Charts/types.tsx:38
 #~ msgid "duration.year"
 #~ msgstr "Jahr"
+
+#~ msgid "expandAll"
+#~ msgstr "Öffne alle"
 
 #: src/components/Charts/components/TimeLengthSelection.tsx:25
 #~ msgid "refresh"

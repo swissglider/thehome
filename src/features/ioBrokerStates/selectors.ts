@@ -3,22 +3,6 @@ import { RootState } from '../../redux/Store';
 import { I_ioBrokerState } from './interfaces';
 import { selector_selectIOBrokerState, selector_selectIOBrokerStateIds } from './slice';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
-export const selector_getAllSensorAvaragesIDByTheHomeFolder = (theHomeFolder: string) =>
-    createSelector(
-        selector_selectIOBrokerStateIds,
-        (ids) =>
-            ids.filter((key) => key.toString().startsWith(theHomeFolder) && key.toString().endsWith('av')) as string[],
-    );
-
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
-export const selector_getAllSensorBooleansIDByTheHomeFolder = (theHomeFolder: string) =>
-    createSelector(
-        selector_selectIOBrokerStateIds,
-        (ids) =>
-            ids.filter((key) => key.toString().startsWith(theHomeFolder) && key.toString().endsWith('on')) as string[],
-    );
-
 export const selector_getStateByID = (id: string) => (state: RootState): any => selector_selectIOBrokerState(state, id);
 
 export const selector_getStateValueByID = (id: string) => (state: RootState): any => {
@@ -49,7 +33,12 @@ export const selector_getAvValueFromList = (idsForAV: string[], selector?: strin
         : false;
 };
 
-export const selector_getAllValueFromIDList = (idsForAV: string[]) => (state: RootState): any[] =>
-    idsForAV
-        .filter((key) => selector_selectIOBrokerState(state, key) !== undefined)
-        .map((key) => (selector_selectIOBrokerState(state, key) as I_ioBrokerState).val);
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
+export const selectStatesByMemberList = () =>
+    createSelector(
+        [selector_selectIOBrokerStateIds, (state: any) => state, (state: any, ids: string[]) => ids],
+        (all, state, ids) =>
+            all
+                .filter((stat) => ids.includes(stat.toString()))
+                .map((stat) => selector_selectIOBrokerState(state, stat)?.val),
+    );

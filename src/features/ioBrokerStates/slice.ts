@@ -64,6 +64,7 @@ export const {
 export const {
     selectAll: selector_selectIOBrokerStates,
     selectById: selector_selectIOBrokerState,
+    selectEntities: selector_selectIOBrokerEntities,
     selectIds: selector_selectIOBrokerStateIds,
 } = ioBrokerStatesAdapter.getSelectors((state: RootState) => state.ioBrokerStates);
 

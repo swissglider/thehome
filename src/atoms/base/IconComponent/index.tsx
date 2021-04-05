@@ -2,7 +2,7 @@ import React, { ComponentProps, useMemo } from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import ButtonAnimation from '../ButtonAnimation';
 
-export const IconComponent_Size = ['root', 'xsmall', 'small', 'large', 'open'] as const;
+export const IconComponent_Size = ['root', 'xsmall', 'small', 'large', 'open', 'bold_xsmall'] as const;
 export type T_IconComponent_Size = typeof IconComponent_Size[number];
 
 export const IconComponent_Variant = ['square', 'circular', 'rounded'] as const;
@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
         xsmall: {
             width: theme.spacing(2),
             height: theme.spacing(2),
+        },
+        bold_xsmall: {
+            width: theme.spacing(2.5),
+            height: theme.spacing(2.5),
         },
         small: {
             width: theme.spacing(3),

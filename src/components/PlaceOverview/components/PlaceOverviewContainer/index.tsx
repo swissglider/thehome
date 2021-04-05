@@ -35,6 +35,7 @@ export interface I_Container_Props {
     layout?: string;
     functionTypeID?: string;
     deviceID?: string;
+    folderID?: string;
 }
 
 export const HomesContainerVertical = ({ pathArray, childLists }: I_Container_Props): JSX.Element => {

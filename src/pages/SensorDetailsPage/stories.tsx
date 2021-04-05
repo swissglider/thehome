@@ -32,3 +32,17 @@ LichtStube.args = {
     deviceID: 'hue.0.Lampe_Stube.on',
     onClicked: undefined,
 };
+
+export const StorenMacStatus = Template.bind({});
+StorenMacStatus.args = {
+    onClicked: undefined,
+    deviceID: 'shelly.0.SHSW-25#B954EE#1.Shutter.state',
+    functionTypeID: 'enum.functions.blinds',
+};
+
+export const StorenMacPos = Template.bind({});
+StorenMacPos.args = {
+    onClicked: undefined,
+    deviceID: 'shelly.0.SHSW-25#B954EE#1.Shutter.Position',
+    functionTypeID: 'enum.functions.blinds_position',
+};

@@ -17,6 +17,7 @@ export interface I_Type_Params {
     icon?: string;
     icon_false?: string;
     icon_true?: string;
+    states?: any;
 }
 
 export interface I_FunctionTypes {
