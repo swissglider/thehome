@@ -18,6 +18,10 @@ export interface I_Type_Params {
     icon_false?: string;
     icon_true?: string;
     states?: any;
+    // icon_cold?: string;
+    // icon_warm?: string;
+    // icon_hot?: string;
+    [key: string]: any;
 }
 
 export interface I_FunctionTypes {

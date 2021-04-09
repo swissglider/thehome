@@ -31,31 +31,23 @@ const Template: Story<I_Props> = (props: I_Props) => {
 export const Licht_Wollerau = Template.bind({});
 Licht_Wollerau.args = {
     onClicked: undefined,
-    functionTypeID: 'enum.functions.light',
-    folderID: 'enum.home.1_wollerau',
-    pathArray: [],
+    pathArray: ['enum.home.1_wollerau', 'enum.functions.light'],
 };
 
 export const Licht_Laax = Template.bind({});
 Licht_Laax.args = {
     onClicked: undefined,
-    functionTypeID: 'enum.functions.light',
-    folderID: 'enum.home.2_laax',
-    pathArray: [],
+    pathArray: ['enum.home.2_laax', 'enum.functions.light'],
 };
 
 export const Licht_ImHaus = Template.bind({});
 Licht_ImHaus.args = {
     onClicked: undefined,
-    functionTypeID: 'enum.functions.light',
-    folderID: 'enum.area.inside_home',
-    pathArray: [],
+    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home', 'enum.functions.light'],
 };
 
 export const Temp_Laax = Template.bind({});
 Temp_Laax.args = {
     onClicked: undefined,
-    functionTypeID: 'enum.functions.temp',
-    folderID: 'enum.home.2_laax',
-    pathArray: [],
+    pathArray: ['enum.home.2_laax', 'enum.functions.temp'],
 };

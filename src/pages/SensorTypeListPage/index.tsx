@@ -1,25 +1,23 @@
-import React, { ComponentProps, useMemo } from 'react';
-import { I_Container_Props } from '../../components/PlaceOverview/components/PlaceOverviewContainer';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { selector_getFunctionTypeByID, selector_getHomeContainerList } from '../../features/servConn/selectors';
+import { selector_getFunctionTypeByID } from '../../features/servConn/selectors';
 import { I_Type_Params } from '../../features/servConn/slice';
-import { I_HOME_CONTAINER, T_HOME_CONTAINER_LIST } from '../../features/servConn/interfaces';
+import { I_Container_Props, I_HOME_CONTAINER } from '../../features/servConn/interfaces';
 import SensorListContainer, {
     I_SensorListContainerElement_Props,
     I_SensorListContainerElement_PropsArray,
 } from '../../organisms/redux/SensorListContainer';
+import { useSearchHCByPathArray } from '../../hooks/HomeContainerHooks';
 
 const createSensorListElement_Props = (
     homeContainer: I_HOME_CONTAINER,
     functionTypeID: string,
     pathArray: string[],
-    functionType: I_Type_Params,
     level: number,
 ): I_SensorListContainerElement_PropsArray => {
     const sensorValueType = {
         membersStateList: homeContainer.recursiveMemberStateIDs[functionTypeID],
         functionTypeID: functionTypeID,
-        iobObjectCommon: functionType,
         onClick: undefined,
     };
     const tempListProps: I_SensorListContainerElement_PropsArray = [
@@ -28,7 +26,7 @@ const createSensorListElement_Props = (
             listElementProps: {
                 presentationMode: 'folder' as 'folder' | 'sensor',
                 folderID: homeContainer.id,
-                pathArray,
+                pathArray: [...pathArray, functionTypeID],
                 functionTypeID,
                 sensorValueType,
             },
@@ -45,12 +43,11 @@ const createSensorListElement_Props = (
                 listElementProps: {
                     presentationMode: 'sensor' as 'folder' | 'sensor',
                     deviceID: deviceID,
-                    pathArray,
+                    pathArray: [...pathArray, deviceID, functionTypeID],
                     functionTypeID,
                     sensorValueType: {
                         membersStateList: [deviceID],
                         functionTypeID: functionTypeID,
-                        iobObjectCommon: functionType,
                         onClick: undefined,
                     },
                 },
@@ -79,37 +76,36 @@ const getSensorListElementRecursive = (
         homeContainer,
         functionTypeID,
         pathArray,
-        functionType,
         level,
     );
     for (const value of Object.values(homeContainer.childrenHomeContainers)) {
-        const newSensorList = getSensorListElementRecursive(value, functionTypeID, pathArray, functionType, level + 1);
+        const newSensorList = getSensorListElementRecursive(
+            value,
+            functionTypeID,
+            [...pathArray, value.id],
+            functionType,
+            level + 1,
+        );
         // sensorList = [...sensorList, ...newSensorList];
         sensorList.push(newSensorList);
     }
     return sensorList;
 };
 
-const searchHCRecursive = (
-    homeContainerList: T_HOME_CONTAINER_LIST,
-    folderID: string,
-): I_HOME_CONTAINER | undefined => {
-    if (folderID in homeContainerList) return homeContainerList[folderID];
-    for (const value of Object.values(homeContainerList ?? {})) {
-        const result = searchHCRecursive(value.childrenHomeContainers, folderID);
-        if (result !== undefined) return result;
-    }
-    return undefined;
-};
+const SensorTypeListPage = ({ pathArray }: I_Container_Props): JSX.Element | null => {
+    console.log('SensorTypeListPage:render');
+    if (pathArray === undefined) return null;
 
-const SensorTypeListPage = ({ functionTypeID, folderID, pathArray }: I_Container_Props): JSX.Element | null => {
-    if (functionTypeID === undefined) return null;
+    const functionTypeID = pathArray[pathArray.length - 1];
+    if (functionTypeID === undefined || !functionTypeID.startsWith('enum.functions.')) return null;
     const functionType: I_Type_Params = useSelector(selector_getFunctionTypeByID(functionTypeID ?? ''));
-    const homeContainerList = useSelector(selector_getHomeContainerList());
-    if (homeContainerList === undefined) return null;
-    const homeContainer = searchHCRecursive(homeContainerList ?? {}, folderID ?? '');
+
+    const homeContainer = useSearchHCByPathArray(pathArray);
     if (homeContainer === undefined) return null;
-    const sensorList = getSensorListElementRecursive(homeContainer, functionTypeID, pathArray, functionType, 0);
+
+    const plainPathArray = [...pathArray];
+    plainPathArray.pop();
+    const sensorList = getSensorListElementRecursive(homeContainer, functionTypeID, plainPathArray, functionType, 0);
 
     return <SensorListContainer listItems={sensorList} />;
 };

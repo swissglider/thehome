@@ -21,28 +21,24 @@ const Template: Story<I_Props> = (props: I_Props) => {
 
 export const TempBad = Template.bind({});
 TempBad.args = {
-    functionTypeID: 'enum.functions.temp',
-    deviceID: 'jeelink.0.LaCrosse_bad.temp',
+    pathArray: ['jeelink.0.LaCrosse_bad.temp', 'enum.functions.temp'],
     onClicked: undefined,
 };
 
 export const LichtStube = Template.bind({});
 LichtStube.args = {
-    functionTypeID: 'enum.functions.light',
-    deviceID: 'hue.0.Lampe_Stube.on',
+    pathArray: ['hue.0.Lampe_Stube.on', 'enum.functions.light'],
     onClicked: undefined,
 };
 
 export const StorenMacStatus = Template.bind({});
 StorenMacStatus.args = {
     onClicked: undefined,
-    deviceID: 'shelly.0.SHSW-25#B954EE#1.Shutter.state',
-    functionTypeID: 'enum.functions.blinds',
+    pathArray: ['shelly.0.SHSW-25#B954EE#1.Shutter.state', 'enum.functions.blinds'],
 };
 
 export const StorenMacPos = Template.bind({});
 StorenMacPos.args = {
     onClicked: undefined,
-    deviceID: 'shelly.0.SHSW-25#B954EE#1.Shutter.Position',
-    functionTypeID: 'enum.functions.blinds_position',
+    pathArray: ['shelly.0.SHSW-25#B954EE#1.Shutter.Position', 'enum.functions.blinds_position'],
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { createStyles, InputBase, makeStyles, Theme } from '@material-ui/core';
 import IconComponent, { T_IconComponent_Size } from '../../base/IconComponent';
 import { grey } from '@material-ui/core/colors';
+import { ICON_DOWN, ICON_STOP, ICON_UP } from '../../../configuration/Icons';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,12 +57,9 @@ export interface I_BlindControl_Props {
 const BlindControl = (props: I_BlindControl_Props): JSX.Element => {
     const size = props.size ?? 'xsmall';
     const classes = useStyles({ size });
-    const icon_up =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAhElEQVRIie2PsQmAMBREHxJLdxB0AVfTnRTUnQSdQSy1OSGkEfWny4NrPse9BBLG1EoUKmBVKuvxEliAU9kw/Ek4biqpNXQCI3Aoo4XEH58AB+yK0+2XZNDADOS63QJ0m9XpvwgaoPXGQ8Et6dQ1IRQ8klmZkyAJ4uFe9tcor/AolIQdF3TmJ8WFUs0CAAAAAElFTkSuQmCC';
-    const icon_stop =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAnElEQVRoge3ZsQ3CQBAF0QFRBRW4BJJrwkVQFO04oQQqoA0IyM8LhvsSmic58lraSdcgSdpgt/L+CJxGLNJxBe6ffjwDj/Az9xY8FENuwFKc/ZYGTGtD1YAFOG9a530XCgH7AYv8lAFpBqQZkGZAmgFpBqQZkGZAmgFpBqQZkGZAmgFp1dto43WrHKlVhqoBE4VDa8Lf/+CQJHU9AbkwKhzqocnpAAAAAElFTkSuQmCC';
-    const icon_down =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAoUlEQVRIie3TQQ7BUBSF4S90KpagEsIiWBV7koiRtRgZIKR2IIY1uS/pSKjWqH9yJrcn/3mT0tEwAwzbHDjg2ObAI/IxvZYe0g10A38aWGKN/ptOHyss6ozvUWKDLG7VHy2Lb2V0v2aOewi2IUwDWdzK6MzrDMAMRYh2eEZ2cSui8xM5ziGs5obpr/LECKeK/IpJU/LEGJfIuGl5Io90NMcL3fImzx43SdQAAAAASUVORK5CYII=';
+    const icon_up = ICON_UP;
+    const icon_stop = ICON_STOP;
+    const icon_down = ICON_DOWN;
     return (
         <div className={classes.root}>
             <IconComponent
@@ -108,7 +106,7 @@ const BlindControl = (props: I_BlindControl_Props): JSX.Element => {
                     onChange={(e) => {
                         if (parseInt(e.target.value) > 100) e.target.value = '100';
                     }}
-                    onBlur={(e) => {
+                    onBlur={() => {
                         return;
                     }}
                 />

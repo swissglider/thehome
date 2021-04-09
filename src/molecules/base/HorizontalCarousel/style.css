@@ -1,0 +1,56 @@
+/* max-width constrains the width of our carousel to 550, but shrinks on small devices */
+.carousel__container {
+}
+
+.carousel__slide--focused {
+}
+
+.carousel__slide--hidden {
+}
+
+/* """""""""""""""""" dot */
+
+.carousel__dot--selected {
+    /* height: 8px;
+    width: 8px; */
+    box-shadow: none;
+    border: none;
+    /* background-color: gray;
+    border-radius: 50%; */
+    opacity: 0.5;
+}
+
+/* """""""""""""""""" slider */
+
+/* .carousel {
+    background-color: red;
+    color: red;
+    background: red;
+}
+
+.carousel__slider {
+    background-color: violet;
+    color: violet;
+    background: violet;
+}
+
+.carousel__slider-tray-wrapper {
+    background-color: green;
+}
+
+.carousel__slider-tray {
+    background-color: brown;
+} */
+
+/* .carousel__slide--visible {
+    text-align: center;
+    background-color: black;
+    color: black;
+    background: black;
+}
+
+.carousel__inner-slide {
+    background-color: orange;
+    color: orange;
+    background: orange;
+} */

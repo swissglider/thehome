@@ -19,6 +19,7 @@ const sensorListContainerCollapseStatesSlice = createSlice({
         SENSORLISTCONTAINER_STATES_UPDATE: sensorListContainerCollapseStatesAdapter.upsertOne,
         SENSORLISTCONTAINER_STATES_CREATE: sensorListContainerCollapseStatesAdapter.addOne,
         SENSORLISTCONTAINER_STATES_UPDATE_MANY: sensorListContainerCollapseStatesAdapter.upsertMany,
+        SENSORLISTCONTAINER_STATES_REMOVE_ALL: sensorListContainerCollapseStatesAdapter.removeAll,
     },
 });
 
@@ -26,6 +27,7 @@ export const {
     SENSORLISTCONTAINER_STATES_UPDATE,
     SENSORLISTCONTAINER_STATES_CREATE,
     SENSORLISTCONTAINER_STATES_UPDATE_MANY,
+    SENSORLISTCONTAINER_STATES_REMOVE_ALL,
 } = sensorListContainerCollapseStatesSlice.actions;
 
 export const {

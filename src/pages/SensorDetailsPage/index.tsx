@@ -2,7 +2,6 @@ import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { selector_getDisplayName } from '../../features/ioBrokerObjects/selectors';
 import { useSingleChartDataCalculator } from '../../hooks/SingleChartDataCalculator';
 import NumberChart from '../../atoms/enhanced/NumberChart';
-import { I_Container_Props } from '../../components/PlaceOverview/components/PlaceOverviewContainer';
 import SimpleValuesTitleBox from '../../molecules/base/SimpleValuesTitleBox';
 import ValueTitleBox from '../../molecules/base/ValueTitleBox';
 import { C_DEFAULT_DURATION, T_DURATION } from '../../utils/DurationHelper';
@@ -12,9 +11,13 @@ import SensorDetailsTemplate from '../../templates/SensorDetailsTemplate';
 import { selector_getFunctionTypeByID } from '../../features/servConn/selectors';
 import { useSelector } from 'react-redux';
 import { CurrentBox, LastChangeBox, SensorIconBox, TimeStampBox } from './subBoxes';
+import { I_Container_Props } from '../../features/servConn/interfaces';
 
-const SensorDetailsPage = ({ functionTypeID, deviceID }: I_Container_Props): JSX.Element | null => {
-    if (deviceID === undefined || functionTypeID === undefined) return null;
+const SensorDetailsPage = ({ pathArray }: I_Container_Props): JSX.Element | null => {
+    const functionTypeID = pathArray[pathArray.length - 1];
+    if (functionTypeID === undefined || !functionTypeID.startsWith('enum.functions.')) return null;
+    const deviceID = pathArray[pathArray.length - 2];
+    if (deviceID === undefined || deviceID.startsWith('enum.')) return null;
     const [duration, setDuration] = useState<T_DURATION>(C_DEFAULT_DURATION);
     const functionType_ = useSelector(selector_getFunctionTypeByID(functionTypeID));
     if (functionType_ === undefined || functionType_.functionID === undefined) return null;

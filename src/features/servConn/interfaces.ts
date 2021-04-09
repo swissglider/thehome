@@ -21,3 +21,13 @@ export interface I_HOME_CONTAINER {
     initialized: 'none' | 'loading' | 'ok' | 'error';
     error: string | undefined;
 }
+
+export interface I_Container_Props {
+    pathArray: string[];
+    childLists?: T_HOME_CONTAINER_LIST;
+    homeContainer?: I_HOME_CONTAINER;
+    layout?: string;
+    functionTypeID?: string;
+    deviceID?: string;
+    folderID?: string;
+}

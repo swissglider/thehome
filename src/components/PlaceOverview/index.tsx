@@ -10,10 +10,11 @@ import {
 } from '../../utils/FrameworkContext';
 import PlaceDetail from './components/PlaceDetail';
 import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
-import PlaceOverviewContainer, { StandardPlaceOverviewContainer } from './components/PlaceOverviewContainer';
 import SensorDetailsPage from '../../pages/SensorDetailsPage';
-import StandardFunctionTypeOverview from './components/StandardFunctionTypeOverview';
 import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
+import SensorTypeListPage from '../../pages/SensorTypeListPage';
+import LocationOverviewPage from '../../pages/LocationOverviewPage';
+import HomesOverviewPage from '../../pages/HomesOverviewPage';
 
 const COMPONENTNAME = 'PlaceOverview';
 
@@ -23,15 +24,15 @@ const PlaceOverview = (): JSX.Element => {
     let container: any;
     switch (hcPorps.layout) {
         case 'homes': {
-            container = PlaceOverviewContainer;
+            container = HomesOverviewPage;
             break;
         }
         case 'standard_place_overview': {
-            container = StandardPlaceOverviewContainer;
+            container = LocationOverviewPage;
             break;
         }
         case 'standard_function_type_overview': {
-            container = StandardFunctionTypeOverview;
+            container = SensorTypeListPage;
             break;
         }
         case 'sensor_details_page': {
@@ -43,7 +44,7 @@ const PlaceOverview = (): JSX.Element => {
             break;
         }
         default: {
-            container = PlaceOverviewContainer;
+            container = HomesOverviewPage;
         }
     }
 

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ACTION_IOBROKER_INIT } from './features/servConn/actions';
 import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './features/servConn/selectors';
 import { AppDispatch } from './redux/Store';
-import { useGenerateCategoryFunctionsMap } from './components/PlaceOverview/hooks/FunctionCategoryHooks';
+import { useGenerateCategoryFunctionsMap } from './hooks/FunctionCategoryHooks';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import catalogDE from './locales/de/messages.js';

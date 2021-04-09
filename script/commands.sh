@@ -1,5 +1,5 @@
 development:
-     npm run start
+    npm run start
 
 build and upload:
     npm run build

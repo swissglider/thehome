@@ -6,6 +6,7 @@ import ButtonAnimation from '../ButtonAnimation';
 
 export const TypographyComponent_Variants = [
     'header',
+    'h3_header',
     'title',
     'subtitle',
     'body',
@@ -17,6 +18,8 @@ export type T_TypographyComponent_Variants = typeof TypographyComponent_Variants
 
 const getMappedVariant = (variant: string): Variant => {
     switch (variant) {
+        case 'h3_header':
+            return 'h3';
         case 'header':
             return 'h4';
         case 'title':

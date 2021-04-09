@@ -2,7 +2,6 @@ import React from 'react';
 import MoreMenu from '../components/MainLayout/components/MoreMenu';
 import PlaceOverview from '../components/PlaceOverview';
 import Posts from '../components/Posts';
-import TestIOBroker from '../components/TestIOBroker';
 
 export interface I_MainComponentsConfiguration {
     label: string;
@@ -35,17 +34,6 @@ const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
         icon: 'email',
         to: '/posts',
         component: Posts,
-        onMainBottomNavigation: false,
-        onMoreMenuNavigation: true,
-        linkActive: true,
-        linkExact: false,
-    },
-    {
-        label: 'TestIOBroker',
-        value: 'testiobroker',
-        icon: 'email',
-        to: '/testiobroker',
-        component: TestIOBroker,
         onMainBottomNavigation: false,
         onMoreMenuNavigation: true,
         linkActive: true,
