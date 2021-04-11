@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selector_getFunctionTypeByID } from '../../features/servConn/selectors';
-import { I_Type_Params } from '../../features/servConn/slice';
-import { I_Container_Props, I_HOME_CONTAINER } from '../../features/servConn/interfaces';
+import { selector_getFunctionTypeByID } from '../../../features/servConn/selectors';
+import { I_Type_Params } from '../../../features/servConn/slice';
+import { I_Container_Props, I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 import SensorListContainer, {
     I_SensorListContainerElement_Props,
     I_SensorListContainerElement_PropsArray,
-} from '../../organisms/redux/SensorListContainer';
-import { useSearchHCByPathArray } from '../../hooks/HomeContainerHooks';
+} from '../SensorListContainer';
+import { useSearchHCByPathArray } from '../../../hooks/HomeContainerHooks';
 
 const createSensorListElement_Props = (
     homeContainer: I_HOME_CONTAINER,
@@ -59,7 +59,7 @@ const createSensorListElement_Props = (
     return tempListProps;
 };
 
-const getSensorListElementRecursive = (
+const GetSensorListElementRecursive = (
     homeContainer: I_HOME_CONTAINER,
     functionTypeID: string,
     pathArray: string[],
@@ -79,7 +79,7 @@ const getSensorListElementRecursive = (
         level,
     );
     for (const value of Object.values(homeContainer.childrenHomeContainers)) {
-        const newSensorList = getSensorListElementRecursive(
+        const newSensorList = GetSensorListElementRecursive(
             value,
             functionTypeID,
             [...pathArray, value.id],
@@ -92,7 +92,7 @@ const getSensorListElementRecursive = (
     return sensorList;
 };
 
-const SensorTypeListPage = ({ pathArray }: I_Container_Props): JSX.Element | null => {
+const SensorTypeList = ({ pathArray }: I_Container_Props): JSX.Element | null => {
     console.log('SensorTypeListPage:render');
     if (pathArray === undefined) return null;
 
@@ -105,9 +105,9 @@ const SensorTypeListPage = ({ pathArray }: I_Container_Props): JSX.Element | nul
 
     const plainPathArray = [...pathArray];
     plainPathArray.pop();
-    const sensorList = getSensorListElementRecursive(homeContainer, functionTypeID, plainPathArray, functionType, 0);
+    const sensorList = GetSensorListElementRecursive(homeContainer, functionTypeID, plainPathArray, functionType, 0);
 
     return <SensorListContainer listItems={sensorList} />;
 };
 
-export default SensorTypeListPage;
+export default SensorTypeList;

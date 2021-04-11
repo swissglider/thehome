@@ -19,24 +19,23 @@ const useStyles = makeStyles((theme: Theme) =>
                 textTransform: 'none',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-                borderRadius: theme.spacing(0.5),
+                borderRadius: theme.spacing(1),
                 // boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 2px 0px',
             };
-            if (['verticalList', 'fullBox'].includes(presentationMode))
+            if (presentationMode === 'fullBox') {
                 params.boxShadow = 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px';
-            params.maxWidth = ['verticalList', 'fullBox'].includes(presentationMode)
-                ? theme.spacing(150)
-                : theme.spacing(15);
-            params.minHeight = ['fullBox'].includes(presentationMode) && theme.spacing(20);
-            if (['fullBox'].includes(presentationMode)) {
                 params.minHeight = theme.spacing(20);
+                params.maxWidth = theme.spacing(150);
             }
-            if (['verticalList'].includes(presentationMode)) {
+            if (presentationMode === 'verticalList') {
+                params.boxShadow = 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px';
                 params.minHeight = theme.spacing(18);
                 params.maxHeight = theme.spacing(18);
+                params.maxWidth = theme.spacing(150);
             }
-            if (['horizontalList'].includes(presentationMode)) {
+            if (presentationMode === 'horizontalList') {
                 params.minHeight = theme.spacing(15);
+                params.maxWidth = theme.spacing(15);
             }
             return params;
         },
@@ -87,9 +86,7 @@ interface I_LocationOverviewBox_Props extends I_PlaceOverviewItem_Props {
 }
 
 const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element => {
-    console.log(props);
     const { homeContainer, pathArray, width, presentationMode } = { ...props };
-    console.log(width);
     const classes = useStyles({ presentationMode, bp: width as T_Breakpoint });
     const srcImg = useSelector(selector_getIOBObjectByID(homeContainer.id))?.common.icon;
     const displayName = useSelector(selector_getDisplayName(homeContainer.id));
@@ -122,16 +119,21 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
             alignItems={['fullBox'].includes(presentationMode) ? 'center' : 'flex-start'}
             spacing={3}
         >
-            {['fullBox', 'verticalList'].includes(presentationMode) && (
-                <Grid item onClick={onClick}>
-                    <IconComponent icon={srcImg} size={presentationMode === 'fullBox' ? 'xlarge' : 'large'} />
-                </Grid>
-            )}
+            {
+                // Location Icon
+                ['fullBox', 'verticalList'].includes(presentationMode) && (
+                    <Grid item onClick={onClick}>
+                        <IconComponent icon={srcImg} size={presentationMode === 'fullBox' ? 'xlarge' : 'large'} />
+                    </Grid>
+                )
+            }
 
             <Grid item xs>
                 <Grid container direction="column" justify="space-between" alignItems="stretch" spacing={1}>
+                    {/* Title Row */}
                     <Grid item>
                         <Grid container direction="row" justify="center" alignItems="flex-start" wrap="nowrap">
+                            {/* Title */}
                             <Grid item xs onClick={onClick}>
                                 <ValueTitleBox
                                     value={displayName}
@@ -140,17 +142,20 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
                                     variant={sizes(presentationMode, width, 'title')}
                                 />
                             </Grid>
-                            {['fullBox'].includes(presentationMode) && (
-                                <Grid item>
-                                    <IconComponent
-                                        icon={infoIcon}
-                                        variants="square"
-                                        size="xsmall"
-                                        withAnimation={true}
-                                        onClick={goToLocation}
-                                    />
-                                </Grid>
-                            )}
+                            {
+                                // Info Icon
+                                ['fullBox'].includes(presentationMode) && (
+                                    <Grid item>
+                                        <IconComponent
+                                            icon={infoIcon}
+                                            variants="square"
+                                            size="xsmall"
+                                            withAnimation={true}
+                                            onClick={goToLocation}
+                                        />
+                                    </Grid>
+                                )
+                            }
                         </Grid>
                     </Grid>
                     {['fullBox'].includes(presentationMode) && (

@@ -1,17 +1,17 @@
 import React, { ComponentProps } from 'react';
 import { Story, Meta } from '@storybook/react';
-import SensorTypeListPage from '.';
+import SensorTypeList from '.';
 
 export default {
-    title: 'TheHome/Pages/SensorTypeListPage',
-    component: SensorTypeListPage,
+    title: 'TheHome/Pages/SensorTypeList',
+    component: SensorTypeList,
     argTypes: {
         title: { name: 'Title' },
         onClicked: { table: { disable: true } },
     },
 } as Meta;
 
-interface I_Props extends ComponentProps<typeof SensorTypeListPage> {
+interface I_Props extends ComponentProps<typeof SensorTypeList> {
     onClicked: (i: string) => void;
 }
 
@@ -25,7 +25,7 @@ const Template: Story<I_Props> = (props: I_Props) => {
     //    if (onClicked) onClicked(value);
     //    if (props.onClick) props.onClick(value);
     // };
-    return <SensorTypeListPage {...args} />;
+    return <SensorTypeList {...args} />;
 };
 
 export const Licht_Wollerau = Template.bind({});

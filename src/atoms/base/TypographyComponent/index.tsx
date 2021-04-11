@@ -13,6 +13,7 @@ export const TypographyComponent_Variants = [
     'body_bold',
     'caption',
     'button',
+    'h5_header',
 ] as const;
 export type T_TypographyComponent_Variants = typeof TypographyComponent_Variants[number];
 
@@ -22,6 +23,8 @@ const getMappedVariant = (variant: string): Variant => {
             return 'h3';
         case 'header':
             return 'h4';
+        case 'h5_header':
+            return 'h5';
         case 'title':
             return 'subtitle1';
         case 'body_bold':

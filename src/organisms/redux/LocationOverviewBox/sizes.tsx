@@ -52,7 +52,7 @@ export const sizes: any = (
                 case 'number1':
                     return 'body';
                 case 'title':
-                    return 'header';
+                    return 'h5_header';
                 default:
                     return '';
             }

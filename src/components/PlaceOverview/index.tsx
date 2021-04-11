@@ -12,7 +12,7 @@ import PlaceDetail from './components/PlaceDetail';
 import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
 import SensorDetailsPage from '../../pages/SensorDetailsPage';
 import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
-import SensorTypeListPage from '../../pages/SensorTypeListPage';
+import SensorTypeListPage from '../../organisms/redux/SensorTypeList';
 import LocationOverviewPage from '../../pages/LocationOverviewPage';
 import HomesOverviewPage from '../../pages/HomesOverviewPage';
 
@@ -64,7 +64,9 @@ const PlaceOverview = (): JSX.Element => {
     return (
         <FieldsetBorders componentName={COMPONENTNAME}>
             <PlaceOverviewBreadcrumbs {...hcPorps} />
-            {React.createElement(container, { ...hcPorps })}
+            <div style={{ paddingLeft: '25px', paddingRight: '25px' }}>
+                {React.createElement(container, { ...hcPorps })}
+            </div>
         </FieldsetBorders>
     );
 };

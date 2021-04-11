@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingLeft: '23px',
             paddingRight: '22px',
             // border: 'solid',
-            width: 'calc(100vw - 30px)',
+            // width: 'calc(100vw - 30px)',
             maxWidth: theme.spacing(147),
             WebkitOverflowScrolling: 'touch',
             msOverflowStyle: '-ms-autohiding-scrollbar',
@@ -76,7 +76,6 @@ interface I_SensorTypesHorizontal_Props {
 
 const HorizontalCarousel_ = ({ childrenSlides, getSlideSteps, width }: I_SensorTypesHorizontal_Props): JSX.Element => {
     const classes = useStyles();
-    console.log(width);
 
     const slideSteps = useMemo(() => getSlideSteps(width), [width]);
 
