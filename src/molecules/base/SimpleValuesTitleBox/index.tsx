@@ -25,7 +25,7 @@ const SimpleValuesTitleBox = (props: I_SimpleValuesTitleBox_Props): JSX.Element 
         onClick: props.onClick,
         withColor: true,
         withoutDecoration: false,
-        variant: 'body',
+        variant: 'body2',
     };
 
     return <ValueTitleBox {...valueTitleBox_Props} />;

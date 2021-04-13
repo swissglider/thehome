@@ -1,6 +1,6 @@
 import React, { ComponentProps, useMemo } from 'react';
 import { T_CountMethod, useGetCountedValue } from '../../../hooks/CountingHooks';
-import ValueUnitText from '../ValueUnitText';
+import ValueUnitText from '../../base/ValueUnitText';
 
 export interface I_AvarageText_Props extends Omit<ComponentProps<typeof ValueUnitText>, 'value' | 'onClick'> {
     allValues: any[];

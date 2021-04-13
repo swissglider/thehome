@@ -93,14 +93,14 @@ export const SimpleBold = Template.bind({});
 SimpleBold.args = {
     value: 'Test Text',
     title: 'Bold',
-    variant: 'body_bold',
+    variant: 'subtitle2',
     onClicked: undefined,
 };
 
 export const SimpleWithoutDecoration = Template.bind({});
 SimpleWithoutDecoration.args = {
     value: 'Without decoration and Bold but without title',
-    variant: 'body_bold',
+    variant: 'subtitle2',
     withoutDecoration: true,
     onClicked: undefined,
 };
@@ -109,7 +109,7 @@ export const SimpleWithClickWithAnimation = Template.bind({});
 SimpleWithClickWithAnimation.args = {
     value: 'Click me',
     title: 'Simple with Click and with Animation',
-    variant: 'body_bold',
+    variant: 'subtitle2',
     onClick: () => {
         return;
     },
@@ -119,7 +119,7 @@ export const SimpleWithClickWithoutAnimation = Template.bind({});
 SimpleWithClickWithoutAnimation.args = {
     value: 'Click me',
     title: 'Simple with Click and with Animation',
-    variant: 'body_bold',
+    variant: 'subtitle2',
     withAnimation: false,
     onClick: () => {
         return;

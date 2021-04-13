@@ -20,13 +20,14 @@ export default {
 
 interface I_Props extends ComponentProps<typeof SensorTypeIconTextBoxHorizontalCarousel> {
     onClicked: (i: string) => void;
+    pathArray: string[];
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
     const { pathArray } = { ...props };
     const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
 
-    return <SensorTypeIconTextBoxHorizontalCarousel homeContainer={homeContainer} pathArray={pathArray} />;
+    return <SensorTypeIconTextBoxHorizontalCarousel homeContainer={homeContainer} />;
 };
 
 export const Wollerau = Template.bind({});

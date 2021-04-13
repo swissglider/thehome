@@ -10,6 +10,7 @@ import ValueTitleBox from '../../../molecules/base/ValueTitleBox';
 import IconComponent from '../../../atoms/base/IconComponent';
 import { INFO_ICON } from '../../../configuration/Icons';
 import { sizes, T_Breakpoint, T_PresentationMode } from './sizes';
+import { useGetPathArrayFromHomeContainer } from '../../../hooks/HomeContainerHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -42,19 +43,15 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export interface I_PlaceOverviewItem_Props {
+interface I_GetBoxes_Props {
     homeContainer: I_HOME_CONTAINER;
-    pathArray: string[];
-}
-
-interface I_GetBoxes_Props extends I_PlaceOverviewItem_Props {
     boxName: string;
     width: string;
     presentationMode: T_PresentationMode;
 }
 
 const GetBoxes = ({ homeContainer, boxName, width, presentationMode }: I_GetBoxes_Props): JSX.Element => {
-    const variant = sizes(presentationMode, width, boxName) ?? 'body';
+    const variant = sizes(presentationMode, width, boxName) ?? 'body2';
     const iconSize = sizes(presentationMode, width, boxName) ?? 'xsmall';
     const box = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
         .filter((e) => LOCATION_OVERVOEW_BOX_SENSORS[boxName].includes(e))
@@ -80,18 +77,22 @@ const GetBoxes = ({ homeContainer, boxName, width, presentationMode }: I_GetBoxe
     );
 };
 
-interface I_LocationOverviewBox_Props extends I_PlaceOverviewItem_Props {
+interface I_LocationOverviewBox_Props {
+    homeContainer: I_HOME_CONTAINER;
     width: string;
     presentationMode: T_PresentationMode;
 }
 
-const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element => {
-    const { homeContainer, pathArray, width, presentationMode } = { ...props };
+const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element | null => {
+    const { homeContainer, width, presentationMode } = { ...props };
+    if (homeContainer === undefined) return null;
+
     const classes = useStyles({ presentationMode, bp: width as T_Breakpoint });
     const srcImg = useSelector(selector_getIOBObjectByID(homeContainer.id))?.common.icon;
     const displayName = useSelector(selector_getDisplayName(homeContainer.id));
-    const newPathArray = [...pathArray];
-    newPathArray.push(homeContainer.id);
+    const newPathArray = useGetPathArrayFromHomeContainer(homeContainer);
+    if (newPathArray === undefined) return null;
+
     const { goToLocation: goTo } = useGetHomeContainerLocationTo({
         pathArray: newPathArray,
         layout: 'standard_place_overview',
@@ -100,7 +101,7 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
     const infoIcon = INFO_ICON;
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: newPathArray,
-        layout: 'place_detail',
+        layout: 'location_detail',
     });
     const onClick =
         presentationMode !== 'fullBox'
@@ -164,7 +165,6 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
                                 <GetBoxes
                                     boxName="switch"
                                     homeContainer={homeContainer}
-                                    pathArray={pathArray}
                                     width={width}
                                     presentationMode={presentationMode}
                                 />
@@ -173,7 +173,6 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
                                 <GetBoxes
                                     boxName="boolean"
                                     homeContainer={homeContainer}
-                                    pathArray={pathArray}
                                     width={width}
                                     presentationMode={presentationMode}
                                 />
@@ -185,7 +184,6 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
                             <GetBoxes
                                 boxName="allboolean"
                                 homeContainer={homeContainer}
-                                pathArray={pathArray}
                                 width={width}
                                 presentationMode={presentationMode}
                             />
@@ -195,7 +193,6 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
                         <GetBoxes
                             boxName="number1"
                             homeContainer={homeContainer}
-                            pathArray={pathArray}
                             width={width}
                             presentationMode={presentationMode}
                         />
@@ -205,7 +202,6 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element =
                             <GetBoxes
                                 boxName="number2"
                                 homeContainer={homeContainer}
-                                pathArray={pathArray}
                                 width={width}
                                 presentationMode={presentationMode}
                             />

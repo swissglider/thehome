@@ -15,10 +15,11 @@ export default {
 
 interface I_Props extends ComponentProps<typeof SensorTypeIconTextBox> {
     onClicked: (i: string) => void;
+    pathArray: string[];
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { onClicked, pathArray, functionTypeID } = { ...props };
+    const { pathArray, functionTypeID } = { ...props };
     const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
     // args.onClick = () => {
     //    if (onClicked) onClicked();
@@ -28,9 +29,7 @@ const Template: Story<I_Props> = (props: I_Props) => {
     //    if (onClicked) onClicked(value);
     //    if (props.onClick) props.onClick(value);
     // };
-    return (
-        <SensorTypeIconTextBox homeContainer={homeContainer} pathArray={pathArray} functionTypeID={functionTypeID} />
-    );
+    return <SensorTypeIconTextBox homeContainer={homeContainer} functionTypeID={functionTypeID} />;
 };
 
 export const Wollerau_Light = Template.bind({});

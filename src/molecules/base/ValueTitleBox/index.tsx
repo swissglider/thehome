@@ -1,12 +1,12 @@
 import React, { ComponentProps, useMemo } from 'react';
 import { createStyles, Divider, makeStyles, Theme } from '@material-ui/core';
 import Hex2rgbaConverter from '../../../utils/Hex2rgbaConverter';
-import ButtonAnimation from '../../../atoms/base/ButtonAnimation';
-import ValueUnitText from '../../../atoms/enhanced/ValueUnitText';
+import BaseDecoration from '../../../atoms/base/BaseDecoration';
+import ValueUnitText from '../../../atoms/base/ValueUnitText';
 import IconComponent from '../../../atoms/base/IconComponent';
 import CountedValueText from '../../../atoms/enhanced/CountedValueText';
 import CountedIcon from '../../../atoms/enhanced/CountedIcon';
-import TypographyComponent, { T_TypographyComponent_Variants } from '../../../atoms/base/TypographyComponent';
+import TypographyComponent, { T_TypographyComponent_Variant } from '../../../atoms/base/TypographyComponent';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export interface I_ValueTitleBox_Props extends Omit<ComponentProps<typeof ButtonAnimation>, 'children'> {
+export interface I_ValueTitleBox_Props extends Omit<ComponentProps<typeof BaseDecoration>, 'children'> {
     title?: string;
     value?: string;
     valueWithUnit?: Omit<ComponentProps<typeof ValueUnitText>, 'onClick' | 'withAnimation' | 'variant' | 'noWrap'>;
@@ -53,7 +53,7 @@ export interface I_ValueTitleBox_Props extends Omit<ComponentProps<typeof Button
     onClick?: (value?: string) => void;
     withColor?: boolean;
     withoutDecoration?: boolean;
-    variant?: T_TypographyComponent_Variants;
+    variant?: T_TypographyComponent_Variant;
 }
 
 const ValueTitleBox = ({
@@ -76,7 +76,17 @@ const ValueTitleBox = ({
         };
     }, [withColor, color]);
     const classes = useStyles(_color);
-    const withClickParam = useMemo(() => (onClick ? { onClick: onClick } : {}), [onClick]);
+    const _onClick = useMemo(
+        () =>
+            onClick
+                ? () => {
+                      onClick(value);
+                  }
+                : () => {
+                      return;
+                  },
+        [onClick],
+    );
     const decorationParams = useMemo(
         () =>
             withoutDecoration === true
@@ -91,47 +101,41 @@ const ValueTitleBox = ({
         return { withAnimation: _withAnimation };
     }, [_withAnimation]);
     const variantValueProps = useMemo(() => {
-        return { variant: variant ?? ('body' as T_TypographyComponent_Variants) };
+        return { variant: variant ?? ('body2' as T_TypographyComponent_Variant) };
     }, [variant]);
 
     return (
-        <ButtonAnimation withAnimation={false}>
+        <BaseDecoration withAnimation={false}>
             <div {...decorationParams}>
                 {title && (
                     <>
-                        <TypographyComponent variant="title" {...animationSubProps}>
+                        <TypographyComponent variant="subtitle1" {...animationSubProps}>
                             {title}
                         </TypographyComponent>
                         <Divider className={classes.devider} flexItem light={true} />
                     </>
                 )}
-                {value && (
-                    <TypographyComponent {...withClickParam} {...variantValueProps} {...animationSubProps}>
-                        {value}
-                    </TypographyComponent>
-                )}
-                {valueWithIcon && <IconComponent {...withClickParam} {...valueWithIcon} {...animationSubProps} />}
-                {valueWithUnit && (
-                    <ValueUnitText
-                        {...withClickParam}
-                        {...variantValueProps}
-                        {...valueWithUnit}
-                        {...animationSubProps}
-                    />
-                )}
-                {valueWithCountedValueText && (
-                    <CountedValueText
-                        {...withClickParam}
-                        {...valueWithCountedValueText}
-                        {...variantValueProps}
-                        {...animationSubProps}
-                    />
-                )}
-                {valueWithCountedIcon && (
-                    <CountedIcon {...valueWithCountedIcon} {...withClickParam} {...animationSubProps} />
-                )}
+                <div onClick={_onClick}>
+                    {value && (
+                        <TypographyComponent {...variantValueProps} {...animationSubProps}>
+                            {value}
+                        </TypographyComponent>
+                    )}
+                    {valueWithIcon && <IconComponent {...valueWithIcon} {...animationSubProps} />}
+                    {valueWithUnit && (
+                        <ValueUnitText {...variantValueProps} {...valueWithUnit} {...animationSubProps} />
+                    )}
+                    {valueWithCountedValueText && (
+                        <CountedValueText
+                            {...valueWithCountedValueText}
+                            {...variantValueProps}
+                            {...animationSubProps}
+                        />
+                    )}
+                    {valueWithCountedIcon && <CountedIcon {...valueWithCountedIcon} {...animationSubProps} />}
+                </div>
             </div>
-        </ButtonAnimation>
+        </BaseDecoration>
     );
 };
 

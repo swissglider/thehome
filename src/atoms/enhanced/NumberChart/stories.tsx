@@ -9,9 +9,8 @@ export default {
     argTypes: {
         color: { control: { type: 'color' } },
         data: { table: { disable: true } },
-        unit: { table: { disable: true } },
-        functionName: { table: { disable: true } },
-        deviceName: { table: { disable: true } },
+        height: { table: { disable: true } },
+        width: { table: { disable: true } },
     },
 } as Meta;
 

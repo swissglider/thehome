@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createStyles, Grid, makeStyles } from '@material-ui/core';
 
 import { T_IconComponent_Size } from '../../../atoms/base/IconComponent';
-import { T_TypographyComponent_Variants } from '../../../atoms/base/TypographyComponent';
+import { T_TypographyComponent_Variant } from '../../../atoms/base/TypographyComponent';
 import CountedIcon from '../../../atoms/enhanced/CountedIcon';
 import CountedValueText from '../../../atoms/enhanced/CountedValueText';
 import BlindControl from '../../../atoms/enhanced/BlindControls';
@@ -30,7 +30,7 @@ export interface I_SimpleDevicesAvarageContainer_Props {
     functionTypeID: string;
     onClick?: () => void;
     size?: T_IconComponent_Size; // size for all controlls with icons
-    variant?: T_TypographyComponent_Variants; // size for all controlls with text/numbers
+    variant?: T_TypographyComponent_Variant; // size for all controlls with text/numbers
     withPosition?: boolean; // only for blinds to show the position on the blind control
     presentationMode?: 'standard' | 'locationOverview';
 }
@@ -42,6 +42,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
     const dispatch = useDispatch();
     const presentationMode = props.presentationMode ?? 'standard';
     const iobObjectCommon: I_Type_Params = useSelector(selector_getFunctionTypeByID(props.functionTypeID ?? ''));
+    if (iobObjectCommon === undefined) console.log('Hallo Jolina', props.functionTypeID);
 
     // TODO:
     // - onClick for blind control
@@ -49,6 +50,8 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
     // - stories for more than one sensor
 
     if (BALCK_LIST_SENSOREN.includes(props.functionTypeID)) return null;
+
+    const countMethod = ['boolean', 'switch'].includes(iobObjectCommon?.type ?? '') ? 'max' : 'av';
 
     const val = useMemo(() => {
         if (presentationMode === 'locationOverview') {
@@ -60,7 +63,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
 
             const args_ = {
                 allValues: allValues,
-                countMethod: 'av' as T_CountMethod,
+                countMethod: countMethod as T_CountMethod,
                 size: props.size,
                 withAnimation: false,
                 getIcon: (value: any): string => {
@@ -93,7 +96,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
                                     allValues={allValues}
                                     type={iobObjectCommon?.type}
                                     unit={unit}
-                                    countMethod="av"
+                                    countMethod={countMethod}
                                     variant="caption"
                                     withAnimation={false}
                                 />
@@ -113,7 +116,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
                         allValues={allValues}
                         type={iobObjectCommon?.type}
                         unit={unit}
-                        countMethod="av"
+                        countMethod={countMethod}
                         variant={props.variant}
                         withAnimation={false}
                     />
@@ -129,7 +132,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
 
                 const args_ = {
                     allValues: allValues,
-                    countMethod: 'av' as T_CountMethod,
+                    countMethod: countMethod as T_CountMethod,
                     size: props.size,
                     withAnimation: false,
                     getIcon: (value: any): string => {

@@ -1,20 +1,20 @@
 import React from 'react';
 import { BALCK_LIST_SENSOREN } from '../../../configuration/Sensoren';
-import { I_Container_Props } from '../../../features/servConn/interfaces';
+import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 import HorizontalCarousel from '../../../molecules/base/HorizontalCarousel';
 import SensorTypeIconTextBox from '../../../molecules/redux/SensorTypeIconTextBox';
 
-const SensorTypeIconTextBoxHorizontalCarousel = ({ pathArray, homeContainer }: I_Container_Props): JSX.Element => {
+const SensorTypeIconTextBoxHorizontalCarousel = ({
+    homeContainer,
+}: {
+    homeContainer: I_HOME_CONTAINER;
+}): JSX.Element => {
     const childrenSlides = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
         .sort()
         .filter((e) => !BALCK_LIST_SENSOREN.includes(e))
-        .map((sensorTypeID: string, index: number) => (
-            <SensorTypeIconTextBox
-                key={`SensorTypesHorizontal${index}`}
-                pathArray={pathArray}
-                homeContainer={homeContainer}
-                functionTypeID={sensorTypeID}
-            />
+        .map((sensorTypeID: string) => (
+            // eslint-disable-next-line react/jsx-key
+            <SensorTypeIconTextBox homeContainer={homeContainer} functionTypeID={sensorTypeID} />
         ));
     const getSlideSteps = (width: string): { visibleSlides: number; dragStep: number; step: number } => {
         switch (width) {

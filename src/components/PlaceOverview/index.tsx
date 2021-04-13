@@ -8,11 +8,11 @@ import {
     useSetLeftElement,
     useSetRightComponent,
 } from '../../utils/FrameworkContext';
-import PlaceDetail from './components/PlaceDetail';
-import PlaceOverviewBreadcrumbs from './components/PlaceOverviewBreadcrumbs';
+import LocationDetailPage from '../../pages/LocationDetailPage';
+import LocationOverviewBreadcrumbs from '../../molecules/redux/LocationOverviewBreadcrumbs';
 import SensorDetailsPage from '../../pages/SensorDetailsPage';
 import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
-import SensorTypeListPage from '../../organisms/redux/SensorTypeList';
+import SensorTypeListPage from '../../pages/SensorTypeListPage';
 import LocationOverviewPage from '../../pages/LocationOverviewPage';
 import HomesOverviewPage from '../../pages/HomesOverviewPage';
 
@@ -39,8 +39,8 @@ const PlaceOverview = (): JSX.Element => {
             container = SensorDetailsPage;
             break;
         }
-        case 'place_detail': {
-            container = PlaceDetail;
+        case 'location_detail': {
+            container = LocationDetailPage;
             break;
         }
         default: {
@@ -63,7 +63,7 @@ const PlaceOverview = (): JSX.Element => {
 
     return (
         <FieldsetBorders componentName={COMPONENTNAME}>
-            <PlaceOverviewBreadcrumbs {...hcPorps} />
+            <LocationOverviewBreadcrumbs />
             <div style={{ paddingLeft: '25px', paddingRight: '25px' }}>
                 {React.createElement(container, { ...hcPorps })}
             </div>

@@ -9,18 +9,23 @@ const useStyles = makeStyles(() =>
             justifyContent: 'center',
             position: 'relative',
             WebkitTapHighlightColor: 'transparent',
-            backgroundColor: 'transparent', // Reset default value
+            backgroundColor: 'transparent',
+            // Reset default value
             // We disable the focus ring for mouse, touch and keyboard users.
             outline: 0,
             border: 0,
-            margin: 0, // Remove the margin in Safari
+            margin: 0,
+            // Remove the margin in Safari
             borderRadius: 0,
-            padding: 0, // Remove the padding in Firefox
+            padding: 0,
+            // Remove the padding in Firefox
             // cursor: 'pointer',
             userSelect: 'none',
             verticalAlign: 'middle',
-            '-moz-appearance': 'none', // Reset
-            '-webkit-appearance': 'none', // Reset
+            '-moz-appearance': 'none',
+            // Reset
+            '-webkit-appearance': 'none',
+            // Reset
             textDecoration: 'none',
             // So we take precedent over the style of a native <a /> element.
             color: 'inherit',
@@ -28,7 +33,8 @@ const useStyles = makeStyles(() =>
                 borderStyle: 'none', // Remove Firefox dotted outline.
             },
             '&$disabled': {
-                pointerEvents: 'none', // Disable link interactions
+                pointerEvents: 'none',
+                // Disable link interactions
                 cursor: 'default',
             },
             '@media print': {
@@ -38,26 +44,24 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-const GetButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => (
-    <ButtonBase>{children}</ButtonBase>
-);
+const GetBaseDecoration = ({ children }: { children: JSX.Element }): JSX.Element => <ButtonBase>{children}</ButtonBase>;
 
-const GetWithoutButtonAnimation = ({ children }: { children: JSX.Element }): JSX.Element => {
+const GetWithoutBaseDecoration = ({ children }: { children: JSX.Element }): JSX.Element => {
     const classes = useStyles();
     return <div className={classes.root}>{children}</div>;
 };
 
-export interface I_ButtonAnimation_Props {
+export interface I_BaseDecoration_Props {
     children: JSX.Element;
     withAnimation?: boolean;
 }
 
-const ButtonAnimation = (props: I_ButtonAnimation_Props): JSX.Element => {
-    const ButtonAnimation_ = useMemo(() => (props.withAnimation ? GetButtonAnimation : GetWithoutButtonAnimation), [
+const BaseDecoration = (props: I_BaseDecoration_Props): JSX.Element => {
+    const BaseDecoration_ = useMemo(() => (props.withAnimation ? GetBaseDecoration : GetWithoutBaseDecoration), [
         props.withAnimation,
     ]);
 
-    return <ButtonAnimation_>{props.children}</ButtonAnimation_>;
+    return <BaseDecoration_>{props.children}</BaseDecoration_>;
 };
 
-export default ButtonAnimation;
+export default BaseDecoration;

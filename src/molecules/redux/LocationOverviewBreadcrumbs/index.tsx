@@ -1,8 +1,9 @@
 import React from 'react';
 import { Breadcrumbs, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { I_UseHomeContainer_Result, useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
+import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
 import { selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
+import { useGetHomeArrayFromLocation } from '../../../hooks/HomeContainerHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const PlaceOverviewContainerBreadcrumbsHome = (): JSX.Element => {
+const LocationOverviewContainerBreadcrumbsHome = (): JSX.Element => {
     const classes = useStyles({ active: false });
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: [],
@@ -31,7 +32,13 @@ const PlaceOverviewContainerBreadcrumbsHome = (): JSX.Element => {
     );
 };
 
-const PlaceOverviewContainerBreadcrumbsEl = ({ pathArray, id }: { pathArray: string[]; id: string }): JSX.Element => {
+const LocationOverviewContainerBreadcrumbsEl = ({
+    pathArray,
+    id,
+}: {
+    pathArray: string[];
+    id: string;
+}): JSX.Element => {
     const classes = useStyles({ active: false });
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: pathArray,
@@ -45,31 +52,42 @@ const PlaceOverviewContainerBreadcrumbsEl = ({ pathArray, id }: { pathArray: str
     );
 };
 
-const PlaceOverviewContainerBreadcrumbsElWithoutLink = ({ id }: { id: string }): JSX.Element => {
+const LocationOverviewContainerBreadcrumbsElWithoutLink = ({ id }: { id: string }): JSX.Element => {
     const classes = useStyles({ active: true });
     const name = useSelector(selector_getDisplayName(id));
     return <div className={classes.Breadcrumbs}>{name}</div>;
 };
 
-const PlaceOverviewBreadcrumbs = (hcPorps: I_UseHomeContainer_Result): JSX.Element => {
+const LocationOverviewBreadcrumbs = (): JSX.Element => {
     const classes = useStyles({ active: true });
+    const pathArray: string[] = [...(useGetHomeArrayFromLocation() ?? [])];
+
+    // filters out the function name for the SensorDetailsPage
+    if (
+        pathArray[pathArray.length - 1] !== undefined &&
+        pathArray[pathArray.length - 1].startsWith('enum.functions.')
+    ) {
+        if (pathArray[pathArray.length - 2] !== undefined && !pathArray[pathArray.length - 2].startsWith('enum.')) {
+            pathArray.pop();
+        }
+    }
+
     return (
         <Breadcrumbs className={classes.root} separator="/" aria-label="breadcrumb">
-            <PlaceOverviewContainerBreadcrumbsHome />
-            {hcPorps.pathArray.map((e, index, arr) =>
-                index === arr.length - 1 && !hcPorps.functionTypeID ? (
-                    <PlaceOverviewContainerBreadcrumbsElWithoutLink key={`Breadcrumbs12qw_${index}`} id={e} />
+            <LocationOverviewContainerBreadcrumbsHome />
+            {pathArray.map((e, index, arr) =>
+                index === arr.length - 1 || !e.startsWith('enum.') ? (
+                    <LocationOverviewContainerBreadcrumbsElWithoutLink key={`Breadcrumbs12qw_${index}`} id={e} />
                 ) : (
-                    <PlaceOverviewContainerBreadcrumbsEl
+                    <LocationOverviewContainerBreadcrumbsEl
                         key={`Breadcrumbs12qw_${index}`}
                         pathArray={arr.slice(0, index + 1)}
                         id={e}
                     />
                 ),
             )}
-            {hcPorps.functionTypeID && <PlaceOverviewContainerBreadcrumbsElWithoutLink id={hcPorps.functionTypeID} />}
         </Breadcrumbs>
     );
 };
 
-export default PlaceOverviewBreadcrumbs;
+export default LocationOverviewBreadcrumbs;

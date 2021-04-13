@@ -1,5 +1,9 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { createMuiTheme, MuiThemeProvider, useMediaQuery } from '@material-ui/core';
+import {
+    unstable_createMuiStrictModeTheme as createMuiTheme,
+    MuiThemeProvider,
+    useMediaQuery,
+} from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainLayout from './components/MainLayout';
 import SplashScreen from './components/MainLayout/components/SplashScreen';
@@ -7,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ACTION_IOBROKER_INIT } from './features/servConn/actions';
 import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './features/servConn/selectors';
 import { AppDispatch } from './redux/Store';
-import { useGenerateCategoryFunctionsMap } from './hooks/FunctionCategoryHooks';
+import { useFillCategorizedMap } from './hooks/FunctionCategoryHooks';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import catalogDE from './locales/de/messages.js';
@@ -17,6 +21,7 @@ import { LANGUAGE } from './configuration/Application';
 import { Provider } from 'react-redux';
 import { store } from './redux/Store';
 import { BrowserRouter } from 'react-router-dom';
+import { IOBROKER_SERV_CONN_SET_FUNCTION_TYPES } from './features/servConn/slice';
 
 // i18n.load('en', catalogEN.messages);
 i18n.load('de', catalogDE.messages);
@@ -63,8 +68,14 @@ const themeDark = (prefersDarkMode: boolean) =>
     });
 
 const _App = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
-    useGenerateCategoryFunctionsMap();
-    return <>{children}</>;
+    const [loaded, setLoaded] = useState<boolean>(false);
+    const categorizedMap = useFillCategorizedMap();
+    const dispatch: AppDispatch = useDispatch();
+    useEffect(() => {
+        dispatch(IOBROKER_SERV_CONN_SET_FUNCTION_TYPES(categorizedMap));
+        setLoaded(true);
+    }, [categorizedMap]);
+    return <>{loaded ? children : <></>}</>;
 };
 
 const LoadStateManagementData = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {

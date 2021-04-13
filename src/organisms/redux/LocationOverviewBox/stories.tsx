@@ -31,21 +31,13 @@ const Template: Story<I_Props> = (props: I_Props) => {
     return (
         <>
             <div style={{ marginBottom: '30px' }}>
-                <LocationOverviewBox homeContainer={homeContainer} pathArray={pathArray} presentationMode="fullBox" />
+                <LocationOverviewBox homeContainer={homeContainer} presentationMode="fullBox" />
             </div>
             <div style={{ marginBottom: '30px' }}>
-                <LocationOverviewBox
-                    homeContainer={homeContainer}
-                    pathArray={pathArray}
-                    presentationMode="verticalList"
-                />
+                <LocationOverviewBox homeContainer={homeContainer} presentationMode="verticalList" />
             </div>
             <div style={{ marginBottom: '30px' }}>
-                <LocationOverviewBox
-                    homeContainer={homeContainer}
-                    pathArray={pathArray}
-                    presentationMode="horizontalList"
-                />
+                <LocationOverviewBox homeContainer={homeContainer} presentationMode="horizontalList" />
             </div>
         </>
     );

@@ -28,13 +28,9 @@ const Template: Story<I_Props> = (props: I_Props) => {
     const childrenSlides = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
         .sort()
         .filter((e) => !BALCK_LIST_SENSOREN.includes(e))
-        .map((sensorTypeID: string, index: number) => (
-            <SensorTypeIconTextBox
-                key={`SensorTypesHorizontal${index}`}
-                pathArray={pathArray}
-                homeContainer={homeContainer}
-                functionTypeID={sensorTypeID}
-            />
+        .map((sensorTypeID: string) => (
+            // eslint-disable-next-line react/jsx-key
+            <SensorTypeIconTextBox homeContainer={homeContainer} functionTypeID={sensorTypeID} />
         ));
     const getSlideSteps = (width: string): { visibleSlides: number; dragStep: number; step: number } => {
         switch (width) {

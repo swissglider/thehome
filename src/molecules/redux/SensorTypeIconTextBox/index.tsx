@@ -1,15 +1,20 @@
 import React from 'react';
+import { useGetPathArrayFromHomeContainer } from '../../../hooks/HomeContainerHooks';
 import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
 import SensorTypesAvarageContainer from '../SensorTypesAvarageContainer';
 
 export interface SensorTypeIconTextBox {
     homeContainer: any;
     functionTypeID: string;
-    pathArray: string[];
 }
 
 const SensorTypeIconTextBox = (props: SensorTypeIconTextBox): JSX.Element | null => {
-    const pathArray = [...props.pathArray, props.functionTypeID];
+    if (props.homeContainer === undefined) return null;
+
+    const newPathArray = useGetPathArrayFromHomeContainer(props.homeContainer);
+    if (newPathArray === undefined) return null;
+
+    const pathArray = [...newPathArray, props.functionTypeID];
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: pathArray,
         layout: 'standard_function_type_overview',

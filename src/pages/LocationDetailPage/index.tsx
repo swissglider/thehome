@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { useHomeContainer } from '../../../../hooks/PlaceOverviewHooks';
 import { useDispatch } from 'react-redux';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { I_GET_HISTORY_PROPS_OPTIONS } from '../../../../features/servConn/ActionIOBrokerTestSendTo';
-import { AppDispatch } from '../../../../redux/Store';
-import TimeHelper from '../../../../utils/TimeHelper';
+import { I_GET_HISTORY_PROPS_OPTIONS } from '../../features/servConn/ActionIOBrokerTestSendTo';
+import { AppDispatch } from '../../redux/Store';
+import TimeHelper from '../../utils/TimeHelper';
+import { useGetHomeContainterFromLocation } from '../../hooks/HomeContainerHooks';
+import { I_HOME_CONTAINER } from '../../features/servConn/interfaces';
 
 const CustomizedAxisTick = ({ x, y, payload }: { x: any; y: any; payload: any }) => {
     const dateTip = TimeHelper.getMiddleLongTimeFromMillisec(payload.value);
@@ -47,9 +48,9 @@ interface I_FullArrayType {
     ts: number;
 }
 
-const PlaceDetail = (): JSX.Element => {
+const LocationDetailPage = (): JSX.Element => {
     const classes = useStyles({ color: '' });
-    const { homeContainer, pathArray } = useHomeContainer();
+    const homeContainer = useGetHomeContainterFromLocation() as I_HOME_CONTAINER;
     const tempIDs = homeContainer?.recursiveMemberStateIDs['enum.functions.temp'] ?? [];
     const dispatch = useDispatch<AppDispatch>();
 
@@ -59,7 +60,7 @@ const PlaceDetail = (): JSX.Element => {
     const [av, setAv] = useState<number>(0);
 
     const calculateValues = async () => {
-        const dynAction = await import('../../../../features/servConn/ActionIOBrokerTestSendTo');
+        const dynAction = await import('../../features/servConn/ActionIOBrokerTestSendTo');
         const promiseArray: any[] = [];
         for (const tempID of tempIDs) {
             // dispatch(dynAction.IOBROKER_GET_HISTORY({ id: tempID, options: week }));
@@ -183,4 +184,4 @@ const PlaceDetail = (): JSX.Element => {
     );
 };
 
-export default PlaceDetail;
+export default LocationDetailPage;

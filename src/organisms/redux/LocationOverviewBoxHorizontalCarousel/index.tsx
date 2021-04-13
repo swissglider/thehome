@@ -1,24 +1,18 @@
 import React from 'react';
-import { I_Container_Props, I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
+import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 import HorizontalCarousel from '../../../molecules/base/HorizontalCarousel';
 import LocationOverviewBox from '../LocationOverviewBox';
 
 export interface I_LocationOverviewBoxHorizontalCarouselCreator_Props {
     childList: I_HOME_CONTAINER[];
-    pathArray: string[];
 }
 
 const LocationOverviewBoxHorizontalCarouselCreator = ({
     childList,
-    pathArray,
 }: I_LocationOverviewBoxHorizontalCarouselCreator_Props) => {
-    const childrenSlides = childList.map((e, index) => (
-        <LocationOverviewBox
-            key={`LocationOverviewBoxHorizontalCarouselCreator_${index}`}
-            homeContainer={e}
-            pathArray={pathArray}
-            presentationMode="horizontalList"
-        />
+    const childrenSlides = childList.map((e) => (
+        // eslint-disable-next-line react/jsx-key
+        <LocationOverviewBox homeContainer={e} presentationMode="horizontalList" />
     ));
     const getSlideSteps = (width: string): { visibleSlides: number; dragStep: number; step: number } => {
         switch (width) {
@@ -38,7 +32,11 @@ const LocationOverviewBoxHorizontalCarouselCreator = ({
     return <HorizontalCarousel childrenSlides={childrenSlides} getSlideSteps={getSlideSteps} />;
 };
 
-const LocationOverviewBoxHorizontalCarousel = ({ pathArray, homeContainer }: I_Container_Props): JSX.Element | null => {
+const LocationOverviewBoxHorizontalCarousel = ({
+    homeContainer,
+}: {
+    homeContainer: I_HOME_CONTAINER;
+}): JSX.Element | null => {
     if (homeContainer === undefined) return null;
     const childLists = homeContainer.childrenHomeContainers;
 
@@ -52,7 +50,6 @@ const LocationOverviewBoxHorizontalCarousel = ({ pathArray, homeContainer }: I_C
                             .sort()
                             .filter(([key]) => key.startsWith(enumS))
                             .map(([, value]) => value)}
-                        pathArray={pathArray}
                     />
                 ))}
         </>

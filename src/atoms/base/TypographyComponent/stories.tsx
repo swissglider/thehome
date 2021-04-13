@@ -1,32 +1,22 @@
 import React, { ComponentProps } from 'react';
 import { Story, Meta } from '@storybook/react';
-import TypographyComponent, { TypographyComponent_Variants } from '.';
+import TypographyComponent from '.';
+import { Divider } from '@material-ui/core';
 
 export default {
     title: 'TheHome/Atoms/Base/TypographyComponent',
     component: TypographyComponent,
     argTypes: {
-        variant: {
-            control: {
-                type: 'select',
-                options: TypographyComponent_Variants,
-            },
-        },
-        onClick: {
-            table: {
-                disable: true,
-            },
-        },
-        children: {
-            table: {
-                disable: true,
-            },
-        },
-        onClicked: {
-            table: {
-                disable: true,
-            },
-        },
+        withAnimation: { table: { disable: true } },
+        ref: { table: { disable: true } },
+        color: { table: { disable: true } },
+        align: { table: { disable: true } },
+        display: { table: { disable: true } },
+        gutterBottom: { table: { disable: true } },
+        noWrap: { table: { disable: true } },
+        paragraph: { table: { disable: true } },
+        variantMapping: { table: { disable: true } },
+        onClick: { table: { disable: true } },
     },
 } as Meta;
 
@@ -35,104 +25,205 @@ interface I_Props extends ComponentProps<typeof TypographyComponent> {
 }
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<I_Props> = (props) => {
+const TemplateVariants = () => {
+    return (
+        <>
+            <TypographyComponent variant="h1">h1</TypographyComponent>
+            <TypographyComponent variant="h2">h2</TypographyComponent>
+            <TypographyComponent variant="h3">h3</TypographyComponent>
+            <TypographyComponent variant="h4">h4</TypographyComponent>
+            <TypographyComponent variant="h5">h5</TypographyComponent>
+            <TypographyComponent variant="h6">h6</TypographyComponent>
+            <TypographyComponent variant="subtitle1">subtitle1</TypographyComponent>
+            <TypographyComponent variant="subtitle2">subtitle2</TypographyComponent>
+            <TypographyComponent variant="body1">body1</TypographyComponent>
+            <TypographyComponent variant="body2">body2</TypographyComponent>
+            <TypographyComponent variant="caption">caption</TypographyComponent>
+            <TypographyComponent variant="button">button</TypographyComponent>
+            <TypographyComponent variant="overline">overline</TypographyComponent>
+            <TypographyComponent variant="srOnly">srOnly</TypographyComponent>
+            <TypographyComponent variant="inherit">inherit</TypographyComponent>
+        </>
+    );
+};
+
+export const Varianten = TemplateVariants.bind({});
+
+const TemplateWithAnimation: Story<I_Props> = (props) => {
     const { children, onClicked, ...args } = { ...props };
     args.onClick = onClicked ? () => onClicked('Yes you clicked me') : undefined;
-    return <TypographyComponent {...args}>{children}</TypographyComponent>;
+    // return <TypographyComponent {...args}>{children}</TypographyComponent>;
+    return (
+        <>
+            <TypographyComponent variant="h5" withAnimation={true} onClick={args.onClick}>
+                With Animation - Click me
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h5" withAnimation={false} onClick={args.onClick}>
+                WithOut Animation - Click me
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h5" withAnimation={false}>
+                WithOut Animation - Click me (should not work)
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h5" withAnimation={true}>
+                WithOut Animation - Click me (should not work)
+            </TypographyComponent>
+        </>
+    );
 };
 
-export const Header = Template.bind({});
-Header.args = {
-    children: 'Header',
-    variant: 'header',
-    onClicked: undefined,
+export const WithAnimation = TemplateWithAnimation.bind({});
+
+const TemplateAlign: Story<I_Props> = (props) => {
+    const { children, onClicked, ...args } = { ...props };
+    args.onClick = onClicked ? () => onClicked('Yes you clicked me') : undefined;
+    // return <TypographyComponent {...args}>{children}</TypographyComponent>;
+    return (
+        <>
+            <TypographyComponent style={{ width: '400px', minWidth: '400px' }} variant="h6">
+                Align inherit - Yep tested
+            </TypographyComponent>
+            <Divider style={{ width: '400px', minWidth: '400px' }} />
+            <TypographyComponent style={{ width: '400px', minWidth: '400px' }} variant="h6" align="inherit">
+                Align inherit - Yep tested
+            </TypographyComponent>
+            <Divider style={{ width: '400px', minWidth: '400px' }} />
+            <TypographyComponent style={{ width: '400px', minWidth: '400px' }} variant="h6" align="left">
+                Align left - Yep tested
+            </TypographyComponent>
+            <Divider style={{ width: '400px', minWidth: '400px' }} />
+            <TypographyComponent style={{ width: '400px', minWidth: '400px' }} variant="h6" align="center">
+                Align center - Yep tested
+            </TypographyComponent>
+            <Divider style={{ width: '400px', minWidth: '400px' }} />
+            <TypographyComponent style={{ width: '400px', minWidth: '400px' }} variant="h6" align="right">
+                Align right - Yep tested
+            </TypographyComponent>
+            <Divider style={{ width: '400px', minWidth: '400px' }} />
+            <TypographyComponent style={{ width: '400px', minWidth: '400px' }} variant="h6" align="justify">
+                Align justify - Yep tested
+            </TypographyComponent>
+        </>
+    );
 };
 
-export const Title = Template.bind({});
-Title.args = {
-    children: 'Title',
-    variant: 'title',
-    onClicked: undefined,
+export const WithAlign = TemplateAlign.bind({});
+
+const TemplateWithColor: Story<I_Props> = (props) => {
+    const { children, onClicked, ...args } = { ...props };
+    args.onClick = onClicked ? () => onClicked('Yes you clicked me') : undefined;
+    // return <TypographyComponent {...args}>{children}</TypographyComponent>;
+    return (
+        <>
+            <TypographyComponent variant="h6">No Color</TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="initial">
+                initial
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="inherit">
+                inherit
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="primary">
+                primary
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="secondary">
+                secondary
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="textPrimary">
+                textPrimary
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="textSecondary">
+                textSecondary
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" color="error">
+                error
+            </TypographyComponent>
+        </>
+    );
 };
 
-export const Subtitle = Template.bind({});
-Subtitle.args = {
-    children: 'Subtitle',
-    variant: 'subtitle',
-    onClicked: undefined,
+export const WithColor = TemplateWithColor.bind({});
+
+const TemplateWithParagraph: Story<I_Props> = (props) => {
+    const { children, onClicked, ...args } = { ...props };
+    args.onClick = onClicked ? () => onClicked('Yes you clicked me') : undefined;
+    // return <TypographyComponent {...args}>{children}</TypographyComponent>;
+    return (
+        <>
+            <TypographyComponent variant="h6" paragraph={true}>
+                paragraph = true
+            </TypographyComponent>
+            <TypographyComponent>text after</TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" paragraph={false}>
+                paragraph = false
+            </TypographyComponent>
+            <TypographyComponent>text after</TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" gutterBottom={true}>
+                gutterBottom = true
+            </TypographyComponent>
+            <TypographyComponent>text after</TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" gutterBottom={false}>
+                gutterBottom = false
+            </TypographyComponent>
+            <TypographyComponent>text after</TypographyComponent>
+            <Divider />
+            <TypographyComponent
+                variant="h6"
+                noWrap={true}
+                align="center"
+                display="block"
+                style={{ width: '100px', maxWidth: '100px' }}
+            >
+                noWrap = true
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent
+                variant="h6"
+                align="center"
+                noWrap={false}
+                display="block"
+                style={{ width: '100px', maxWidth: '100px' }}
+            >
+                noWrap = false
+            </TypographyComponent>
+            <Divider />
+        </>
+    );
 };
 
-export const BodyBold = Template.bind({});
-BodyBold.args = {
-    children: 'Body Bold',
-    variant: 'body_bold',
-    onClicked: undefined,
+export const WithParagraph = TemplateWithParagraph.bind({});
+
+const TemplateWithDisplay: Story<I_Props> = (props) => {
+    const { children, onClicked, ...args } = { ...props };
+    args.onClick = onClicked ? () => onClicked('Yes you clicked me') : undefined;
+    // return <TypographyComponent {...args}>{children}</TypographyComponent>;
+    return (
+        <>
+            <TypographyComponent variant="h6" display="initial">
+                Display - initial
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" display="block">
+                Display - Block
+            </TypographyComponent>
+            <Divider />
+            <TypographyComponent variant="h6" display="inline">
+                Display - inline
+            </TypographyComponent>
+            <Divider />
+        </>
+    );
 };
 
-export const Body = Template.bind({});
-Body.args = {
-    children: 'body',
-    variant: 'body',
-    onClicked: undefined,
-};
-
-export const Caption = Template.bind({});
-Caption.args = {
-    children: 'Caption',
-    variant: 'caption',
-    onClicked: undefined,
-};
-
-export const Div = Template.bind({});
-Div.args = {
-    children: (
-        <div>
-            <b>I am a bold div</b>
-        </div>
-    ),
-    variant: 'body',
-    onClicked: undefined,
-};
-
-export const OnClickText = Template.bind({});
-OnClickText.args = {
-    children: 'Click me',
-    variant: 'body',
-};
-OnClickText.argTypes = { onClicked: { action: 'Clicked Text' } };
-
-export const OnClickTextWithoutAnimation = Template.bind({});
-OnClickTextWithoutAnimation.args = {
-    children: 'Click me',
-    variant: 'body',
-    withAnimation: false,
-};
-OnClickTextWithoutAnimation.argTypes = { onClicked: { action: 'Clicked Text' } };
-
-export const OnClickButton = Template.bind({});
-OnClickButton.args = {
-    children: <div style={{ background: '#efefef', padding: '10px', width: '100px' }}>Click me</div>,
-    variant: 'body',
-};
-OnClickButton.argTypes = { onClicked: { action: 'Clicked Button' } };
-OnClickButton.decorators = [
-    (Story) => (
-        <div style={{ width: '100px' }}>
-            <Story />
-        </div>
-    ),
-];
-
-export const OnClickButtoni18n = Template.bind({});
-OnClickButtoni18n.args = {
-    children: 'Click me Test',
-    variant: 'title',
-};
-OnClickButtoni18n.argTypes = { onClicked: { action: 'Clicked Button' } };
-OnClickButtoni18n.decorators = [
-    (Story) => (
-        <div style={{ background: '#efefef', margin: '10px', width: '150px' }}>
-            <Story />
-        </div>
-    ),
-];
+export const WithDisplay = TemplateWithDisplay.bind({});

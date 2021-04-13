@@ -62,7 +62,7 @@ BooleanAV.args = {
 
 export const TempAV = Template.bind({});
 TempAV.args = {
-    allValues: [3, 2, 30],
+    allValues: [3, 15, 30],
     countMethod: 'av',
     getIcon: (value: any): string => {
         if (typeof value !== 'number') return icon_error;
@@ -73,12 +73,50 @@ TempAV.args = {
 
 export const ClickWithClick = Template.bind({});
 ClickWithClick.args = {
-    allValues: [3, 2, 30],
+    allValues: [3, 15, 30],
     countMethod: 'av',
     getIcon: (value: any): string => {
         if (typeof value !== 'number') return icon_error;
         return value <= 15 ? icon_cold : value > 15 && value < 25 ? icon_warm : icon_hot;
     },
+    onClick: (value: any): void => {
+        console.log(value);
+    },
+};
+
+export const WollerauLights = Template.bind({});
+WollerauLights.args = {
+    allValues: [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+    ],
+    countMethod: 'max',
+    getIcon: (value: any): string => {
+        return value === 0 ? icon_false : icon_true;
+    },
+    size: 'large',
+    withAnimation: false,
     onClick: (value: any): void => {
         console.log(value);
     },

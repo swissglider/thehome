@@ -27,6 +27,7 @@ const Template: Story<I_Props> = (props: I_Props) => {
     //    if (onClicked) onClicked(value);
     //    if (props.onClick) props.onClick(value);
     // };
+    if (homeContainerList === undefined) return <div>Error -- No homeContainerList</div>;
     return <HomesOverviewTemplate homeContainerList={homeContainerList} />;
 };
 

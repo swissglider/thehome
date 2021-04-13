@@ -2,18 +2,11 @@ import React, { ComponentProps } from 'react';
 import { Meta, Story } from '@storybook/react';
 import CountedValueText from '.';
 import { CountMethods } from '../../../hooks/CountingHooks';
-import { TypographyComponent_Variants } from '../../base/TypographyComponent';
 
 export default {
     title: 'TheHome/Atoms/enhanced/CountedValueText',
     component: CountedValueText,
     argTypes: {
-        variant: {
-            control: {
-                type: 'select',
-                options: TypographyComponent_Variants,
-            },
-        },
         countMethod: {
             control: {
                 type: 'select',
@@ -26,11 +19,6 @@ export default {
             },
         },
         onClick: {
-            table: {
-                disable: true,
-            },
-        },
-        allValues: {
             table: {
                 disable: true,
             },
@@ -58,7 +46,7 @@ export const AV = Template.bind({});
 AV.args = {
     allValues: [3, 1, 8],
     unit: '°C',
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'av',
     spaceBeforeUnit: true,
     withUnit: true,
@@ -70,7 +58,7 @@ export const Min = Template.bind({});
 Min.args = {
     allValues: [3, 1, 8],
     unit: '°C',
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'min',
     spaceBeforeUnit: true,
     withUnit: true,
@@ -82,7 +70,7 @@ export const Max = Template.bind({});
 Max.args = {
     allValues: [3, 1, 8],
     unit: '°C',
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'max',
     spaceBeforeUnit: true,
     withUnit: true,
@@ -94,7 +82,7 @@ export const First = Template.bind({});
 First.args = {
     allValues: [3, 1, 8],
     unit: '°C',
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'first',
     spaceBeforeUnit: true,
     withUnit: true,
@@ -105,7 +93,7 @@ First.args = {
 export const String = Template.bind({});
 String.args = {
     allValues: ['2', '1', '8'],
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'first',
     spaceBeforeUnit: true,
     withUnit: false,
@@ -116,7 +104,7 @@ String.args = {
 export const BoolOnlyTrue = Template.bind({});
 BoolOnlyTrue.args = {
     allValues: [true, true, true],
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'av',
     spaceBeforeUnit: true,
     withUnit: false,
@@ -127,7 +115,7 @@ BoolOnlyTrue.args = {
 export const BoolOnlyFalse = Template.bind({});
 BoolOnlyFalse.args = {
     allValues: [false, false, false],
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'av',
     spaceBeforeUnit: true,
     withUnit: false,
@@ -138,7 +126,7 @@ BoolOnlyFalse.args = {
 export const BoolMixed = Template.bind({});
 BoolMixed.args = {
     allValues: [false, true, false],
-    variant: 'body',
+    variant: 'body2',
     countMethod: 'av',
     spaceBeforeUnit: true,
     withUnit: false,

@@ -11,9 +11,12 @@ import SensorDetailsTemplate from '../../templates/SensorDetailsTemplate';
 import { selector_getFunctionTypeByID } from '../../features/servConn/selectors';
 import { useSelector } from 'react-redux';
 import { CurrentBox, LastChangeBox, SensorIconBox, TimeStampBox } from './subBoxes';
-import { I_Container_Props } from '../../features/servConn/interfaces';
+import { useGetHomeArrayFromLocation } from '../../hooks/HomeContainerHooks';
 
-const SensorDetailsPage = ({ pathArray }: I_Container_Props): JSX.Element | null => {
+const SensorDetailsPage = (): JSX.Element | null => {
+    const pathArray = useGetHomeArrayFromLocation();
+    if (pathArray === undefined) return null;
+
     const functionTypeID = pathArray[pathArray.length - 1];
     if (functionTypeID === undefined || !functionTypeID.startsWith('enum.functions.')) return null;
     const deviceID = pathArray[pathArray.length - 2];

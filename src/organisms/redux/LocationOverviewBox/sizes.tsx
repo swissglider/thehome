@@ -17,11 +17,11 @@ export const sizes: any = (
                         case 'boolean':
                             return 'xsmall';
                         case 'number1':
-                            return 'body';
+                            return 'body2';
                         case 'number2':
-                            return 'body';
+                            return 'body2';
                         case 'title':
-                            return 'header';
+                            return 'h4';
                         default:
                             return '';
                     }
@@ -38,7 +38,7 @@ export const sizes: any = (
                         case 'number2':
                             return 'body1';
                         case 'title':
-                            return 'h3_header';
+                            return 'h3';
                         default:
                             return '';
                     }
@@ -50,9 +50,9 @@ export const sizes: any = (
                 case 'allboolean':
                     return 'small';
                 case 'number1':
-                    return 'body';
+                    return 'body2';
                 case 'title':
-                    return 'h5_header';
+                    return 'h5';
                 default:
                     return '';
             }
@@ -63,7 +63,7 @@ export const sizes: any = (
                 case 'number1':
                     return 'caption';
                 case 'title':
-                    return 'titel';
+                    return 'subtitle1';
                 default:
                     return '';
             }

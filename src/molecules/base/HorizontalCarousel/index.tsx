@@ -104,7 +104,7 @@ const HorizontalCarousel_ = ({ childrenSlides, getSlideSteps, width }: I_SensorT
                         <div className={classes.carouselRoot}>
                             <Slider>
                                 {childrenSlides.map((childSlide: JSX.Element, index: number) => (
-                                    <Slide index={index} key={`sensor_types_hor_${index}_slide`}>
+                                    <Slide index={index} key={`sensor_types_hor_${index}_slide_`}>
                                         {childSlide}
                                     </Slide>
                                 ))}
@@ -121,19 +121,19 @@ const HorizontalCarousel_ = ({ childrenSlides, getSlideSteps, width }: I_SensorT
                             )}
                             <div className={classes.dotGroup}>
                                 {childrenSlides.length > slideSteps.visibleSlides &&
-                                    childrenSlides.map((childSlide: JSX.Element, index: number) =>
-                                        index % slideSteps.visibleSlides === 0 ? (
-                                            <Dot
-                                                slide={index}
-                                                key={`sensor_types_hor_${index}_dot`}
-                                                className={classes.dot}
-                                            >
-                                                <span className={classes.dotSign} />
-                                            </Dot>
-                                        ) : (
-                                            <></>
-                                        ),
-                                    )}
+                                    childrenSlides.map((childSlide: JSX.Element, index: number) => (
+                                        <React.Fragment key={`sensor_types_hor_1${index}_dot`}>
+                                            {index % slideSteps.visibleSlides === 0 && (
+                                                <Dot
+                                                    slide={index}
+                                                    key={`sensor_types_hor_1${index}_dot`}
+                                                    className={classes.dot}
+                                                >
+                                                    <span className={classes.dotSign} />
+                                                </Dot>
+                                            )}
+                                        </React.Fragment>
+                                    ))}
                             </div>
                         </div>
                     </CarouselProvider>

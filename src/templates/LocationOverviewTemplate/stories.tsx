@@ -30,13 +30,9 @@ const Template: Story<I_Props> = (props: I_Props) => {
     const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
     const newProps = {
         onClicked: undefined,
-        locationComp: (
-            <LocationOverviewBox homeContainer={homeContainer} pathArray={pathArray} presentationMode="fullBox" />
-        ),
-        subLocationListComp: (
-            <LocationOverviewBoxHorizontalCarousel homeContainer={homeContainer} pathArray={pathArray} />
-        ),
-        sensorListComp: <SensorTypeIconTextBoxHorizontalCarousel homeContainer={homeContainer} pathArray={pathArray} />,
+        locationComp: <LocationOverviewBox homeContainer={homeContainer} presentationMode="fullBox" />,
+        subLocationListComp: <LocationOverviewBoxHorizontalCarousel homeContainer={homeContainer} />,
+        sensorListComp: <SensorTypeIconTextBoxHorizontalCarousel homeContainer={homeContainer} />,
         // subLocationListComp: (
         //     <PlaceOverviewItem homeContainer={homeContainer} pathArray={pathArray} withoutLink={true} />
         // ),

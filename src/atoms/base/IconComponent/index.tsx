@@ -1,6 +1,6 @@
 import React, { ComponentProps, useMemo } from 'react';
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
-import ButtonAnimation from '../ButtonAnimation';
+import BaseDecoration from '../BaseDecoration';
 
 export const IconComponent_Size = [
     'root',
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface I_IconComponent_Props
-    extends Omit<ComponentProps<typeof ButtonAnimation>, 'children'>,
+    extends Omit<ComponentProps<typeof BaseDecoration>, 'children'>,
         Omit<ComponentProps<typeof Avatar>, 'children' | 'variant'> {
     icon: string;
     onClick?: () => void;
@@ -105,20 +105,10 @@ const IconComponent = (props: I_IconComponent_Props): JSX.Element => {
     avatarProps.className = useMemo(() => classes[props.size ?? 'root'], [props.size]);
     avatarProps.src = props.icon;
 
-    const _withAnimation = useMemo(() => withAnimation !== false && props.onClick !== undefined, [
-        withAnimation,
-        props.onClick,
-    ]);
-
     return (
-        <ButtonAnimation withAnimation={_withAnimation}>
-            <>
-                <Avatar {...avatarProps} />
-                {/* <div className={avatarProps.className} onClick={avatarProps.onClick}>
-                    <CardMedia className={classes.image} component="img" src={avatarProps.src} />{' '}
-                </div> */}
-            </>
-        </ButtonAnimation>
+        <BaseDecoration withAnimation={withAnimation}>
+            <Avatar {...avatarProps} />
+        </BaseDecoration>
     );
 };
 

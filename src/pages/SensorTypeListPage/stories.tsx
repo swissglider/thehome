@@ -1,22 +1,24 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import SensorTypeList from '.';
+import SensorTypeListPage from '.';
+import { MemoryRouter } from 'react-router-dom';
 
 export default {
-    title: 'TheHome/Pages/SensorTypeList',
-    component: SensorTypeList,
+    title: 'TheHome/Pages/SensorTypeListPage',
+    component: SensorTypeListPage,
     argTypes: {
         title: { name: 'Title' },
         onClicked: { table: { disable: true } },
     },
 } as Meta;
 
-interface I_Props extends ComponentProps<typeof SensorTypeList> {
+interface I_Props {
     onClicked: (i: string) => void;
+    pathArray: string[];
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { onClicked, ...args } = { ...props };
+    const { pathArray } = { ...props };
     // args.onClick = () => {
     //    if (onClicked) onClicked();
     //    if (props.onClick) props.onClick();
@@ -25,7 +27,11 @@ const Template: Story<I_Props> = (props: I_Props) => {
     //    if (onClicked) onClicked(value);
     //    if (props.onClick) props.onClick(value);
     // };
-    return <SensorTypeList {...args} />;
+    return (
+        <MemoryRouter initialEntries={[{ pathname: '/thehome/homes', state: { pathArray: pathArray } }]}>
+            <SensorTypeListPage />
+        </MemoryRouter>
+    );
 };
 
 export const Licht_Wollerau = Template.bind({});

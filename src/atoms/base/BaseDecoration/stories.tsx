@@ -1,11 +1,11 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import ButtonAnimation, { I_ButtonAnimation_Props } from '.';
+import BaseDecoration, { I_BaseDecoration_Props } from '.';
 import TypographyComponent from '../TypographyComponent';
 
 export default {
     title: 'TheHome/Atoms/Base/ButtonAnimation',
-    component: ButtonAnimation,
+    component: BaseDecoration,
     argTypes: {
         children: {
             table: {
@@ -16,8 +16,8 @@ export default {
 } as Meta;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<I_ButtonAnimation_Props> = (props: I_ButtonAnimation_Props) => (
-    <ButtonAnimation withAnimation={props.withAnimation}>{props.children}</ButtonAnimation>
+const Template: Story<I_BaseDecoration_Props> = (props: I_BaseDecoration_Props) => (
+    <BaseDecoration withAnimation={props.withAnimation}>{props.children}</BaseDecoration>
 );
 
 export const WithAnimation = Template.bind({});
@@ -32,7 +32,7 @@ WithoutAnimation.args = {
     children: <TypographyComponent>Without Animation</TypographyComponent>,
 };
 
-export const WithoutAnimation1 = Template.bind({});
-WithoutAnimation1.args = {
+export const StandardIsWithoutAnimation = Template.bind({});
+StandardIsWithoutAnimation.args = {
     children: <TypographyComponent>Without Animation 1</TypographyComponent>,
 };

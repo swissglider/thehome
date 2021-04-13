@@ -1,6 +1,5 @@
 import React, { ComponentProps, useMemo } from 'react';
 import { T_CountMethod, useGetCountedValue } from '../../../hooks/CountingHooks';
-import ButtonAnimation from '../../base/ButtonAnimation';
 import IconComponent from '../../base/IconComponent';
 
 export interface I_CountedIcon_Type extends Omit<ComponentProps<typeof IconComponent>, 'icon' | 'onClick'> {
@@ -19,9 +18,7 @@ const CountedIcon = (props: I_CountedIcon_Type): JSX.Element => {
     const withClickParam = useMemo(() => (onClick ? { onClick: () => onClick(value) } : {}), [onClick]);
     return (
         <div {...withClickParam}>
-            <ButtonAnimation withAnimation={_withAnimation}>
-                <IconComponent icon={icon} {...args} withAnimation={false} />
-            </ButtonAnimation>
+            <IconComponent icon={icon} {...args} withAnimation={_withAnimation} />
         </div>
     );
 };

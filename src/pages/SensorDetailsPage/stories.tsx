@@ -1,6 +1,7 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import SensorDetailsPage from '.';
+import { MemoryRouter } from 'react-router-dom';
 
 export default {
     title: 'TheHome/Pages/SensorDetailsPage',
@@ -10,13 +11,18 @@ export default {
     },
 } as Meta;
 
-interface I_Props extends ComponentProps<typeof SensorDetailsPage> {
+interface I_Props {
     onClicked: (i: string) => void;
+    pathArray: string[];
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { onClicked, ...args } = { ...props };
-    return <SensorDetailsPage {...args} />;
+    const { pathArray } = { ...props };
+    return (
+        <MemoryRouter initialEntries={[{ pathname: '/thehome/homes', state: { pathArray: pathArray } }]}>
+            <SensorDetailsPage />
+        </MemoryRouter>
+    );
 };
 
 export const TempBad = Template.bind({});

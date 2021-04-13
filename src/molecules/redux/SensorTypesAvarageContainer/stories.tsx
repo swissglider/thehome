@@ -86,7 +86,7 @@ TempArvianHeader.args = {
     onClicked: undefined,
     membersStateList: ['jeelink.0.LaCrosse_arvian.temp'],
     functionTypeID: 'enum.functions.temp',
-    variant: 'header',
+    variant: 'h4',
 };
 
 export const StorenMacStatus = Template.bind({});
@@ -103,4 +103,37 @@ StorenMacPos.args = {
     membersStateList: ['shelly.0.SHSW-25#B954EE#1.Shutter.Position'],
     functionTypeID: 'enum.functions.blinds_position',
     size: 'small',
+};
+
+export const LightWollerau = Template.bind({});
+LightWollerau.args = {
+    onClicked: undefined,
+    membersStateList: [
+        'shelly.0.SHSW-1#93B394#1.Relay0.Switch',
+        'shelly.0.SHSW-1#7698F3#1.Relay0.Switch',
+        'hue.0.Lampe_Garderobe.on',
+        'shelly.0.SHSW-25#B8B0EC#1.Relay1.Switch',
+        'shelly.0.SHSW-25#B8B0EC#1.Relay0.Switch',
+        'hue.0.Lampe_Stube.on',
+        'shelly.0.SHSW-1#22740A#1.Relay0.Switch',
+        'shelly.0.SHSW-1#2C8A1F#1.Relay0.Switch',
+        'shelly.0.SHSW-1#2C0B8D#1.Relay0.Switch',
+        'hue.0.Lampe_Gang_Mitte.on',
+        'hue.0.Lampe_Gang_Mitte-Oben.on',
+        'hue.0.Lampe_Gang_Oben.on',
+        'hue.0.Lampe_Gang_Unten-Mitte.on',
+        'shelly.0.SHSW-1#93B9F2#1.Relay0.Switch',
+        'shelly.0.SHSW-1#93A5DF#1.Relay0.Switch',
+        'shelly.0.SHSW-1#24D9EB#1.Relay0.Switch',
+        'shelly.0.SHSW-1#24CFFE#1.Relay0.Switch',
+        'deconz.0.lights.00158d00032daf87.on',
+        'hue.0.Lampe_Eltern_Bett.on',
+        'hue.0.Lampe_Eltern_Schrank.on',
+        'shelly.0.SHSW-1#553A99#1.Relay0.Switch',
+        'shelly.0.SHSW-1#24CC26#1.Relay0.Switch',
+        'shelly.0.SHSW-1#93EA2B#1.Relay0.Switch',
+    ],
+    functionTypeID: 'enum.functions.light',
+    size: 'large',
+    presentationMode: 'locationOverview',
 };

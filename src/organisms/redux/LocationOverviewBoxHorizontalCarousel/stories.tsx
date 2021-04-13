@@ -21,7 +21,7 @@ const Template: Story<I_Props> = (props: I_Props) => {
     const { pathArray } = { ...props };
     const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
 
-    return <LocationOverviewBoxHorizontalCarousel homeContainer={homeContainer} pathArray={pathArray} />;
+    return <LocationOverviewBoxHorizontalCarousel homeContainer={homeContainer} />;
 };
 
 export const Wollerau = Template.bind({});

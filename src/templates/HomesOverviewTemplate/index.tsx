@@ -12,7 +12,7 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-const HomesOverviewTemplate = ({ homeContainerList }: { homeContainerList?: T_HOME_CONTAINER_LIST }): JSX.Element => {
+const HomesOverviewTemplate = ({ homeContainerList }: { homeContainerList: T_HOME_CONTAINER_LIST }): JSX.Element => {
     const classes = useStyles();
     console.log(homeContainerList);
     return (
@@ -25,7 +25,6 @@ const HomesOverviewTemplate = ({ homeContainerList }: { homeContainerList?: T_HO
                             <LocationOverviewBox
                                 key={`home_select_${index}`}
                                 homeContainer={homeContainerList[hcKey]}
-                                pathArray={[]}
                                 presentationMode="verticalList"
                             />
                         ))}

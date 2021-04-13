@@ -9,6 +9,8 @@ import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks
 import { selector_getDisplayName } from '../../../features/ioBrokerObjects/selectors';
 import { useSelector } from 'react-redux';
 import { FORWARD_ICON, INFO_ICON } from '../../../configuration/Icons';
+import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
+import { useGetPathArrayFromHomeContainer } from '../../../hooks/HomeContainerHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,52 +37,56 @@ const infoIcon = INFO_ICON;
 const forwartIcon = FORWARD_ICON;
 
 export interface I_SensorListElement_Props {
-    presentationMode: 'folder' | 'sensor';
-    deviceID?: string; // only used for in sensor presentation Mode
-    folderID?: string; // only used for presentation Mode folder
-    pathArray: string[]; // patch history to forward if clicked if no switch change is possible
+    homeContainer: I_HOME_CONTAINER; // homeContainerID
+    deviceID?: string; // only id sensor
+    isSensor: boolean;
     functionTypeID: string;
-    sensorValueType: I_SimpleDevicesAvarageContainer_Props;
-    iconOnClick?: (value?: string) => void;
+    onCollapsClick?: (value?: string) => void;
 }
 
-const SensorListElement = (props: I_SensorListElement_Props): JSX.Element => {
+const SensorListElement = (props: I_SensorListElement_Props): JSX.Element | null => {
     const classes = useStyles();
+    if (props.isSensor && props.deviceID === undefined) return null;
+
+    const pathArray = useGetPathArrayFromHomeContainer(props.homeContainer);
+    if (pathArray === undefined) return null;
 
     // - goToFolder check if working ?? for number and icon control
     // - goToDetails check if working ?? for number and icon control
-    const goToArray =
-        props.presentationMode === 'folder'
-            ? {
-                  pathArray: props.pathArray,
-                  layout: 'standard_function_type_overview',
-              }
-            : {
-                  pathArray: props.pathArray,
-                  layout: 'sensor_details_page',
-              };
-
-    const { location, goToLocation } = useGetHomeContainerLocationTo(goToArray);
-
-    const name = useSelector(selector_getDisplayName(props.deviceID ?? props.folderID ?? ''));
-
-    const goToFolder = props.pathArray
-        ? () => {
-              console.log('Go To Folder:', location.state.pathArray);
-              return goToLocation();
+    const goToArray = props.isSensor
+        ? {
+              layout: 'sensor_details_page',
+              pathArray: [...pathArray, props.deviceID ?? '', props.functionTypeID],
           }
-        : undefined;
-    const goToDetails = props.pathArray
-        ? () => {
-              console.log('Go To Details:', location.state.pathArray);
-              return goToLocation();
-          }
-        : undefined;
+        : {
+              layout: 'standard_function_type_overview',
+              pathArray: [...pathArray, props.functionTypeID],
+          };
 
-    const goTo = props.presentationMode === 'folder' ? goToFolder : goToDetails;
-    const icon = props.presentationMode === 'folder' ? forwartIcon : infoIcon;
-    const variant = props.presentationMode === 'folder' ? 'body' : 'body_bold';
-    const size = props.presentationMode === 'folder' ? 'xsmall' : 'bold_xsmall';
+    const { goToLocation } = useGetHomeContainerLocationTo(goToArray);
+
+    const name = useSelector(
+        selector_getDisplayName(props.isSensor ? (props.deviceID as string) : props.homeContainer.id),
+    );
+
+    const goTo = () => {
+        return goToLocation();
+    };
+
+    const icon = props.isSensor ? infoIcon : forwartIcon;
+    const variant = props.isSensor ? 'subtitle2' : 'body2';
+    const size = props.isSensor ? 'bold_xsmall' : 'xsmall';
+    const membersStateList: I_SimpleDevicesAvarageContainer_Props = {
+        membersStateList: props.isSensor
+            ? [props.deviceID as string]
+            : props.homeContainer.recursiveMemberStateIDs[props.functionTypeID] ?? [],
+        functionTypeID: props.functionTypeID,
+        onClick: props.isSensor ? goTo : props.onCollapsClick,
+        size: size,
+        variant: variant,
+        withPosition: true,
+        presentationMode: 'standard',
+    };
     return (
         <Grid
             container
@@ -97,7 +103,7 @@ const SensorListElement = (props: I_SensorListElement_Props): JSX.Element => {
                     variants="square"
                     size="xsmall"
                     withAnimation={true}
-                    onClick={props.iconOnClick ?? goTo}
+                    onClick={props.isSensor ? goTo : props.onCollapsClick}
                 />
             </Grid>
             <Grid item className={classes.elementText} xs>
@@ -110,7 +116,7 @@ const SensorListElement = (props: I_SensorListElement_Props): JSX.Element => {
                 />
             </Grid>
             <Grid item className={classes.elementValue} xs={4}>
-                <SensorTypesAvarageContainer {...props.sensorValueType} onClick={goTo} variant={variant} size={size} />
+                <SensorTypesAvarageContainer {...membersStateList} onClick={goTo} variant={variant} size={size} />
             </Grid>
         </Grid>
     );

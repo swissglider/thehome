@@ -1,181 +1,167 @@
-import React, { useEffect } from 'react';
-import { Collapse, createStyles, Divider, Grid, List, ListItem, makeStyles, Theme } from '@material-ui/core';
-import SensorListElement, { I_SensorListElement_Props } from '../SensorListElement';
+import React, { ComponentProps, useEffect } from 'react';
+import { Collapse, createStyles, Divider, List, ListItem, makeStyles, Theme } from '@material-ui/core';
+import SensorListElement from '../SensorListElement';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selector_getSensorListContainerAll,
     selector_getSensorListContainerOpenByID,
     SENSORLISTCONTAINER_STATES_UPDATE,
     SENSORLISTCONTAINER_STATES_CREATE,
-    SENSORLISTCONTAINER_STATES_UPDATE_MANY,
-    SENSORLISTCONTAINER_STATES_REMOVE_ALL,
 } from '../../../features/SensorListContainerCollapsStates/slice';
 import { AppDispatch } from '../../../redux/Store';
-import SimpleButton from '../../../molecules/base/SimpleButton';
+import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            // backgroundColor: theme.palette.background.paper,
-        },
-        listItem: (props: { level?: number; presentationMode?: 'folder' | 'sensor' }) => {
+        listItem: (props: { level?: number; isSensor?: boolean }) => {
             const level = props.level ?? 0;
-            const presentationMode = props.presentationMode ?? 'folder';
-            if (presentationMode === 'folder') {
+            if (props.isSensor) {
                 return {
+                    backgroundColor: theme.palette.action.hover,
                     paddingTop: theme.spacing(0.2),
                     paddingBottom: theme.spacing(0.2),
-                    paddingLeft: theme.spacing(0 + level),
-                    paddingRight: theme.spacing(0 + (5 - level)),
+                    paddingLeft: theme.spacing(0 + 6),
+                    paddingRight: theme.spacing(0),
                 };
             }
             return {
-                backgroundColor: theme.palette.action.hover,
                 paddingTop: theme.spacing(0.2),
                 paddingBottom: theme.spacing(0.2),
-                paddingLeft: theme.spacing(0 + 6),
-                paddingRight: theme.spacing(0),
+                paddingLeft: theme.spacing(0 + level),
+                paddingRight: theme.spacing(0 + (5 - level)),
             };
         },
     }),
 );
 
-export interface I_SensorListContainerElement_Props {
-    level: number;
-    listElementProps: I_SensorListElement_Props;
-}
-
-export interface I_SensorListContainerElement_PropsExt extends I_SensorListContainerElement_Props {
-    iconOnClick?: () => void;
-}
-
-const SensorListContainerElement = (props: I_SensorListContainerElement_PropsExt): JSX.Element => {
-    const classes = useStyles({ level: props.level, presentationMode: props.listElementProps.presentationMode });
-    return (
-        <ListItem className={classes.listItem}>
-            <SensorListElement {...props.listElementProps} iconOnClick={props.iconOnClick} />
-        </ListItem>
-    );
+// handles the collapsIDs and methods
+const collapsHelper = (dispatch: AppDispatch, id: string): { open: any; onCollapsClick: () => void } => {
+    const collapsID = id;
+    const open = useSelector(selector_getSensorListContainerOpenByID(collapsID));
+    const onCollapsClick = () => {
+        dispatch(SENSORLISTCONTAINER_STATES_UPDATE({ id: collapsID, open: !open }));
+    };
+    return { open, onCollapsClick };
 };
 
-interface I_SensorListContainer_Props_Ext extends I_SensorListContainer_Props {
-    id: string;
+export interface I_SensorListContainerElement_PropsExt
+    extends Omit<ComponentProps<typeof SensorListElement>, 'onCollapsClick'> {
+    level: number;
 }
 
-const FolderListContainerElement = (props: I_SensorListContainer_Props_Ext): JSX.Element => {
-    const dispatch: AppDispatch = useDispatch();
-    props.listItems.sort((a, b): number => {
-        if (!Array.isArray(a) && !Array.isArray(b)) return 0;
-        if (!Array.isArray(a)) return -1;
-        if (!Array.isArray(b)) return 1;
-        if (a.length == 0) return 1;
-        if (b.length == 0) return -1;
-        let ida = '';
-        let idb = '';
-        for (const ob of a) {
-            if (!Array.isArray(ob)) {
-                ida = (ob.listElementProps.deviceID ?? ob.listElementProps.folderID ?? '').toUpperCase();
-            }
-        }
-        for (const ob of b) {
-            if (!Array.isArray(ob)) {
-                idb = (ob.listElementProps.deviceID ?? ob.listElementProps.folderID ?? '').toUpperCase();
-            }
-        }
-        if (ida < idb) {
-            return -1;
-        }
-        if (ida > idb) {
-            return 1;
-        }
+// Wrapps the SensorListElement with a ListItem
+const SensorListContainerElement = (props: I_SensorListContainerElement_PropsExt): JSX.Element | null => {
+    if (props.isSensor && props.deviceID === undefined) return null;
 
-        return 0;
+    const { level, ...args } = { ...props };
+    const classes = useStyles({ level: level, isSensor: props.isSensor });
+    const dispatch: AppDispatch = useDispatch();
+    const id = props.isSensor ? (props.deviceID as string) : props.homeContainer.id;
+
+    const { onCollapsClick } = collapsHelper(dispatch, id);
+
+    useEffect(() => {
+        dispatch(SENSORLISTCONTAINER_STATES_CREATE({ id: id, open: true }));
     });
 
-    dispatch(SENSORLISTCONTAINER_STATES_CREATE({ id: props.id, open: true }));
-    const open = useSelector(selector_getSensorListContainerOpenByID(props.id));
-    const handleClick = () => {
-        dispatch(SENSORLISTCONTAINER_STATES_UPDATE({ id: props.id, open: !open }));
-    };
     return (
         <>
-            {props.listItems.map((e, index) => (
-                <React.Fragment key={`ListContainer_${index}`}>
-                    {Array.isArray(e) ? (
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                                <FolderListContainerElement listItems={e} id={`${props.id}_${index}`} />
-                            </List>
-                        </Collapse>
-                    ) : (
-                        <SensorListContainerElement
-                            iconOnClick={e.listElementProps.presentationMode === 'folder' ? handleClick : undefined}
-                            listElementProps={e.listElementProps}
-                            level={e.level}
-                        />
-                    )}
-
-                    <Divider />
-                </React.Fragment>
-            ))}
+            <ListItem className={classes.listItem}>
+                <SensorListElement {...args} onCollapsClick={onCollapsClick} />
+            </ListItem>
+            <Divider />
         </>
     );
 };
 
-export type I_SensorListContainerElement_PropsArray = (
-    | I_SensorListContainerElement_Props
-    | I_SensorListContainerElement_PropsArray
-)[];
-
-export interface I_SensorListContainer_Props {
-    listItems: I_SensorListContainerElement_PropsArray;
+interface I_SensorRecursiveListContainer_Props {
+    homeContainer: I_HOME_CONTAINER;
+    functionTypeID: string;
+    level: number;
 }
 
-const CollapsAllContainer = (): JSX.Element => {
-    console.log('CollapsAllContainer:render');
-    const allStates = useSelector(selector_getSensorListContainerAll());
+const SensorRecursiveListContainer = (props: I_SensorRecursiveListContainer_Props): JSX.Element | null => {
+    // check if homeContainer is relevant here
+    if (props.homeContainer === null) return null;
+    const recursiveMemberStateIDs = props.homeContainer.recursiveMemberStateIDs[props.functionTypeID];
+    const localMemberStateIDs = props.homeContainer.localMemberStateIDs[props.functionTypeID];
+    if (
+        !(
+            (recursiveMemberStateIDs && recursiveMemberStateIDs.length > 0) ||
+            (localMemberStateIDs && localMemberStateIDs.length > 0)
+        )
+    )
+        return null;
+    if (
+        !(localMemberStateIDs && localMemberStateIDs.length > 0) &&
+        !(Object.keys(props.homeContainer.childrenHomeContainers).length > 0)
+    )
+        return null;
+
+    // check if sensor
+    const isSensor =
+        props.homeContainer.childrenHomeContainers && Object.keys(props.homeContainer.childrenHomeContainers).length > 0
+            ? false
+            : true;
+
+    // sort the list to iterate over
+    const list = isSensor
+        ? [...localMemberStateIDs].sort((a: string, b: string): number => {
+              if (a.toUpperCase() < b.toUpperCase()) return -1;
+              if (a.toUpperCase() > b.toUpperCase()) return 1;
+              return 0;
+          })
+        : Object.values(props.homeContainer.childrenHomeContainers).sort((a: I_HOME_CONTAINER, b: I_HOME_CONTAINER) => {
+              if (a.id.toUpperCase() < b.id.toUpperCase()) return -1;
+              if (a.id.toUpperCase() > b.id.toUpperCase()) return 1;
+              return 0;
+          });
+
     const dispatch: AppDispatch = useDispatch();
-    const updateAll = (newVal: boolean): void => {
-        const newState = allStates.map((e: string) => ({ id: e, open: newVal }));
-        dispatch(SENSORLISTCONTAINER_STATES_UPDATE_MANY(newState));
-    };
-
-    const collapseAll = (): void => {
-        updateAll(false);
-    };
-    const expandAll = (): void => {
-        updateAll(true);
-    };
+    const id = props.homeContainer.id;
+    const { open } = collapsHelper(dispatch, id);
     useEffect(() => {
-        console.log('CollapsAllContainer:start');
-        dispatch(SENSORLISTCONTAINER_STATES_REMOVE_ALL());
-        return () => {
-            console.log('CollapsAllContainer:end');
-        };
-    }, []);
-    return (
-        <Grid container spacing={4}>
-            <Grid item xs sm={3} md={2} xl={1}>
-                <SimpleButton text={'collapseAll'} onClick={() => collapseAll()} />
-            </Grid>
-            <Grid item xs sm={3} md={2} xl={1}>
-                <SimpleButton text={'expandAll'} onClick={() => expandAll()} />
-            </Grid>
-        </Grid>
-    );
-};
-
-const SensorListContainer = (props: I_SensorListContainer_Props): JSX.Element => {
-    console.log('SensorListContainer:render');
-    const classes = useStyles({});
+        dispatch(SENSORLISTCONTAINER_STATES_CREATE({ id: id, open: true }));
+    });
 
     return (
         <>
-            <CollapsAllContainer />
-            <List className={classes.root}>
-                <FolderListContainerElement listItems={props.listItems} id={'root_SensorListContainer'} />
-            </List>
+            <SensorListContainerElement
+                homeContainer={props.homeContainer}
+                level={props.level}
+                isSensor={false}
+                functionTypeID={props.functionTypeID}
+            />
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                {list.map((e: string | I_HOME_CONTAINER, index: number) => (
+                    <React.Fragment key={`ListContainer_${index}`}>
+                        {isSensor ? (
+                            <SensorListContainerElement
+                                homeContainer={props.homeContainer}
+                                level={props.level + 1}
+                                deviceID={e as string}
+                                isSensor={true}
+                                functionTypeID={props.functionTypeID}
+                            />
+                        ) : (
+                            <SensorRecursiveListContainer
+                                level={props.level + 1}
+                                functionTypeID={props.functionTypeID}
+                                homeContainer={e as I_HOME_CONTAINER}
+                            />
+                        )}
+                    </React.Fragment>
+                ))}
+                <Divider />
+            </Collapse>
         </>
+    );
+};
+
+const SensorListContainer = (props: I_SensorRecursiveListContainer_Props): JSX.Element | null => {
+    return (
+        <List>
+            <SensorRecursiveListContainer {...props} />
+        </List>
     );
 };
 
