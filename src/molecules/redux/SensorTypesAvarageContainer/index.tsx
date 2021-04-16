@@ -4,18 +4,17 @@ import { createStyles, Grid, makeStyles } from '@material-ui/core';
 
 import { T_IconComponent_Size } from '../../../atoms/base/IconComponent';
 import { T_TypographyComponent_Variant } from '../../../atoms/base/TypographyComponent';
-import CountedIcon from '../../../atoms/enhanced/CountedIcon';
+import CountedIcon from '../../../atoms/redux/CountedIcon';
 import CountedValueText from '../../../atoms/enhanced/CountedValueText';
-import BlindControl from '../../../atoms/enhanced/BlindControls';
 
 import { T_CountMethod } from '../../../hooks/CountingHooks';
 
 // use redux
 import { ACTION_IOBROKER_UPDATE_STATE } from '../../../features/ioBrokerStates/actions';
 import { selectStatesByMemberList } from '../../../features/ioBrokerStates/selectors';
-import { I_Type_Params } from '../../../features/servConn/slice';
 import { BALCK_LIST_SENSOREN } from '../../../configuration/Sensoren';
-import { selector_getFunctionTypeByID } from '../../../features/servConn/selectors';
+import IOBBlindControl from '../IOBBlindControl';
+import { I_Type_Params, useFunctionFullType } from '../../../hooks/IOBObjectHools';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -41,8 +40,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
     const allValues = useSelector((state: any) => selectNumOfTodosWithIsDone(state, props.membersStateList ?? []));
     const dispatch = useDispatch();
     const presentationMode = props.presentationMode ?? 'standard';
-    const iobObjectCommon: I_Type_Params = useSelector(selector_getFunctionTypeByID(props.functionTypeID ?? ''));
-    if (iobObjectCommon === undefined) console.log('Hallo Jolina', props.functionTypeID);
+    const iobObjectCommon: I_Type_Params = useFunctionFullType(props.functionTypeID ?? '');
 
     // TODO:
     // - onClick for blind control
@@ -66,20 +64,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
                 countMethod: countMethod as T_CountMethod,
                 size: props.size,
                 withAnimation: false,
-                getIcon: (value: any): string => {
-                    if (props.functionTypeID === 'enum.functions.temp') {
-                        return value <= 10
-                            ? iobObjectCommon?.icon_cold
-                            : value > 10 && value < 25
-                            ? iobObjectCommon?.icon_warm
-                            : iobObjectCommon?.icon_hot;
-                    } else {
-                        if (typeof value !== 'number') return iobObjectCommon?.icon ?? '';
-                        return value === 0
-                            ? iobObjectCommon?.icon_false ?? iobObjectCommon?.icon ?? ''
-                            : iobObjectCommon?.icon_true ?? iobObjectCommon?.icon ?? '';
-                    }
-                },
+                functionTypeID: props.functionTypeID,
                 onClick: props.onClick,
             };
             const unit = iobObjectCommon?.unit ?? '';
@@ -135,27 +120,15 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
                     countMethod: countMethod as T_CountMethod,
                     size: props.size,
                     withAnimation: false,
-                    getIcon: (value: any): string => {
-                        if (typeof value !== 'number') return iobObjectCommon?.icon ?? '';
-                        return value === 0
-                            ? iobObjectCommon?.icon_false ?? iobObjectCommon?.icon ?? ''
-                            : iobObjectCommon?.icon_true ?? iobObjectCommon?.icon ?? '';
-                    },
+                    functionTypeID: props.functionTypeID,
                     onClick: iobObjectCommon?.write === true ? changeState : props.onClick,
                 };
                 return <CountedIcon {...args_} />;
             } else if (props.functionTypeID === 'enum.functions.blinds') {
-                // blind
-                // console.log(props.states, JSON.parse(props.states));
-                const onClick = (command: 'up' | 'stop' | 'down') => console.log(`pressed: ${command}`);
-                const setNewPosition = (position: number) => {
-                    console.log(`new position: ${position}`);
-                };
                 return (
-                    <BlindControl
-                        onClick={onClick}
+                    <IOBBlindControl
+                        membersStateList={props.membersStateList}
                         size={props.size ?? 'xsmall'}
-                        setNewPosition={setNewPosition}
                         withPosition={props.withPosition ?? true}
                     />
                 );

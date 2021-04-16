@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ACTION_IOBROKER_INIT } from './features/servConn/actions';
 import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './features/servConn/selectors';
 import { AppDispatch } from './redux/Store';
-import { useFillCategorizedMap } from './hooks/FunctionCategoryHooks';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import catalogDE from './locales/de/messages.js';
@@ -21,7 +20,7 @@ import { LANGUAGE } from './configuration/Application';
 import { Provider } from 'react-redux';
 import { store } from './redux/Store';
 import { BrowserRouter } from 'react-router-dom';
-import { IOBROKER_SERV_CONN_SET_FUNCTION_TYPES } from './features/servConn/slice';
+// import { IOBROKER_SERV_CONN_SET_FUNCTION_TYPES } from './features/servConn/slice';
 
 // i18n.load('en', catalogEN.messages);
 i18n.load('de', catalogDE.messages);
@@ -53,7 +52,7 @@ const themeDark = (prefersDarkMode: boolean) =>
                 fontWeight: 400,
             },
             body1: {
-                fontSize: '0.9rem',
+                fontSize: '0.8rem',
             },
             subtitle2: {
                 fontSize: '0.9rem',
@@ -66,17 +65,6 @@ const themeDark = (prefersDarkMode: boolean) =>
             },
         },
     });
-
-const _App = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
-    const [loaded, setLoaded] = useState<boolean>(false);
-    const categorizedMap = useFillCategorizedMap();
-    const dispatch: AppDispatch = useDispatch();
-    useEffect(() => {
-        dispatch(IOBROKER_SERV_CONN_SET_FUNCTION_TYPES(categorizedMap));
-        setLoaded(true);
-    }, [categorizedMap]);
-    return <>{loaded ? children : <></>}</>;
-};
 
 const LoadStateManagementData = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
     const [statesLoaded, setStatesLoaded] = useState<boolean>(false);
@@ -129,9 +117,7 @@ const LoadStateManagementData = ({ children }: PropsWithChildren<{ id?: string }
         <>
             {statesLoaded && containerLoaded ? (
                 <I18nProvider i18n={i18n}>
-                    <BrowserRouter basename="/thehome">
-                        <_App>{children}</_App>
-                    </BrowserRouter>
+                    <BrowserRouter basename="/thehome">{children}</BrowserRouter>
                 </I18nProvider>
             ) : (
                 <SplashScreen />

@@ -1,13 +1,7 @@
 //IoB Object / State / Enum etc
 export interface I_ioBrokerObject {
     common: {
-        name: string | { [key: string]: string };
-        icon?: string;
-        unit?: string;
-        write?: boolean;
-        read?: boolean;
-        type?: string;
-        states?: string;
+        [key: string]: any;
     };
     native: {
         swissglider?: {

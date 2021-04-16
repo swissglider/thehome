@@ -17,16 +17,9 @@ interface I_Props extends ComponentProps<typeof HomesOverviewTemplate> {
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { onClicked } = { ...props };
+    const {} = { ...props };
     const homeContainerList = useSelector(selector_getHomeContainerList());
-    // args.onClick = () => {
-    //    if (onClicked) onClicked();
-    //    if (props.onClick) props.onClick();
-    // };
-    // args.onClick = (value: any) => {
-    //    if (onClicked) onClicked(value);
-    //    if (props.onClick) props.onClick(value);
-    // };
+
     if (homeContainerList === undefined) return <div>Error -- No homeContainerList</div>;
     return <HomesOverviewTemplate homeContainerList={homeContainerList} />;
 };

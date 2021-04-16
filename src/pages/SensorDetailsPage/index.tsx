@@ -2,16 +2,17 @@ import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { selector_getDisplayName } from '../../features/ioBrokerObjects/selectors';
 import { useSingleChartDataCalculator } from '../../hooks/SingleChartDataCalculator';
 import NumberChart from '../../atoms/enhanced/NumberChart';
-import SimpleValuesTitleBox from '../../molecules/base/SimpleValuesTitleBox';
 import ValueTitleBox from '../../molecules/base/ValueTitleBox';
 import { C_DEFAULT_DURATION, T_DURATION } from '../../utils/DurationHelper';
 import TimeLengthSelect from '../../molecules/base/TimeLengthSelect';
-import SimpleButton from '../../molecules/base/SimpleButton';
+import SimpleButton from '../../atoms/base/SimpleButton';
 import SensorDetailsTemplate from '../../templates/SensorDetailsTemplate';
-import { selector_getFunctionTypeByID } from '../../features/servConn/selectors';
 import { useSelector } from 'react-redux';
 import { CurrentBox, LastChangeBox, SensorIconBox, TimeStampBox } from './subBoxes';
 import { useGetHomeArrayFromLocation } from '../../hooks/HomeContainerHooks';
+import TypographyComponent from '../../atoms/base/TypographyComponent';
+import CountedValueText from '../../atoms/enhanced/CountedValueText';
+import { useFunctionFullType } from '../../hooks/IOBObjectHools';
 
 const SensorDetailsPage = (): JSX.Element | null => {
     const pathArray = useGetHomeArrayFromLocation();
@@ -22,8 +23,8 @@ const SensorDetailsPage = (): JSX.Element | null => {
     const deviceID = pathArray[pathArray.length - 2];
     if (deviceID === undefined || deviceID.startsWith('enum.')) return null;
     const [duration, setDuration] = useState<T_DURATION>(C_DEFAULT_DURATION);
-    const functionType_ = useSelector(selector_getFunctionTypeByID(functionTypeID));
-    if (functionType_ === undefined || functionType_.functionID === undefined) return null;
+    const functionType_ = useFunctionFullType(functionTypeID);
+    if (functionType_ === undefined) return null;
 
     const functionType = useMemo(() => {
         const tempFT = { ...functionType_ };
@@ -36,7 +37,7 @@ const SensorDetailsPage = (): JSX.Element | null => {
     );
     const unit = useMemo(() => functionType?.unit ?? '', [functionType?.unit]);
     const valueType = useMemo(() => functionType?.type ?? 'number', [functionType.type]);
-    const functionName = useSelector(selector_getDisplayName(functionType.functionID ?? ''));
+    const functionName = useSelector(selector_getDisplayName(functionTypeID));
     const deviceName = useSelector(selector_getDisplayName(deviceID));
 
     const { data, allValues, calcHistory } = useSingleChartDataCalculator(deviceID, valueType);
@@ -61,43 +62,32 @@ const SensorDetailsPage = (): JSX.Element | null => {
         [duration],
     );
     args.refreshButton = useMemo(() => <SimpleButton text={'refresh'} onClick={() => onRefresh()} />, []);
-    args.sensorIconBox = useMemo(() => <SensorIconBox deviceID={deviceID} functionType={functionType} />, [
-        functionType,
-    ]);
+    args.sensorIconBox = useMemo(
+        () => <SensorIconBox deviceID={deviceID} functionType={functionType} functionTypeID={functionTypeID} />,
+        [functionType],
+    );
     args.currentBox = useMemo(() => <CurrentBox deviceID={deviceID} unit={unit} color={color} />, [color, unit]);
     args.avBox = useMemo(
         () => (
-            <SimpleValuesTitleBox
-                title="chartOvervewBoxes.avval"
-                allValues={allValues}
-                unit={unit}
-                color={color}
-                countMethod="av"
-            />
+            <ValueTitleBox title="chartOvervewBoxes.avval" color={color}>
+                <CountedValueText allValues={allValues} countMethod="av" unit={unit} />
+            </ValueTitleBox>
         ),
         [allValues, color, unit],
     );
     args.maxBox = useMemo(
         () => (
-            <SimpleValuesTitleBox
-                title="chartOvervewBoxes.maxval"
-                allValues={allValues}
-                unit={unit}
-                color={color}
-                countMethod="max"
-            />
+            <ValueTitleBox title="chartOvervewBoxes.maxval" color={color}>
+                <CountedValueText allValues={allValues} countMethod="max" unit={unit} />
+            </ValueTitleBox>
         ),
         [allValues, color, unit],
     );
     args.minBox = useMemo(
         () => (
-            <SimpleValuesTitleBox
-                title="chartOvervewBoxes.minval"
-                allValues={allValues}
-                unit={unit}
-                color={color}
-                countMethod="min"
-            />
+            <ValueTitleBox title="chartOvervewBoxes.minval" color={color}>
+                <CountedValueText allValues={allValues} countMethod="min" unit={unit} />
+            </ValueTitleBox>
         ),
         [allValues, color, unit],
     );
@@ -115,7 +105,7 @@ const SensorDetailsPage = (): JSX.Element | null => {
         ),
         [data, color, unit, functionName, deviceName],
     );
-    args.deviceIDBox = <ValueTitleBox value={deviceID} withoutDecoration={true} variant="caption" />;
+    args.deviceIDBox = <TypographyComponent variant="caption">{deviceID}</TypographyComponent>;
 
     return <SensorDetailsTemplate {...((args as unknown) as ComponentProps<typeof SensorDetailsTemplate>)} />;
 };

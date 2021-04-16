@@ -27,7 +27,7 @@ const ioBrokerObjectsSlice = createSlice({
                 else ioBrokerObjectsAdapter.removeOne(state, action.payload.id);
             },
             prepare(id: string, object: I_ioBrokerObject) {
-                return { payload: { id, object }, meta: {}, error: {} };
+                return { payload: { id, state: object }, meta: {}, error: {} };
             },
         },
     },

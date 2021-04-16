@@ -33,9 +33,6 @@ const Template: Story<I_Props> = (props: I_Props) => {
         locationComp: <LocationOverviewBox homeContainer={homeContainer} presentationMode="fullBox" />,
         subLocationListComp: <LocationOverviewBoxHorizontalCarousel homeContainer={homeContainer} />,
         sensorListComp: <SensorTypeIconTextBoxHorizontalCarousel homeContainer={homeContainer} />,
-        // subLocationListComp: (
-        //     <PlaceOverviewItem homeContainer={homeContainer} pathArray={pathArray} withoutLink={true} />
-        // ),
     };
     return <LocationOverviewTemplate {...newProps} />;
 };

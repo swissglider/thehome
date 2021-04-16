@@ -1,7 +1,6 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import FieldsetBorders from '../../utils/FieldsetBorders';
 import {
     useSetTitle,
     useSetSubNavButtons,
@@ -15,8 +14,6 @@ import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
 import SensorTypeListPage from '../../pages/SensorTypeListPage';
 import LocationOverviewPage from '../../pages/LocationOverviewPage';
 import HomesOverviewPage from '../../pages/HomesOverviewPage';
-
-const COMPONENTNAME = 'PlaceOverview';
 
 const PlaceOverview = (): JSX.Element => {
     const hcPorps = useHomeContainer();
@@ -62,12 +59,12 @@ const PlaceOverview = (): JSX.Element => {
     useSetRightComponent(hcPorps.pathArray.length === 0 ? <div></div> : <BackComponent />);
 
     return (
-        <FieldsetBorders componentName={COMPONENTNAME}>
+        <>
             <LocationOverviewBreadcrumbs />
             <div style={{ paddingLeft: '25px', paddingRight: '25px' }}>
                 {React.createElement(container, { ...hcPorps })}
             </div>
-        </FieldsetBorders>
+        </>
     );
 };
 

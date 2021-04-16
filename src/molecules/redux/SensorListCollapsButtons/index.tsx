@@ -7,7 +7,7 @@ import {
     SENSORLISTCONTAINER_STATES_UPDATE_MANY,
 } from '../../../features/SensorListContainerCollapsStates/slice';
 import { AppDispatch } from '../../../redux/Store';
-import SimpleButton from '../../base/SimpleButton';
+import SimpleButton from '../../../atoms/base/SimpleButton';
 
 const SensorListCollapsButtons = (): JSX.Element => {
     const allStates = useSelector(selector_getSensorListContainerAll());

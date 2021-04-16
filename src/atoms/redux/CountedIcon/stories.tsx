@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import CountedIcon from '.';
 
 export default {
-    title: 'TheHome/Atoms/enhanced/CountedIcon',
+    title: 'TheHome/Atoms/redux/CountedIcon',
     component: CountedIcon,
     argTypes: {
         icon: { table: { disable: true } },
@@ -39,7 +39,6 @@ interface I_Props extends ComponentProps<typeof CountedIcon> {
 
 const Template: Story<I_Props> = (props: I_Props) => {
     const { onClicked, ...args } = { ...props };
-    console.log(args);
     args.onClick = onClicked
         ? (value: any) => {
               onClicked('Value: ' + value);
@@ -49,8 +48,8 @@ const Template: Story<I_Props> = (props: I_Props) => {
     return <CountedIcon {...args} />;
 };
 
-export const BooleanAV = Template.bind({});
-BooleanAV.args = {
+export const GeneralBooleanAV = Template.bind({});
+GeneralBooleanAV.args = {
     allValues: [true, false, false],
     countMethod: 'av',
     getIcon: (value: any): string => {
@@ -60,8 +59,8 @@ BooleanAV.args = {
     onClicked: undefined,
 };
 
-export const TempAV = Template.bind({});
-TempAV.args = {
+export const GeneralTempAV = Template.bind({});
+GeneralTempAV.args = {
     allValues: [3, 15, 30],
     countMethod: 'av',
     getIcon: (value: any): string => {
@@ -71,8 +70,8 @@ TempAV.args = {
     onClicked: undefined,
 };
 
-export const ClickWithClick = Template.bind({});
-ClickWithClick.args = {
+export const GeneralClickWithClick = Template.bind({});
+GeneralClickWithClick.args = {
     allValues: [3, 15, 30],
     countMethod: 'av',
     getIcon: (value: any): string => {
@@ -84,40 +83,62 @@ ClickWithClick.args = {
     },
 };
 
-export const WollerauLights = Template.bind({});
-WollerauLights.args = {
-    allValues: [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-    ],
-    countMethod: 'max',
-    getIcon: (value: any): string => {
-        return value === 0 ? icon_false : icon_true;
-    },
-    size: 'large',
-    withAnimation: false,
-    onClick: (value: any): void => {
-        console.log(value);
-    },
+export const IOBTemperatur = Template.bind({});
+IOBTemperatur.args = {
+    allValues: [3, 15, 30],
+    functionTypeID: 'enum.functions.temp',
+};
+
+export const IOBDoors = Template.bind({});
+IOBDoors.args = {
+    value: true,
+    functionTypeID: 'enum.functions.doors',
+};
+
+export const IOBHum = Template.bind({});
+IOBHum.args = {
+    value: 30,
+    functionTypeID: 'enum.functions.hum',
+};
+
+export const IOBLight = Template.bind({});
+IOBLight.args = {
+    value: true,
+    functionTypeID: 'enum.functions.light',
+};
+
+export const IOBMotion = Template.bind({});
+IOBMotion.args = {
+    value: true,
+    functionTypeID: 'enum.functions.motion',
+};
+
+export const IOBPressure = Template.bind({});
+IOBPressure.args = {
+    value: 1090,
+    functionTypeID: 'enum.functions.pressure',
+};
+
+export const IOBRain = Template.bind({});
+IOBRain.args = {
+    value: 432,
+    functionTypeID: 'enum.functions.rain',
+};
+
+export const IOBSzene = Template.bind({});
+IOBSzene.args = {
+    value: true,
+    functionTypeID: 'enum.functions.szenen',
+};
+
+export const IOBWindow = Template.bind({});
+IOBWindow.args = {
+    value: true,
+    functionTypeID: 'enum.functions.window',
+};
+
+export const IOBWind = Template.bind({});
+IOBWind.args = {
+    value: 12,
+    functionTypeID: 'enum.functions.wind_',
 };

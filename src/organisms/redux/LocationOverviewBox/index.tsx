@@ -6,11 +6,11 @@ import { selector_getDisplayName, selector_getIOBObjectByID } from '../../../fea
 import { useGetHomeContainerLocationTo } from '../../../hooks/PlaceOverviewHooks';
 import { LOCATION_OVERVOEW_BOX_SENSORS } from '../../../configuration/Sensoren';
 import SensorTypesAvarageContainer from '../../../molecules/redux/SensorTypesAvarageContainer';
-import ValueTitleBox from '../../../molecules/base/ValueTitleBox';
 import IconComponent from '../../../atoms/base/IconComponent';
 import { INFO_ICON } from '../../../configuration/Icons';
 import { sizes, T_Breakpoint, T_PresentationMode } from './sizes';
 import { useGetPathArrayFromHomeContainer } from '../../../hooks/HomeContainerHooks';
+import TypographyComponent from '../../../atoms/base/TypographyComponent';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -135,13 +135,13 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element |
                     <Grid item>
                         <Grid container direction="row" justify="center" alignItems="flex-start" wrap="nowrap">
                             {/* Title */}
-                            <Grid item xs onClick={onClick}>
-                                <ValueTitleBox
-                                    value={displayName}
+                            <Grid item xs onClick={onClick} style={{ textAlign: 'center' }}>
+                                <TypographyComponent
                                     withAnimation={false}
-                                    withoutDecoration={true}
                                     variant={sizes(presentationMode, width, 'title')}
-                                />
+                                >
+                                    {displayName ?? ''}
+                                </TypographyComponent>
                             </Grid>
                             {
                                 // Info Icon

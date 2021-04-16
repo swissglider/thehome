@@ -4,10 +4,8 @@ import SensorDetailsTemplate from '.';
 import { rgba2HexConverter } from '../../utils/Hex2rgbaConverter';
 import TimeLengthSelect from '../../molecules/base/TimeLengthSelect';
 import { C_DEFAULT_DURATION } from '../../utils/DurationHelper';
-import SimpleButton from '../../molecules/base/SimpleButton';
+import SimpleButton from '../../atoms/base/SimpleButton';
 import ValueTitleBox from '../../molecules/base/ValueTitleBox';
-import SimpleValueTitleBox from '../../molecules/base/SimpleValueTitleBox';
-import SimpleValuesTitleBox from '../../molecules/base/SimpleValuesTitleBox';
 import NumberChart from '../../atoms/enhanced/NumberChart';
 import TimeHelper from '../../utils/TimeHelper';
 
@@ -54,97 +52,78 @@ interface I_Props {
     color: string;
 }
 
-const Template: Story<I_Props> = (props: I_Props) => {
-    const { onClicked } = { ...props };
-    let color = props.color;
+// const Template: Story<I_Props> = (props: I_Props) => {
+//     const { onClicked } = { ...props };
+//     let color = props.color;
 
-    if (props.color && props.color.startsWith('rgba')) {
-        color = '#' + rgba2HexConverter(props.color);
-    }
+//     if (props.color && props.color.startsWith('rgba')) {
+//         color = '#' + rgba2HexConverter(props.color);
+//     }
 
-    const allValues = data.map((e) => e.val);
+//     const allValues = data.map((e) => e.val);
 
-    const args_: ComponentProps<typeof SensorDetailsTemplate> = {
-        durationSelect: (
-            <TimeLengthSelect
-                duration={C_DEFAULT_DURATION}
-                handleChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-                    onClicked(('durationSelect: ' + event.target.value) as string);
-                }}
-            />
-        ),
-        refreshButton: <SimpleButton text={'refresh'} onClick={() => onClicked('refreshButton')} />,
-        sensorIconBox: (
-            <ValueTitleBox
-                valueWithIcon={{ icon: icon_false }}
-                onClick={() => onClicked('sensorIconBox')}
-                withoutDecoration={true}
-                withAnimation={false}
-            />
-        ),
-        currentBox: (
-            <SimpleValueTitleBox
-                title="chartOvervewBoxes.lastval"
-                value={allValues[allValues.length - 1].toString()}
-                unit={unit}
-                color={color}
-            />
-        ),
-        avBox: (
-            <SimpleValuesTitleBox
-                title="chartOvervewBoxes.avval"
-                allValues={allValues}
-                unit={unit}
-                color={color}
-                countMethod="av"
-            />
-        ),
-        maxBox: (
-            <SimpleValuesTitleBox
-                title="chartOvervewBoxes.maxval"
-                allValues={allValues}
-                unit={unit}
-                color={color}
-                countMethod="max"
-            />
-        ),
-        minBox: (
-            <SimpleValuesTitleBox
-                title="chartOvervewBoxes.minval"
-                allValues={allValues}
-                unit={unit}
-                color={color}
-                countMethod="min"
-            />
-        ),
-        timeStampBox: (
-            <SimpleValueTitleBox
-                title="chartOvervewBoxes.timestamp"
-                value={TimeHelper.getLongTimeFromMillisec(1617678471520)}
-                color={color}
-            />
-        ),
-        lastUpdateBox: (
-            <SimpleValueTitleBox
-                title="chartOvervewBoxes.lastupdate"
-                value={TimeHelper.getLongTimeFromValue(2021, 2, 28, 22, 28, 23)}
-                color={color}
-            />
-        ),
-        chart: (
-            <NumberChart
-                data={data}
-                color={color ?? ''}
-                unit={unit}
-                functionName={functionName}
-                deviceName={deviceName ?? ''}
-            />
-        ),
-        deviceIDBox: <ValueTitleBox value={deviceID} withoutDecoration={true} variant="caption" />,
-    };
+//     const args_: ComponentProps<typeof SensorDetailsTemplate> = {
+//         durationSelect: (
+//             <TimeLengthSelect
+//                 duration={C_DEFAULT_DURATION}
+//                 handleChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+//                     onClicked(('durationSelect: ' + event.target.value) as string);
+//                 }}
+//             />
+//         ),
+//         refreshButton: <SimpleButton text={'refresh'} onClick={() => onClicked('refreshButton')} />,
+//         sensorIconBox: (
+//             <ValueTitleBox
+//                 valueWithIcon={{ icon: icon_false }}
+//                 onClick={() => onClicked('sensorIconBox')}
+//                 withoutDecoration={true}
+//                 withAnimation={false}
+//             />
+//         ),
+//         currentBox: <SimpleValueTitleBox title="chartOvervewBoxes.lastval" unit={unit} color={color} />,
+//         avBox: (
+//             <SimpleValuesTitleBox
+//                 title="chartOvervewBoxes.avval"
+//                 allValues={allValues}
+//                 unit={unit}
+//                 color={color}
+//                 countMethod="av"
+//             />
+//         ),
+//         maxBox: (
+//             <SimpleValuesTitleBox
+//                 title="chartOvervewBoxes.maxval"
+//                 allValues={allValues}
+//                 unit={unit}
+//                 color={color}
+//                 countMethod="max"
+//             />
+//         ),
+//         minBox: (
+//             <SimpleValuesTitleBox
+//                 title="chartOvervewBoxes.minval"
+//                 allValues={allValues}
+//                 unit={unit}
+//                 color={color}
+//                 countMethod="min"
+//             />
+//         ),
+//         timeStampBox: <SimpleValueTitleBox title="chartOvervewBoxes.timestamp" color={color} />,
+//         lastUpdateBox: <SimpleValueTitleBox title="chartOvervewBoxes.lastupdate" color={color} />,
+//         chart: (
+//             <NumberChart
+//                 data={data}
+//                 color={color ?? ''}
+//                 unit={unit}
+//                 functionName={functionName}
+//                 deviceName={deviceName ?? ''}
+//             />
+//         ),
+//         deviceIDBox: <ValueTitleBox value={deviceID} withoutDecoration={true} variant="caption" />,
+//     };
 
-    return <SensorDetailsTemplate {...args_} />;
-};
+//     return <SensorDetailsTemplate {...args_} />;
+// };
 
-export const Simple = Template.bind({});
-Simple.args = {};
+// export const Simple = Template.bind({});
+// Simple.args = {};

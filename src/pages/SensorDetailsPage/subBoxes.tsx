@@ -5,18 +5,25 @@ import {
     selector_getStateTimeStampByID,
     selector_getStateValueByID,
 } from '../../features/ioBrokerStates/selectors';
-import SimpleValueTitleBox from '../../molecules/base/SimpleValueTitleBox';
 import { ACTION_IOBROKER_UPDATE_STATE } from '../../features/ioBrokerStates/actions';
-import ValueTitleBox from '../../molecules/base/ValueTitleBox';
 import TimeHelper from '../../utils/TimeHelper';
-import { I_Type_Params } from '../../features/servConn/slice';
+import CountedIcon from '../../atoms/redux/CountedIcon';
+import TypographyComponent from '../../atoms/base/TypographyComponent';
+import ValueTitleBox from '../../molecules/base/ValueTitleBox';
+import ValueUnitText from '../../atoms/base/ValueUnitText';
+import { I_Type_Params } from '../../hooks/IOBObjectHools';
+import IOBBlindControl from '../../molecules/redux/IOBBlindControl';
 
 export const TimeStampBox = ({ deviceID, color }: { deviceID: string; color: string | undefined }): JSX.Element => {
     const currentValueTS = useSelector(selector_getStateTimeStampByID(deviceID));
     const timeStamp = useMemo(() => TimeHelper.getLongTimeFromMillisec(currentValueTS), [currentValueTS]);
 
     const retrunVal = useMemo(
-        () => <SimpleValueTitleBox title="chartOvervewBoxes.timestamp" value={timeStamp.toString()} color={color} />,
+        () => (
+            <ValueTitleBox title="chartOvervewBoxes.timestamp" color={color}>
+                <TypographyComponent>{timeStamp.toString()}</TypographyComponent>
+            </ValueTitleBox>
+        ),
         [color, timeStamp],
     );
 
@@ -28,7 +35,11 @@ export const LastChangeBox = ({ deviceID, color }: { deviceID: string; color: st
     const lastChange = useMemo(() => TimeHelper.getLongTimeFromMillisec(currentValueLC), [currentValueLC]);
 
     const retrunVal = useMemo(
-        () => <SimpleValueTitleBox title="chartOvervewBoxes.timestamp" value={lastChange.toString()} color={color} />,
+        () => (
+            <ValueTitleBox title="chartOvervewBoxes.lastupdate" color={color}>
+                <TypographyComponent>{lastChange.toString()}</TypographyComponent>
+            </ValueTitleBox>
+        ),
         [color, lastChange],
     );
 
@@ -47,12 +58,9 @@ export const CurrentBox = ({
     const currentValue = useSelector(selector_getStateValueByID(deviceID));
     const retrunVal = useMemo(
         () => (
-            <SimpleValueTitleBox
-                title="chartOvervewBoxes.lastval"
-                value={currentValue.toString()}
-                unit={unit}
-                color={color}
-            />
+            <ValueTitleBox title="chartOvervewBoxes.lastval" color={color}>
+                <ValueUnitText unit={unit} value={currentValue.toString()} />
+            </ValueTitleBox>
         ),
         [color, unit, currentValue],
     );
@@ -63,21 +71,13 @@ export const CurrentBox = ({
 export const SensorIconBox = ({
     deviceID,
     functionType,
+    functionTypeID,
 }: {
     deviceID: string;
     functionType: I_Type_Params;
+    functionTypeID: string;
 }): JSX.Element => {
     const currentValue = useSelector(selector_getStateValueByID(deviceID));
-
-    const icon = useMemo(
-        () =>
-            currentValue !== undefined && typeof currentValue === 'boolean'
-                ? currentValue === true
-                    ? functionType.icon_true
-                    : functionType.icon_false
-                : functionType.icon,
-        [currentValue, functionType.icon_true, functionType.icon_false, functionType.icon],
-    );
 
     const dispatch = useDispatch();
     const changeState = useMemo(
@@ -94,16 +94,22 @@ export const SensorIconBox = ({
 
     const retrunVal = useMemo(
         () => (
-            <ValueTitleBox
-                valueWithIcon={{ icon: icon ?? '' }}
-                onClick={() => {
-                    changeState(currentValue);
-                }}
-                withoutDecoration={true}
-                withAnimation={false}
-            />
+            <>
+                {functionTypeID === 'enum.functions.blinds' ? (
+                    <IOBBlindControl membersStateList={[deviceID]} size={'medium'} />
+                ) : (
+                    <CountedIcon
+                        onClick={() => {
+                            changeState(currentValue);
+                        }}
+                        functionTypeID={functionTypeID}
+                        value={currentValue}
+                        size="medium"
+                    />
+                )}
+            </>
         ),
-        [icon, currentValue],
+        [currentValue],
     );
     return retrunVal;
 };

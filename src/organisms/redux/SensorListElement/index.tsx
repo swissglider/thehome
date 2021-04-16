@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
 import IconComponent from '../../../atoms/base/IconComponent';
-import ValueTitleBox from '../../../molecules/base/ValueTitleBox';
 import SensorTypesAvarageContainer, {
     I_SimpleDevicesAvarageContainer_Props,
 } from '../../../molecules/redux/SensorTypesAvarageContainer';
@@ -11,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { FORWARD_ICON, INFO_ICON } from '../../../configuration/Icons';
 import { I_HOME_CONTAINER } from '../../../features/servConn/interfaces';
 import { useGetPathArrayFromHomeContainer } from '../../../hooks/HomeContainerHooks';
+import TypographyComponent from '../../../atoms/base/TypographyComponent';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -107,13 +107,9 @@ const SensorListElement = (props: I_SensorListElement_Props): JSX.Element | null
                 />
             </Grid>
             <Grid item className={classes.elementText} xs>
-                <ValueTitleBox
-                    value={name}
-                    withoutDecoration={true}
-                    withAnimation={true}
-                    onClick={goTo}
-                    variant={variant}
-                />
+                <TypographyComponent withAnimation={true} onClick={goTo} variant={variant}>
+                    {name ?? ''}
+                </TypographyComponent>
             </Grid>
             <Grid item className={classes.elementValue} xs={4}>
                 <SensorTypesAvarageContainer {...membersStateList} onClick={goTo} variant={variant} size={size} />

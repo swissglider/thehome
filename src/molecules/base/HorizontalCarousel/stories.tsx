@@ -11,9 +11,7 @@ export default {
     component: HorizontalCarousel,
     argTypes: {
         onClicked: { table: { disable: true } },
-        title: { name: 'Title' },
-        color: { control: { type: 'color' } },
-        value: { table: { disable: true } },
+        pathArray: { table: { disable: true } },
     },
 } as Meta;
 

@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 case 'open':
                     mult = 2.1;
                     break;
+                case 'medium':
+                    mult = 2.1;
+                    break;
             }
             return {
                 borderStyle: 'solid',
@@ -47,8 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+export type T_BLIND_COMMANDS = 'open(open)' | 'stop(stop)' | 'close(close)';
+
 export interface I_BlindControl_Props {
-    onClick: (command: 'up' | 'stop' | 'down') => void;
+    onClick: (command: T_BLIND_COMMANDS) => void;
     size?: T_IconComponent_Size;
     withPosition?: boolean;
     setNewPosition?: (position: number) => void;
@@ -67,21 +72,21 @@ const BlindControl = (props: I_BlindControl_Props): JSX.Element => {
                 variants="square"
                 size={size}
                 withAnimation={true}
-                onClick={() => props.onClick('up')}
+                onClick={() => props.onClick('open(open)')}
             />
             <IconComponent
                 icon={icon_stop}
                 variants="square"
                 size={size}
                 withAnimation={true}
-                onClick={() => props.onClick('stop')}
+                onClick={() => props.onClick('stop(stop)')}
             />
             <IconComponent
                 icon={icon_down}
                 variants="square"
                 size={size}
                 withAnimation={true}
-                onClick={() => props.onClick('down')}
+                onClick={() => props.onClick('close(close)')}
             />
             {props.withPosition && props.setNewPosition && (
                 <InputBase
