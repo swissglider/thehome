@@ -7,13 +7,13 @@ import {
     useSetLeftElement,
     useSetRightComponent,
 } from '../../utils/FrameworkContext';
-import LocationDetailPage from '../../pages/LocationDetailPage';
+import LocationDetailPage from '../LocationDetailPage';
 import LocationOverviewBreadcrumbs from '../../molecules/redux/LocationOverviewBreadcrumbs';
-import SensorDetailsPage from '../../pages/SensorDetailsPage';
+import SensorDetailsPage from '../SensorDetailsPage';
 import { useHomeContainer } from '../../hooks/PlaceOverviewHooks';
-import SensorTypeListPage from '../../pages/SensorTypeListPage';
-import LocationOverviewPage from '../../pages/LocationOverviewPage';
-import HomesOverviewPage from '../../pages/HomesOverviewPage';
+import SensorTypeListPage from '../SensorTypeListPage';
+import LocationOverviewPage from '../LocationOverviewPage';
+import HomesOverviewPage from '../HomesOverviewPage';
 
 const PlaceOverview = (): JSX.Element => {
     const hcPorps = useHomeContainer();

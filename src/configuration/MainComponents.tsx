@@ -1,6 +1,6 @@
 import React from 'react';
 import MoreMenu from '../components/MainLayout/components/MoreMenu';
-import PlaceOverview from '../components/HomesPage';
+import PlaceOverview from '../pages/HomesPage';
 import Posts from '../components/Posts';
 
 export interface I_MainComponentsConfiguration {

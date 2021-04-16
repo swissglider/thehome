@@ -11,8 +11,10 @@ export const ACTION_IOBROKER_UPDATE_STATE = (id: string, value: T_ioBroker_Value
 ): any => {
     const state = getState();
     if (servConn.getIsConnected()) {
-        servConn.setState(id, value);
+        const write = state.ioBrokerObjects.entities[id]?.common?.write ?? false;
+        if (write === false) return;
 
+        servConn.setState(id, value);
         const tState = { ...state.ioBrokerStates[id] };
         tState.val = value;
         dispatch(IOBROKE_UPDATE_STATE_FROM_MIDDLEWARE(id, tState));
