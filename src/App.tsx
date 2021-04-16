@@ -5,20 +5,20 @@ import {
     useMediaQuery,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MainLayout from './components/MainLayout';
-import SplashScreen from './components/MainLayout/components/SplashScreen';
+import MainLayout from './1_framework/MainLayout';
+import SplashScreen from './1_framework/MainLayout/components/SplashScreen';
 import { useDispatch, useSelector } from 'react-redux';
-import { ACTION_IOBROKER_INIT } from './features/servConn/actions';
-import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './features/servConn/selectors';
-import { AppDispatch } from './redux/Store';
+import { ACTION_IOBROKER_INIT } from './30_redux/servConn/actions';
+import { selector_getConnectionStatus, selector_getHomeContainersLoaded } from './30_redux/servConn/selectors';
+import { AppDispatch } from './30_redux/Store';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import catalogDE from './locales/de/messages.js';
-import { LANGUAGE } from './configuration/Application';
+import catalogDE from './31_locales/de/messages.js';
+import { LANGUAGE } from './2_configuration/Application';
 
 // REDUX
 import { Provider } from 'react-redux';
-import { store } from './redux/Store';
+import { store } from './30_redux/Store';
 import { BrowserRouter } from 'react-router-dom';
 // import { IOBROKER_SERV_CONN_SET_FUNCTION_TYPES } from './features/servConn/slice';
 
