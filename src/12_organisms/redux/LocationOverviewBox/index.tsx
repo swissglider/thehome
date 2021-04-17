@@ -111,6 +111,7 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element |
               (e?: any) => {
                   return;
               };
+
     return (
         <Grid
             container

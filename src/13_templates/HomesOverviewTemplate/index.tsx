@@ -14,7 +14,6 @@ const useStyles = makeStyles(() =>
 
 const HomesOverviewTemplate = ({ homeContainerList }: { homeContainerList: T_HOME_CONTAINER_LIST }): JSX.Element => {
     const classes = useStyles();
-    console.log(homeContainerList);
     return (
         <>
             {homeContainerList !== undefined ? (

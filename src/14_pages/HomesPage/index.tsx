@@ -8,18 +8,18 @@ import {
     useSetRightComponent,
 } from '../../21_utils/FrameworkContext';
 import LocationDetailPage from '../LocationDetailPage';
-import LocationOverviewBreadcrumbs from '../../11_molecules/redux/LocationOverviewBreadcrumbs';
 import SensorDetailsPage from '../SensorDetailsPage';
-import { useHomeContainer } from '../../20_hooks/PlaceOverviewHooks';
 import SensorTypeListPage from '../SensorTypeListPage';
 import LocationOverviewPage from '../LocationOverviewPage';
 import HomesOverviewPage from '../HomesOverviewPage';
+import HomesTemplate from '../../13_templates/HomesTemplate';
+import { useGetHomeArrayFromLocation, useGetHomeLayoutFromLocation } from '../../20_hooks/HomeContainerHooks';
 
 const PlaceOverview = (): JSX.Element => {
-    const hcPorps = useHomeContainer();
+    const layout = useGetHomeLayoutFromLocation() ?? 'homes';
 
     let container: any;
-    switch (hcPorps.layout) {
+    switch (layout) {
         case 'homes': {
             container = HomesOverviewPage;
             break;
@@ -45,26 +45,25 @@ const PlaceOverview = (): JSX.Element => {
         }
     }
 
-    const BackComponent = (): JSX.Element => {
+    const BackComponent = (): JSX.Element | null => {
         const history = useHistory();
         const onClick = (): void => {
             history.goBack();
         };
+        const homeArray = useGetHomeArrayFromLocation();
+        if (history.length === 0 || homeArray === undefined) return <>&nbsp;</>;
         return <Button onClick={onClick}>Back</Button>;
     };
 
     useSetTitle('Home');
     useSetSubNavButtons([]);
     useSetLeftElement({});
-    useSetRightComponent(hcPorps.pathArray.length === 0 ? <div></div> : <BackComponent />);
+    useSetRightComponent(<BackComponent />);
 
     return (
-        <>
-            <LocationOverviewBreadcrumbs />
-            <div style={{ paddingLeft: '25px', paddingRight: '25px' }}>
-                {React.createElement(container, { ...hcPorps })}
-            </div>
-        </>
+        <HomesTemplate>
+            <>{React.createElement(container)}</>
+        </HomesTemplate>
     );
 };
 

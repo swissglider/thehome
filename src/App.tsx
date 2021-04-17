@@ -138,9 +138,7 @@ export const WithProviders = (props: PropsWithChildren<{ id?: string }>): JSX.El
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />
-            <Provider store={store}>
-                <LoadStateManagementData>{props.children}</LoadStateManagementData>
-            </Provider>
+            <Provider store={store}>{props.children}</Provider>
         </MuiThemeProvider>
     );
 };
@@ -153,7 +151,9 @@ const App = (): JSX.Element => {
 
     return (
         <WithProviders>
-            <MainLayout />
+            <LoadStateManagementData>
+                <MainLayout />
+            </LoadStateManagementData>
         </WithProviders>
     );
 };

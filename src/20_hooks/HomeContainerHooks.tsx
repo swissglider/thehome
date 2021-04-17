@@ -103,3 +103,8 @@ export const useGetPathArrayFromHomeContainer = (homeContainer: I_HOME_CONTAINER
 
     return generatePatchArrayRecursive(homeContainerList, homeContainer.id);
 };
+
+export const useGetHomeLayoutFromLocation = (): string | undefined => {
+    const location = useLocation<{ layout: string }>();
+    return location.state?.layout;
+};
