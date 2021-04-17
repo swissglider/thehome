@@ -17,7 +17,7 @@ const SensorTypeIconTextBox = (props: SensorTypeIconTextBox): JSX.Element | null
     const pathArray = [...newPathArray, props.functionTypeID];
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: pathArray,
-        layout: 'standard_function_type_overview',
+        page: 'SensorTypeListPage',
     });
 
     const sensorTypesAvarageContainer = (

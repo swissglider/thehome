@@ -95,13 +95,13 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element |
 
     const { goToLocation: goTo } = useGetHomeContainerLocationTo({
         pathArray: newPathArray,
-        layout: 'standard_place_overview',
+        page: 'LocationOverviewPage',
     });
 
     const infoIcon = INFO_ICON;
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: newPathArray,
-        layout: 'location_detail',
+        page: 'LocationDetailPage',
     });
     const onClick =
         presentationMode !== 'fullBox'

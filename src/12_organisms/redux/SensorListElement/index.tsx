@@ -55,11 +55,11 @@ const SensorListElement = (props: I_SensorListElement_Props): JSX.Element | null
     // - goToDetails check if working ?? for number and icon control
     const goToArray = props.isSensor
         ? {
-              layout: 'sensor_details_page',
+              page: 'SensorDetailsPage',
               pathArray: [...pathArray, props.deviceID ?? '', props.functionTypeID],
           }
         : {
-              layout: 'standard_function_type_overview',
+              page: 'SensorTypeListPage',
               pathArray: [...pathArray, props.functionTypeID],
           };
 

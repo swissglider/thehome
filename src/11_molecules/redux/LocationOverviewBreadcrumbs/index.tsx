@@ -42,7 +42,7 @@ const LocationOverviewContainerBreadcrumbsEl = ({
     const classes = useStyles({ active: false });
     const { goToLocation } = useGetHomeContainerLocationTo({
         pathArray: pathArray,
-        layout: 'standard_place_overview',
+        page: 'LocationOverviewPage',
     });
     const name = useSelector(selector_getDisplayName(id));
     return (

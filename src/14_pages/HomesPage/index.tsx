@@ -13,35 +13,37 @@ import SensorTypeListPage from '../SensorTypeListPage';
 import LocationOverviewPage from '../LocationOverviewPage';
 import HomesOverviewPage from '../HomesOverviewPage';
 import HomesTemplate from '../../13_templates/HomesTemplate';
-import { useGetHomeArrayFromLocation, useGetHomeLayoutFromLocation } from '../../20_hooks/HomeContainerHooks';
+import { useGetHomeArrayFromLocation, useGetPageFromLocation } from '../../20_hooks/HomeContainerHooks';
 
 const PlaceOverview = (): JSX.Element => {
-    const layout = useGetHomeLayoutFromLocation() ?? 'homes';
+    const page_ = useGetPageFromLocation();
+    const homeArray = useGetHomeArrayFromLocation();
+    console.log(page_, homeArray);
 
-    let container: any;
-    switch (layout) {
-        case 'homes': {
-            container = HomesOverviewPage;
+    let page: any;
+    switch (page_) {
+        case 'HomesOverviewPage': {
+            page = HomesOverviewPage;
             break;
         }
-        case 'standard_place_overview': {
-            container = LocationOverviewPage;
+        case 'LocationOverviewPage': {
+            page = LocationOverviewPage;
             break;
         }
-        case 'standard_function_type_overview': {
-            container = SensorTypeListPage;
+        case 'SensorTypeListPage': {
+            page = SensorTypeListPage;
             break;
         }
-        case 'sensor_details_page': {
-            container = SensorDetailsPage;
+        case 'SensorDetailsPage': {
+            page = SensorDetailsPage;
             break;
         }
-        case 'location_detail': {
-            container = LocationDetailPage;
+        case 'LocationDetailPage': {
+            page = LocationDetailPage;
             break;
         }
         default: {
-            container = HomesOverviewPage;
+            page = HomesOverviewPage;
         }
     }
 
@@ -62,7 +64,7 @@ const PlaceOverview = (): JSX.Element => {
 
     return (
         <HomesTemplate>
-            <>{React.createElement(container)}</>
+            <>{React.createElement(page)}</>
         </HomesTemplate>
     );
 };

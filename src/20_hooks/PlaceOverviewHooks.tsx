@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom';
 
 interface I_State {
     pathArray: string[];
-    layout?: string;
+    page?: string;
     functionTypeID?: string;
     deviceID?: string;
 }

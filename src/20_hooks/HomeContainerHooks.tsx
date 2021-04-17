@@ -104,7 +104,7 @@ export const useGetPathArrayFromHomeContainer = (homeContainer: I_HOME_CONTAINER
     return generatePatchArrayRecursive(homeContainerList, homeContainer.id);
 };
 
-export const useGetHomeLayoutFromLocation = (): string | undefined => {
-    const location = useLocation<{ layout: string }>();
-    return location.state?.layout;
+export const useGetPageFromLocation = (): string | undefined => {
+    const location = useLocation<{ page: string }>();
+    return location.state?.page;
 };
