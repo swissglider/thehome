@@ -96,15 +96,13 @@ export const useGetHomeContainerLocationTo = (
 export const useGetPathElementsFromLocation = (): string[] => {
     const deviceID = getPathProps().deviceID;
     const locationID = getPathProps().locationID;
+    const deviceIDResults = searchHCRecursiveByDeviceID(deviceID ?? '');
+    const locationIDResults = searchHCRecursiveByLocationID(locationID ?? '');
+    const homeContainerList = useSelector(selector_getHomeContainerList());
     const hc: I_HOME_CONTAINER | undefined =
-        deviceID !== undefined
-            ? searchHCRecursiveByDeviceID(deviceID)
-            : locationID !== undefined
-            ? searchHCRecursiveByLocationID(locationID)
-            : undefined;
+        deviceID !== undefined ? deviceIDResults : locationID !== undefined ? locationIDResults : undefined;
     if (hc === undefined) return [];
 
-    const homeContainerList = useSelector(selector_getHomeContainerList());
     if (homeContainerList === undefined) return [];
 
     const generatePatchArrayRecursive = (

@@ -56,14 +56,14 @@ const LocationOverviewContainerBreadcrumbsElWithoutLink = ({ id }: { id: string 
 
 const LocationOverviewBreadcrumbs = (): JSX.Element => {
     const classes = useStyles({ active: true });
-    const test_todo: string[] = useGetPathElementsFromLocation();
+    const pathElements: string[] = useGetPathElementsFromLocation();
     const deviceID = useGetDeviceIDFromLocation();
     const functionTypeID = useGetFunctionTypeIDFromLocation();
 
     return (
         <Breadcrumbs className={classes.root} separator="/" aria-label="breadcrumb">
             <LocationOverviewContainerBreadcrumbsHome />
-            {test_todo.map((e, index, arr) =>
+            {pathElements.map((e, index, arr) =>
                 (index === arr.length - 1 || !e.startsWith('enum.')) && !(deviceID || functionTypeID) ? (
                     <LocationOverviewContainerBreadcrumbsElWithoutLink key={`Breadcrumbs12qw_${index}`} id={e} />
                 ) : (
