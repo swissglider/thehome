@@ -46,6 +46,26 @@ const searchHCRecursiveByLocationID = (locationID: string): I_HOME_CONTAINER | u
     return searchHCRecursive(homeContainerList, locationID);
 };
 
+const searchHCRecursiveByDeviceID = (deviceID: string): I_HOME_CONTAINER | undefined => {
+    const homeContainerList = useSelector(selector_getHomeContainerList());
+    if (homeContainerList === undefined) return undefined;
+    const searchHCRecursive = (
+        homeContainerList: T_HOME_CONTAINER_LIST,
+        deviceID: string,
+    ): I_HOME_CONTAINER | undefined => {
+        const tmp = Object.values(homeContainerList).find((e) =>
+            Object.values(e.localMemberStateIDs).some((ee) => ee.includes(deviceID)),
+        );
+        if (tmp !== undefined) return tmp;
+        for (const value of Object.values(homeContainerList ?? {})) {
+            const result = searchHCRecursive(value.childrenHomeContainers, deviceID);
+            if (result !== undefined) return result;
+        }
+        return undefined;
+    };
+    return searchHCRecursive(homeContainerList, deviceID);
+};
+
 /**
  * generate the new Path and returns the location object and the goToLocation function
  * @param props to generate the path
@@ -67,6 +87,43 @@ export const useGetHomeContainerLocationTo = (
         history.push(location);
     };
     return { location: location, goToLocation: goTo };
+};
+
+/**
+ *
+ * @returns gets the path elements from location
+ */
+export const useGetPathElementsFromLocation = (): string[] => {
+    const deviceID = getPathProps().deviceID;
+    const locationID = getPathProps().locationID;
+    const hc: I_HOME_CONTAINER | undefined =
+        deviceID !== undefined
+            ? searchHCRecursiveByDeviceID(deviceID)
+            : locationID !== undefined
+            ? searchHCRecursiveByLocationID(locationID)
+            : undefined;
+    if (hc === undefined) return [];
+
+    const homeContainerList = useSelector(selector_getHomeContainerList());
+    if (homeContainerList === undefined) return [];
+
+    const generatePatchArrayRecursive = (
+        homeContainerList: T_HOME_CONTAINER_LIST,
+        homeContainerID: string,
+    ): string[] | undefined => {
+        if (homeContainerList === undefined) return undefined;
+        if (homeContainerID in homeContainerList) return [homeContainerID];
+        for (const value of Object.values(homeContainerList)) {
+            const result = generatePatchArrayRecursive(value.childrenHomeContainers, homeContainerID);
+            if (result !== undefined) {
+                result.unshift(value.id);
+                return result;
+            }
+        }
+        return undefined;
+    };
+    const pathElements = generatePatchArrayRecursive(homeContainerList, hc.id) ?? [];
+    return pathElements;
 };
 
 /**

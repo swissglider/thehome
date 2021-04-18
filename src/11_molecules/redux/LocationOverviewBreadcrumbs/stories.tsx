@@ -2,6 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import LocationOverviewBreadcrumbs from '.';
 import { MemoryRouter } from 'react-router-dom';
+import { useGetHomeContainerLocationTo } from '../../../20_hooks/PlaceOverviewHooks';
 
 export default {
     title: 'TheHome/molecules/redux/LocationOverviewBreadcrumbs',
@@ -16,13 +17,19 @@ export default {
 
 interface I_Props {
     onClicked: (i: string) => void;
-    pathArray: string[];
+    locationID?: string;
+    functionTypeID?: string;
+    deviceID?: string;
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { pathArray } = { ...props };
+    const location = useGetHomeContainerLocationTo({
+        locationID: props.locationID,
+        deviceID: props.deviceID,
+        functionTypeID: props.functionTypeID,
+    });
     return (
-        <MemoryRouter initialEntries={[{ pathname: '/thehome/homes', state: { pathArray: pathArray } }]}>
+        <MemoryRouter initialEntries={[location.location]}>
             <LocationOverviewBreadcrumbs />
         </MemoryRouter>
     );
@@ -31,65 +38,52 @@ const Template: Story<I_Props> = (props: I_Props) => {
 export const Licht_Wollerau = Template.bind({});
 Licht_Wollerau.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau', 'enum.functions.light'],
+    locationID: 'enum.home.1_wollerau',
+    functionTypeID: 'enum.functions.light',
 };
 
 export const Licht_Laax = Template.bind({});
 Licht_Laax.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.2_laax', 'enum.functions.light'],
+    locationID: 'enum.home.2_laax',
+    functionTypeID: 'enum.functions.light',
 };
 export const ImHaus = Template.bind({});
 ImHaus.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home'],
+    locationID: 'enum.area.inside_home',
 };
 
 export const Licht_ImHaus = Template.bind({});
 Licht_ImHaus.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home', 'enum.functions.light'],
+    locationID: 'enum.area.inside_home',
+    functionTypeID: 'enum.functions.light',
 };
 
 export const Licht_Office = Template.bind({});
 Licht_Office.args = {
     onClicked: undefined,
-    pathArray: [
-        'enum.home.1_wollerau',
-        'enum.area.inside_home',
-        'enum.floor.2-mittelgeschoss',
-        'enum.rooms.buero',
-        'deconz.0.lights.00158d00032daf87.on',
-        'enum.functions.light',
-    ],
+    functionTypeID: 'enum.functions.light',
+    deviceID: 'deconz.0.lights.00158d00032daf87.on',
 };
 
 export const Licht2_Office = Template.bind({});
 Licht2_Office.args = {
     onClicked: undefined,
-    pathArray: [
-        'enum.home.1_wollerau',
-        'enum.area.inside_home',
-        'enum.floor.2-mittelgeschoss',
-        'enum.rooms.buero',
-        'deconz.0.lights.00158d00032daf87.on',
-    ],
+    deviceID: 'deconz.0.lights.00158d00032daf87.on',
 };
 
 export const Lichter_Office = Template.bind({});
 Lichter_Office.args = {
     onClicked: undefined,
-    pathArray: [
-        'enum.home.1_wollerau',
-        'enum.area.inside_home',
-        'enum.floor.2-mittelgeschoss',
-        'enum.rooms.buero',
-        'enum.functions.light',
-    ],
+    locationID: 'enum.rooms.buero',
+    functionTypeID: 'enum.functions.light',
 };
 
 export const Temp_Laax = Template.bind({});
 Temp_Laax.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.2_laax', 'enum.functions.temp'],
+    locationID: 'enum.home.2_laax',
+    functionTypeID: 'enum.functions.temp',
 };

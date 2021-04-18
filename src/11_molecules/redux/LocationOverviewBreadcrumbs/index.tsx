@@ -1,7 +1,12 @@
 import React from 'react';
 import { Breadcrumbs, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { useGetHomeContainerLocationTo } from '../../../20_hooks/PlaceOverviewHooks';
+import {
+    useGetDeviceIDFromLocation,
+    useGetFunctionTypeIDFromLocation,
+    useGetHomeContainerLocationTo,
+    useGetPathElementsFromLocation,
+} from '../../../20_hooks/PlaceOverviewHooks';
 import { selector_getDisplayName } from '../../../30_redux/ioBrokerObjects/selectors';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,18 +34,13 @@ const LocationOverviewContainerBreadcrumbsHome = (): JSX.Element => {
     );
 };
 
-const LocationOverviewContainerBreadcrumbsEl = ({
-    test_todo,
-    id,
-}: {
-    test_todo: string[];
-    id: string;
-}): JSX.Element => {
+const LocationOverviewContainerBreadcrumbsEl = ({ locationID }: { locationID: string }): JSX.Element => {
     const classes = useStyles({ active: false });
     const { goToLocation } = useGetHomeContainerLocationTo({
         page: 'LocationOverviewPage',
+        locationID: locationID,
     });
-    const name = useSelector(selector_getDisplayName(id));
+    const name = useSelector(selector_getDisplayName(locationID));
     return (
         <div onClick={goToLocation} className={classes.Breadcrumbs}>
             {name}
@@ -56,22 +56,22 @@ const LocationOverviewContainerBreadcrumbsElWithoutLink = ({ id }: { id: string 
 
 const LocationOverviewBreadcrumbs = (): JSX.Element => {
     const classes = useStyles({ active: true });
-    const test_todo: string[] = [];
+    const test_todo: string[] = useGetPathElementsFromLocation();
+    const deviceID = useGetDeviceIDFromLocation();
+    const functionTypeID = useGetFunctionTypeIDFromLocation();
 
     return (
         <Breadcrumbs className={classes.root} separator="/" aria-label="breadcrumb">
             <LocationOverviewContainerBreadcrumbsHome />
             {test_todo.map((e, index, arr) =>
-                index === arr.length - 1 || !e.startsWith('enum.') ? (
+                (index === arr.length - 1 || !e.startsWith('enum.')) && !(deviceID || functionTypeID) ? (
                     <LocationOverviewContainerBreadcrumbsElWithoutLink key={`Breadcrumbs12qw_${index}`} id={e} />
                 ) : (
-                    <LocationOverviewContainerBreadcrumbsEl
-                        key={`Breadcrumbs12qw_${index}`}
-                        test_todo={arr.slice(0, index + 1)}
-                        id={e}
-                    />
+                    <LocationOverviewContainerBreadcrumbsEl key={`Breadcrumbs12qw_${index}`} locationID={e} />
                 ),
             )}
+            {deviceID && <LocationOverviewContainerBreadcrumbsElWithoutLink id={deviceID} />}
+            {functionTypeID && <LocationOverviewContainerBreadcrumbsElWithoutLink id={functionTypeID} />}
         </Breadcrumbs>
     );
 };
