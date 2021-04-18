@@ -1,4 +1,4 @@
-import { WithProviders } from '../src/App';
+import { WithProviders, LoadStateManagementData } from '../src/App';
 
 export const parameters = {
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -7,7 +7,9 @@ export const parameters = {
 export const decorators = [
     (Story) => (
         <WithProviders>
-            <Story />
+            <LoadStateManagementData>
+                <Story />
+            </LoadStateManagementData>
         </WithProviders>
     ),
 ];

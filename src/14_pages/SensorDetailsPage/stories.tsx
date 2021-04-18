@@ -2,6 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import SensorDetailsPage from '.';
 import { MemoryRouter } from 'react-router-dom';
+import { useGetHomeContainerLocationTo } from '../../20_hooks/PlaceOverviewHooks';
 
 export default {
     title: 'TheHome/Pages/SensorDetailsPage',
@@ -13,13 +14,14 @@ export default {
 
 interface I_Props {
     onClicked: (i: string) => void;
-    pathArray: string[];
+    deviceID: string;
+    functionTypeID: string;
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { pathArray } = { ...props };
+    const location = useGetHomeContainerLocationTo({ deviceID: props.deviceID, functionTypeID: props.functionTypeID });
     return (
-        <MemoryRouter initialEntries={[{ pathname: '/thehome/homes', state: { pathArray: pathArray } }]}>
+        <MemoryRouter initialEntries={[location.location]}>
             <SensorDetailsPage />
         </MemoryRouter>
     );
@@ -27,24 +29,35 @@ const Template: Story<I_Props> = (props: I_Props) => {
 
 export const TempBad = Template.bind({});
 TempBad.args = {
-    pathArray: ['jeelink.0.LaCrosse_bad.temp', 'enum.functions.temp'],
+    functionTypeID: 'enum.functions.temp',
+    deviceID: 'jeelink.0.LaCrosse_bad.temp',
     onClicked: undefined,
 };
 
 export const LichtStube = Template.bind({});
 LichtStube.args = {
-    pathArray: ['hue.0.Lampe_Stube.on', 'enum.functions.light'],
+    functionTypeID: 'enum.functions.light',
+    deviceID: 'hue.0.Lampe_Stube.on',
+    onClicked: undefined,
+};
+
+export const LichtOffice = Template.bind({});
+LichtOffice.args = {
+    functionTypeID: 'enum.functions.light',
+    deviceID: 'deconz.0.lights.00158d00032daf87.on',
     onClicked: undefined,
 };
 
 export const StorenMacStatus = Template.bind({});
 StorenMacStatus.args = {
     onClicked: undefined,
-    pathArray: ['shelly.0.SHSW-25#B954EE#1.Shutter.state', 'enum.functions.blinds'],
+    functionTypeID: 'enum.functions.blinds',
+    deviceID: 'shelly.0.SHSW-25#B954EE#1.Shutter.state',
 };
 
 export const StorenMacPos = Template.bind({});
 StorenMacPos.args = {
     onClicked: undefined,
-    pathArray: ['shelly.0.SHSW-25#B954EE#1.Shutter.Position', 'enum.functions.blinds_position'],
+    functionTypeID: 'enum.functions.blinds_position',
+    deviceID: 'shelly.0.SHSW-25#B954EE#1.Shutter.Position',
 };

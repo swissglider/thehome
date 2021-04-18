@@ -9,7 +9,6 @@ import { selector_getDisplayName } from '../../../30_redux/ioBrokerObjects/selec
 import { useSelector } from 'react-redux';
 import { FORWARD_ICON, INFO_ICON } from '../../../2_configuration/Icons';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
-import { useGetPathArrayFromHomeContainer } from '../../../20_hooks/HomeContainerHooks';
 import TypographyComponent from '../../../10_atoms/base/TypographyComponent';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,19 +47,18 @@ const SensorListElement = (props: I_SensorListElement_Props): JSX.Element | null
     const classes = useStyles();
     if (props.isSensor && props.deviceID === undefined) return null;
 
-    const pathArray = useGetPathArrayFromHomeContainer(props.homeContainer);
-    if (pathArray === undefined) return null;
-
     // - goToFolder check if working ?? for number and icon control
     // - goToDetails check if working ?? for number and icon control
     const goToArray = props.isSensor
         ? {
               page: 'SensorDetailsPage',
-              pathArray: [...pathArray, props.deviceID ?? '', props.functionTypeID],
+              functionTypeID: props.functionTypeID,
+              deviceID: props.deviceID,
           }
         : {
               page: 'SensorTypeListPage',
-              pathArray: [...pathArray, props.functionTypeID],
+              locationID: props.homeContainer.id,
+              functionTypeID: props.functionTypeID,
           };
 
     const { goToLocation } = useGetHomeContainerLocationTo(goToArray);

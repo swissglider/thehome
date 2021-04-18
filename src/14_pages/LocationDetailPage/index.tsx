@@ -6,8 +6,8 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { I_GET_HISTORY_PROPS_OPTIONS } from '../../30_redux/servConn/ActionIOBrokerTestSendTo';
 import { AppDispatch } from '../../30_redux/Store';
 import TimeHelper from '../../21_utils/TimeHelper';
-import { useGetHomeContainterFromLocation } from '../../20_hooks/HomeContainerHooks';
 import { I_HOME_CONTAINER } from '../../30_redux/servConn/interfaces';
+import { useSearchHCRecursiveFromLocation } from '../../20_hooks/PlaceOverviewHooks';
 
 const CustomizedAxisTick = ({ x, y, payload }: { x: any; y: any; payload: any }) => {
     const dateTip = TimeHelper.getMiddleLongTimeFromMillisec(payload.value);
@@ -50,7 +50,7 @@ interface I_FullArrayType {
 
 const LocationDetailPage = (): JSX.Element => {
     const classes = useStyles({ color: '' });
-    const homeContainer = useGetHomeContainterFromLocation() as I_HOME_CONTAINER;
+    const homeContainer = useSearchHCRecursiveFromLocation() as I_HOME_CONTAINER;
     const tempIDs = homeContainer?.recursiveMemberStateIDs['enum.functions.temp'] ?? [];
     const dispatch = useDispatch<AppDispatch>();
 

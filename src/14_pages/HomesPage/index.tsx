@@ -13,12 +13,10 @@ import SensorTypeListPage from '../SensorTypeListPage';
 import LocationOverviewPage from '../LocationOverviewPage';
 import HomesOverviewPage from '../HomesOverviewPage';
 import HomesTemplate from '../../13_templates/HomesTemplate';
-import { useGetHomeArrayFromLocation, useGetPageFromLocation } from '../../20_hooks/HomeContainerHooks';
+import { useGetPageFromLocation } from '../../20_hooks/PlaceOverviewHooks';
 
 const PlaceOverview = (): JSX.Element => {
     const page_ = useGetPageFromLocation();
-    const homeArray = useGetHomeArrayFromLocation();
-    console.log(page_, homeArray);
 
     let page: any;
     switch (page_) {
@@ -52,8 +50,7 @@ const PlaceOverview = (): JSX.Element => {
         const onClick = (): void => {
             history.goBack();
         };
-        const homeArray = useGetHomeArrayFromLocation();
-        if (history.length === 0 || homeArray === undefined) return <>&nbsp;</>;
+        if (history.length === 0 || page_ === 'HomesOverviewPage') return <>&nbsp;</>;
         return <Button onClick={onClick}>Back</Button>;
     };
 

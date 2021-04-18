@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react';
 import { Story, Meta } from '@storybook/react';
 import SensorListElement from '.';
-import { useSearchHCByPathArray } from '../../../20_hooks/HomeContainerHooks';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
+import { useSearchHCRecursiveByLocationID } from '../../../20_hooks/PlaceOverviewHooks';
 
 export default {
     title: 'TheHome/Organisms/Redux/SensorListElement',
@@ -11,7 +11,7 @@ export default {
         onClicked: { table: { disable: true } },
         homeContainer: { table: { disable: true } },
         onCollapsClick: { table: { disable: true } },
-        pathArray: { table: { disable: true } },
+        locationID: { table: { disable: true } },
         deviceID: { table: { disable: true } },
         functionTypeID: { table: { disable: true } },
         isSensor: { table: { disable: true } },
@@ -20,12 +20,12 @@ export default {
 
 interface I_Props extends ComponentProps<typeof SensorListElement> {
     onClicked: (i: string) => void;
-    pathArray: string[];
+    locationID: string;
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { pathArray, ...args } = { ...props };
-    const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
+    const { locationID, ...args } = { ...props };
+    const homeContainer = useSearchHCRecursiveByLocationID(locationID) as I_HOME_CONTAINER;
     // args.onClick = () => {
     //    if (onClicked) onClicked();
     //    if (props.onClick) props.onClick();
@@ -43,35 +43,35 @@ const Template: Story<I_Props> = (props: I_Props) => {
 
 export const WollerauLight = Template.bind({});
 WollerauLight.args = {
-    pathArray: ['enum.home.1_wollerau'],
+    locationID: 'enum.home.1_wollerau',
     functionTypeID: 'enum.functions.light',
     isSensor: false,
 };
 
 export const WollerauTemp = Template.bind({});
 WollerauTemp.args = {
-    pathArray: ['enum.home.1_wollerau'],
+    locationID: 'enum.home.1_wollerau',
     functionTypeID: 'enum.functions.temp',
     isSensor: false,
 };
 
 export const WollerauDoor = Template.bind({});
 WollerauDoor.args = {
-    pathArray: ['enum.home.1_wollerau'],
+    locationID: 'enum.home.1_wollerau',
     functionTypeID: 'enum.functions.doors',
     isSensor: false,
 };
 
 export const WollerauBlinds = Template.bind({});
 WollerauBlinds.args = {
-    pathArray: ['enum.home.1_wollerau'],
+    locationID: 'enum.home.1_wollerau',
     functionTypeID: 'enum.functions.blinds',
     isSensor: false,
 };
 
 export const WollerauLichtOffice = Template.bind({});
 WollerauLichtOffice.args = {
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home', 'enum.floor.2-mittelgeschoss', 'enum.rooms.buero'],
+    locationID: 'enum.rooms.buero',
     functionTypeID: 'enum.functions.light',
     deviceID: 'deconz.0.lights.00158d00032daf87.on',
     isSensor: true,

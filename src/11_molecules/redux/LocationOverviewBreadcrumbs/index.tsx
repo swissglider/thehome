@@ -3,7 +3,6 @@ import { Breadcrumbs, createStyles, makeStyles, Theme } from '@material-ui/core'
 import { useSelector } from 'react-redux';
 import { useGetHomeContainerLocationTo } from '../../../20_hooks/PlaceOverviewHooks';
 import { selector_getDisplayName } from '../../../30_redux/ioBrokerObjects/selectors';
-import { useGetHomeArrayFromLocation } from '../../../20_hooks/HomeContainerHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,9 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LocationOverviewContainerBreadcrumbsHome = (): JSX.Element => {
     const classes = useStyles({ active: false });
-    const { goToLocation } = useGetHomeContainerLocationTo({
-        pathArray: [],
-    });
+    const { goToLocation } = useGetHomeContainerLocationTo({});
     return (
         <div onClick={goToLocation} className={classes.Breadcrumbs}>
             Home
@@ -33,15 +30,14 @@ const LocationOverviewContainerBreadcrumbsHome = (): JSX.Element => {
 };
 
 const LocationOverviewContainerBreadcrumbsEl = ({
-    pathArray,
+    test_todo,
     id,
 }: {
-    pathArray: string[];
+    test_todo: string[];
     id: string;
 }): JSX.Element => {
     const classes = useStyles({ active: false });
     const { goToLocation } = useGetHomeContainerLocationTo({
-        pathArray: pathArray,
         page: 'LocationOverviewPage',
     });
     const name = useSelector(selector_getDisplayName(id));
@@ -60,28 +56,18 @@ const LocationOverviewContainerBreadcrumbsElWithoutLink = ({ id }: { id: string 
 
 const LocationOverviewBreadcrumbs = (): JSX.Element => {
     const classes = useStyles({ active: true });
-    const pathArray: string[] = [...(useGetHomeArrayFromLocation() ?? [])];
-
-    // filters out the function name for the SensorDetailsPage
-    if (
-        pathArray[pathArray.length - 1] !== undefined &&
-        pathArray[pathArray.length - 1].startsWith('enum.functions.')
-    ) {
-        if (pathArray[pathArray.length - 2] !== undefined && !pathArray[pathArray.length - 2].startsWith('enum.')) {
-            pathArray.pop();
-        }
-    }
+    const test_todo: string[] = [];
 
     return (
         <Breadcrumbs className={classes.root} separator="/" aria-label="breadcrumb">
             <LocationOverviewContainerBreadcrumbsHome />
-            {pathArray.map((e, index, arr) =>
+            {test_todo.map((e, index, arr) =>
                 index === arr.length - 1 || !e.startsWith('enum.') ? (
                     <LocationOverviewContainerBreadcrumbsElWithoutLink key={`Breadcrumbs12qw_${index}`} id={e} />
                 ) : (
                     <LocationOverviewContainerBreadcrumbsEl
                         key={`Breadcrumbs12qw_${index}`}
-                        pathArray={arr.slice(0, index + 1)}
+                        test_todo={arr.slice(0, index + 1)}
                         id={e}
                     />
                 ),

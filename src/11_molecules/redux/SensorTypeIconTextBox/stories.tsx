@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react';
 import { Story, Meta } from '@storybook/react';
 import SensorTypeIconTextBox from '.';
-import { useSearchHCByPathArray } from '../../../20_hooks/HomeContainerHooks';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
+import { useSearchHCRecursiveByLocationID } from '../../../20_hooks/PlaceOverviewHooks';
 
 export default {
     title: 'TheHome/molecules/redux/SensorTypeIconTextBox',
@@ -15,12 +15,12 @@ export default {
 
 interface I_Props extends ComponentProps<typeof SensorTypeIconTextBox> {
     onClicked: (i: string) => void;
-    pathArray: string[];
+    locationID: string;
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { pathArray, functionTypeID } = { ...props };
-    const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
+    const { locationID, functionTypeID } = { ...props };
+    const homeContainer = useSearchHCRecursiveByLocationID(locationID) as I_HOME_CONTAINER;
     // args.onClick = () => {
     //    if (onClicked) onClicked();
     //    if (props.onClick) props.onClick();
@@ -35,13 +35,13 @@ const Template: Story<I_Props> = (props: I_Props) => {
 export const Wollerau_Light = Template.bind({});
 Wollerau_Light.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home'],
+    locationID: 'enum.area.inside_home',
     functionTypeID: 'enum.functions.light',
 };
 
 export const Wollerau_Temp = Template.bind({});
 Wollerau_Temp.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home'],
+    locationID: 'enum.area.inside_home',
     functionTypeID: 'enum.functions.temp',
 };

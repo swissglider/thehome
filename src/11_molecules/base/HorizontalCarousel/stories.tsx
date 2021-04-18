@@ -1,10 +1,10 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import HorizontalCarousel from '.';
-import { useSearchHCByPathArray } from '../../../20_hooks/HomeContainerHooks';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
 import SensorTypeIconTextBox from '../../redux/SensorTypeIconTextBox';
 import { BALCK_LIST_SENSOREN } from '../../../2_configuration/Sensoren';
+import { useSearchHCRecursiveByLocationID } from '../../../20_hooks/PlaceOverviewHooks';
 
 export default {
     title: 'TheHome/molecules/base/HorizontalCarousel',
@@ -16,13 +16,13 @@ export default {
 } as Meta;
 
 interface I_Props {
-    pathArray: string[];
+    locationID: string;
     onClicked: (i: string) => void;
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { pathArray } = { ...props };
-    const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
+    const { locationID } = { ...props };
+    const homeContainer = useSearchHCRecursiveByLocationID(locationID) as I_HOME_CONTAINER;
     const childrenSlides = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
         .sort()
         .filter((e) => !BALCK_LIST_SENSOREN.includes(e))
@@ -50,6 +50,6 @@ const Template: Story<I_Props> = (props: I_Props) => {
 
 export const Zuhause = Template.bind({});
 Zuhause.args = {
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home'],
+    locationID: 'enum.area.inside_home',
     onClicked: undefined,
 };

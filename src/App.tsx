@@ -66,7 +66,7 @@ const themeDark = (prefersDarkMode: boolean) =>
         },
     });
 
-const LoadStateManagementData = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
+export const LoadStateManagementData = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
     const [statesLoaded, setStatesLoaded] = useState<boolean>(false);
     const [containerLoaded, setContainerLoaded] = useState<boolean>(false);
 

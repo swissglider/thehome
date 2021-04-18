@@ -9,7 +9,6 @@ import SensorTypesAvarageContainer from '../../../11_molecules/redux/SensorTypes
 import IconComponent from '../../../10_atoms/base/IconComponent';
 import { INFO_ICON } from '../../../2_configuration/Icons';
 import { sizes, T_Breakpoint, T_PresentationMode } from './sizes';
-import { useGetPathArrayFromHomeContainer } from '../../../20_hooks/HomeContainerHooks';
 import TypographyComponent from '../../../10_atoms/base/TypographyComponent';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -90,17 +89,15 @@ const LocationOverviewBox_ = (props: I_LocationOverviewBox_Props): JSX.Element |
     const classes = useStyles({ presentationMode, bp: width as T_Breakpoint });
     const srcImg = useSelector(selector_getIOBObjectByID(homeContainer.id))?.common.icon;
     const displayName = useSelector(selector_getDisplayName(homeContainer.id));
-    const newPathArray = useGetPathArrayFromHomeContainer(homeContainer);
-    if (newPathArray === undefined) return null;
 
     const { goToLocation: goTo } = useGetHomeContainerLocationTo({
-        pathArray: newPathArray,
+        locationID: homeContainer.id,
         page: 'LocationOverviewPage',
     });
 
     const infoIcon = INFO_ICON;
     const { goToLocation } = useGetHomeContainerLocationTo({
-        pathArray: newPathArray,
+        locationID: homeContainer.id,
         page: 'LocationDetailPage',
     });
     const onClick =

@@ -1,15 +1,18 @@
 import React from 'react';
-import { useGetHomeArrayFromLocation, useSearchHCByPathArray } from '../../20_hooks/HomeContainerHooks';
 import SensorListTemplate from '../../13_templates/SensorListTemplate';
+import {
+    useGetFunctionTypeIDFromLocation,
+    useGetLocationFromLocation,
+    useSearchHCRecursiveByLocationID,
+} from '../../20_hooks/PlaceOverviewHooks';
 
 const SensorTypeListPage = (): JSX.Element | null => {
-    const pathArray = useGetHomeArrayFromLocation();
-    if (pathArray === undefined) return null;
+    const functionTypeID = useGetFunctionTypeIDFromLocation();
+    const locationID = useGetLocationFromLocation();
+    console.log(functionTypeID, locationID);
+    if (functionTypeID === undefined || locationID === undefined) return null;
 
-    const functionTypeID = pathArray[pathArray.length - 1];
-    if (functionTypeID === undefined || !functionTypeID.startsWith('enum.functions.')) return null;
-
-    const homeContainer = useSearchHCByPathArray(pathArray);
+    const homeContainer = useSearchHCRecursiveByLocationID(locationID);
     if (homeContainer === undefined) return null;
 
     return <SensorListTemplate homeContainer={homeContainer} functionTypeID={functionTypeID} />;

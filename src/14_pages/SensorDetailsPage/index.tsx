@@ -9,19 +9,16 @@ import SimpleButton from '../../10_atoms/base/SimpleButton';
 import SensorDetailsTemplate from '../../13_templates/SensorDetailsTemplate';
 import { useSelector } from 'react-redux';
 import { CurrentBox, LastChangeBox, SensorIconBox, TimeStampBox } from './subBoxes';
-import { useGetHomeArrayFromLocation } from '../../20_hooks/HomeContainerHooks';
 import TypographyComponent from '../../10_atoms/base/TypographyComponent';
 import CountedValueText from '../../10_atoms/enhanced/CountedValueText';
 import { useFunctionFullType } from '../../20_hooks/IOBObjectHools';
+import { useGetDeviceIDFromLocation, useGetFunctionTypeIDFromLocation } from '../../20_hooks/PlaceOverviewHooks';
 
 const SensorDetailsPage = (): JSX.Element | null => {
-    const pathArray = useGetHomeArrayFromLocation();
-    if (pathArray === undefined) return null;
-
-    const functionTypeID = pathArray[pathArray.length - 1];
-    if (functionTypeID === undefined || !functionTypeID.startsWith('enum.functions.')) return null;
-    const deviceID = pathArray[pathArray.length - 2];
-    if (deviceID === undefined || deviceID.startsWith('enum.')) return null;
+    const functionTypeID = useGetFunctionTypeIDFromLocation();
+    if (functionTypeID === undefined) return null;
+    const deviceID = useGetDeviceIDFromLocation();
+    if (deviceID === undefined) return null;
     const [duration, setDuration] = useState<T_DURATION>(C_DEFAULT_DURATION);
     const functionType_ = useFunctionFullType(functionTypeID);
     if (functionType_ === undefined) return null;

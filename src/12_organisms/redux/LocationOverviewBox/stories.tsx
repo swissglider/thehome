@@ -1,8 +1,8 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import LocationOverviewBox from '.';
-import { useSearchHCByPathArray } from '../../../20_hooks/HomeContainerHooks';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
+import { useSearchHCRecursiveByLocationID } from '../../../20_hooks/PlaceOverviewHooks';
 
 export default {
     title: 'TheHome/organisms/redux/LocationOverviewBox',
@@ -14,12 +14,12 @@ export default {
 
 interface I_Props {
     onClicked: (i: string) => void;
-    pathArray: string[];
+    locationID: string;
 }
 
 const Template: Story<I_Props> = (props: I_Props) => {
-    const { pathArray } = { ...props };
-    const homeContainer = useSearchHCByPathArray(pathArray) as I_HOME_CONTAINER;
+    const { locationID } = { ...props };
+    const homeContainer = useSearchHCRecursiveByLocationID(locationID) as I_HOME_CONTAINER;
     // args.onClick = () => {
     //    if (onClicked) onClicked();
     //    if (props.onClick) props.onClick();
@@ -46,11 +46,11 @@ const Template: Story<I_Props> = (props: I_Props) => {
 export const Wollerau = Template.bind({});
 Wollerau.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau'],
+    locationID: 'enum.home.1_wollerau',
 };
 
 export const Zuhause = Template.bind({});
 Zuhause.args = {
     onClicked: undefined,
-    pathArray: ['enum.home.1_wollerau', 'enum.area.inside_home'],
+    locationID: 'enum.area.inside_home',
 };
