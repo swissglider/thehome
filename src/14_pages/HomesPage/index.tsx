@@ -1,6 +1,5 @@
-import { Button } from '@material-ui/core';
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
     useSetTitle,
     useSetSubNavButtons,
@@ -13,13 +12,24 @@ import SensorTypeListPage from '../SensorTypeListPage';
 import LocationOverviewPage from '../LocationOverviewPage';
 import HomesOverviewPage from '../HomesOverviewPage';
 import HomesTemplate from '../../13_templates/HomesTemplate';
-import { useGetPageFromLocation } from '../../20_hooks/PlaceOverviewHooks';
+import { useGetAllPathPropsFromLocation, useGetHomeContainerLocationTo } from '../../20_hooks/PlaceOverviewHooks';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { homesHistoryState, T_Home_History } from '../../32-recoil/homes/atoms';
+import { selector_getDisplayName } from '../../30_redux/ioBrokerObjects/selectors';
+import { useSelector } from 'react-redux';
+import { BACKWARD_ICON } from '../../2_configuration/Icons';
+import SimpleButton from '../../10_atoms/base/SimpleButton';
 
 const PlaceOverview = (): JSX.Element => {
-    const page_ = useGetPageFromLocation();
+    const pathname = useLocation().pathname;
+    const pathProps = useGetAllPathPropsFromLocation();
+    const setHistoryArray = useSetRecoilState<T_Home_History>(homesHistoryState);
+    useEffect(() => {
+        setHistoryArray((oldHistoryArray) => [...oldHistoryArray, pathProps]);
+    }, [pathname]);
 
     let page: any;
-    switch (page_) {
+    switch (pathProps.page) {
         case 'HomesOverviewPage': {
             page = HomesOverviewPage;
             break;
@@ -46,12 +56,26 @@ const PlaceOverview = (): JSX.Element => {
     }
 
     const BackComponent = (): JSX.Element | null => {
-        const history = useHistory();
+        const [historyArray, setHistoryArray] = useRecoilState(homesHistoryState);
+        const tempHA = [...historyArray];
+        tempHA.pop();
+        const lastElement = tempHA.pop();
+        const { goToLocation } = useGetHomeContainerLocationTo(lastElement ?? {});
+        const id = lastElement?.deviceID
+            ? lastElement.deviceID
+            : lastElement?.functionTypeID
+            ? lastElement.functionTypeID
+            : lastElement?.locationID
+            ? lastElement.locationID
+            : '';
+        const name = useSelector(selector_getDisplayName(id)) ?? 'Home';
         const onClick = (): void => {
-            history.goBack();
+            setHistoryArray(tempHA);
+            goToLocation();
         };
-        if (history.length === 0 || page_ === 'HomesOverviewPage') return <>&nbsp;</>;
-        return <Button onClick={onClick}>Back</Button>;
+
+        if (lastElement === undefined || pathProps.page === 'HomesOverviewPage') return <>&nbsp;</>;
+        return <SimpleButton onClick={onClick} variant="text" size="medium" text={name} startIcon={BACKWARD_ICON} />;
     };
 
     useSetTitle('Home');

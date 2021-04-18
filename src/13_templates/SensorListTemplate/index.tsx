@@ -10,8 +10,6 @@ export interface I_SensorListContainer_Props {
 }
 
 const SensorListTemplate = (props: I_SensorListContainer_Props): JSX.Element => {
-    console.log('SensorListContainer:render');
-
     return (
         <>
             <SensorListCollapsButtons />

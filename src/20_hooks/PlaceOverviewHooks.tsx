@@ -173,3 +173,10 @@ export const useGetDeviceIDFromLocation = (): string | undefined => {
 export const useGetPageFromLocation = (): string | undefined => {
     return getPathProps().page;
 };
+
+/**
+ * get all pathProps from location
+ */
+export const useGetAllPathPropsFromLocation = (): I_PathProps => {
+    return getPathProps();
+};

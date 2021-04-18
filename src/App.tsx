@@ -26,6 +26,9 @@ import { BrowserRouter } from 'react-router-dom';
 i18n.load('de', catalogDE.messages);
 i18n.activate(LANGUAGE);
 
+// Recoil
+import { RecoilRoot } from 'recoil';
+
 const themeDark = (prefersDarkMode: boolean) =>
     createMuiTheme({
         palette: {
@@ -136,10 +139,12 @@ export const WithProviders = (props: PropsWithChildren<{ id?: string }>): JSX.El
     }, [prefersDarkMode]);
 
     return (
-        <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <Provider store={store}>{props.children}</Provider>
-        </MuiThemeProvider>
+        <RecoilRoot>
+            <MuiThemeProvider theme={theme}>
+                <CssBaseline />
+                <Provider store={store}>{props.children}</Provider>
+            </MuiThemeProvider>
+        </RecoilRoot>
     );
 };
 

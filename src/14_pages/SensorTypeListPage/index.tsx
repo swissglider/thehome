@@ -9,7 +9,6 @@ import {
 const SensorTypeListPage = (): JSX.Element | null => {
     const functionTypeID = useGetFunctionTypeIDFromLocation();
     const locationID = useGetLocationFromLocation();
-    console.log(functionTypeID, locationID);
     if (functionTypeID === undefined || locationID === undefined) return null;
 
     const homeContainer = useSearchHCRecursiveByLocationID(locationID);
