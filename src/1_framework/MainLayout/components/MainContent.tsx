@@ -1,7 +1,6 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { createStyles, Theme } from '@material-ui/core/styles';
-import SubNavigationButtons from './SubNavigationButtons';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { I_MainComponentsConfiguration, MainComponentsConfiguration } from '../../../2_configuration/MainComponents';
 
@@ -31,30 +30,31 @@ export interface MainContentProps {
     marginStartValue: number;
 }
 
-const MainContent = (props: MainContentProps): JSX.Element => {
-    const classes = useStyles({ scrollPos: props.scrollPos, marginStartValue: props.marginStartValue });
-
+// const MainContent = (props: MainContentProps): JSX.Element => {
+//     const classes = useStyles({ scrollPos: props.scrollPos, marginStartValue: props.marginStartValue });
+const MainContent = (): JSX.Element => {
     const configurations: I_MainComponentsConfiguration[] = MainComponentsConfiguration;
 
     return (
-        <div className={classes.content}>
-            <SubNavigationButtons />
-            <div className={classes.subContent}>
-                <Switch>
-                    {configurations
-                        .filter((config1) => config1.linkActive !== undefined && config1.linkActive)
-                        .map((config: I_MainComponentsConfiguration, index: number) => (
-                            <Route
-                                key={`MainContent_${index}`}
-                                exact={config.linkExact !== undefined && config.linkExact}
-                                path={config.to}
-                                component={config.component}
-                            />
-                        ))}
-                    <Redirect to="/" />
-                </Switch>
-            </div>
-        </div>
+        // <div className={classes.content}>
+        <>
+            {/* <div className={classes.subContent}> */}
+            <Switch>
+                {configurations
+                    .filter((config1) => config1.linkActive !== undefined && config1.linkActive)
+                    .map((config: I_MainComponentsConfiguration, index: number) => (
+                        <Route
+                            key={`MainContent_${index}`}
+                            exact={config.linkExact !== undefined && config.linkExact}
+                            path={config.to}
+                            component={config.component}
+                        />
+                    ))}
+                <Redirect to="/" />
+            </Switch>
+            {/* </div>
+        </div> */}
+        </>
     );
 };
 

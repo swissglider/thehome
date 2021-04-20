@@ -21,14 +21,12 @@ const TypographyComponent = (props: I_TypographyComponent_Props): JSX.Element =>
         props.onClick,
     ]);
 
+    const newChild = <div>{i18n._({ id: props.children })}</div>;
+
     return (
         <BaseDecoration withAnimation={_withAnimation}>
             <Typography component={'span'} {...params}>
-                {typeof props.children === 'string'
-                    ? props.children
-                        ? i18n._({ id: props.children })
-                        : undefined
-                    : props.children}
+                {newChild}
             </Typography>
         </BaseDecoration>
     );

@@ -57,6 +57,7 @@ export const {
     selectAll: selector_selectIOBrokerObjects,
     selectById: selector_selectIOBrokerObject,
     selectIds: selector_selectIOBrokerObjectIds,
+    selectEntities: selector_selectIOBrokerObjectEtities,
 } = ioBrokerObjectsAdapter.getSelectors((state: RootState) => state.ioBrokerObjects);
 
 export default ioBrokerObjectsSlice.reducer;

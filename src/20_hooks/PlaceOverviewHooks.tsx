@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { selector_getDisplayName } from '../30_redux/ioBrokerObjects/selectors';
 import { I_HOME_CONTAINER, T_HOME_CONTAINER_LIST } from '../30_redux/servConn/interfaces';
 import { selector_getHomeContainerList } from '../30_redux/servConn/selectors';
+import { I_HistoryStateProps } from '../32-recoil/framework/atoms';
 
 export interface I_PathProps {
     page?: string;
@@ -66,6 +68,15 @@ const searchHCRecursiveByDeviceID = (deviceID: string): I_HOME_CONTAINER | undef
     return searchHCRecursive(homeContainerList, deviceID);
 };
 
+const getPathFromPathProps = (props: I_PathProps): string => {
+    let pathName = '/homes';
+    if (props.page) pathName = `${pathName}/page:${props.page}`;
+    if (props.locationID) pathName = `${pathName}/locationID:${props.locationID}`;
+    if (props.functionTypeID) pathName = `${pathName}/functionTypeID:${props.functionTypeID}`;
+    if (props.deviceID) pathName = `${pathName}/deviceID:${props.deviceID}`;
+    return pathName;
+};
+
 /**
  * generate the new Path and returns the location object and the goToLocation function
  * @param props to generate the path
@@ -74,13 +85,8 @@ const searchHCRecursiveByDeviceID = (deviceID: string): I_HOME_CONTAINER | undef
 export const useGetHomeContainerLocationTo = (
     props: I_PathProps,
 ): { location: I_Location; goToLocation: () => void } => {
-    let pathName = '/homes';
-    if (props.page) pathName = `${pathName}/page:${props.page}`;
-    if (props.locationID) pathName = `${pathName}/locationID:${props.locationID}`;
-    if (props.functionTypeID) pathName = `${pathName}/functionTypeID:${props.functionTypeID}`;
-    if (props.deviceID) pathName = `${pathName}/deviceID:${props.deviceID}`;
     const location = {
-        pathname: pathName,
+        pathname: getPathFromPathProps(props),
     };
     const history = useHistory();
     const goTo = () => {
@@ -90,10 +96,29 @@ export const useGetHomeContainerLocationTo = (
 };
 
 /**
+ * generates the HistoryStatesProps from location
+ *
+ * @returns I_HistoryStateProps
+ */
+export const useGetHistoryStateProsFromLocation = (): I_HistoryStateProps => {
+    const pathProps = getPathProps();
+    const pathname = getPathFromPathProps(pathProps);
+    const id = pathProps?.deviceID
+        ? pathProps.deviceID
+        : pathProps?.functionTypeID
+        ? pathProps.functionTypeID
+        : pathProps?.locationID
+        ? pathProps.locationID
+        : '';
+    const displayName = useSelector(selector_getDisplayName(id)) ?? 'Home';
+    return { pathname, displayName };
+};
+
+/**
  *
  * @returns gets the path elements from location
  */
-export const useGetPathElementsFromLocation = (): string[] => {
+export const useGetCurrentPathElementsFromLocation = (): string[] => {
     const deviceID = getPathProps().deviceID;
     const locationID = getPathProps().locationID;
     const deviceIDResults = searchHCRecursiveByDeviceID(deviceID ?? '');
@@ -120,8 +145,7 @@ export const useGetPathElementsFromLocation = (): string[] => {
         }
         return undefined;
     };
-    const pathElements = generatePatchArrayRecursive(homeContainerList, hc.id) ?? [];
-    return pathElements;
+    return generatePatchArrayRecursive(homeContainerList, hc.id) ?? [];
 };
 
 /**
@@ -180,3 +204,34 @@ export const useGetPageFromLocation = (): string | undefined => {
 export const useGetAllPathPropsFromLocation = (): I_PathProps => {
     return getPathProps();
 };
+
+/**
+ * Returns an array with I_HistoryStateProps from an objct with pathElementPairs
+ */
+export const useGetHistroyProsFromPathElementPairs = (pairs: { [ids: string]: string }): I_HistoryStateProps[] =>
+    Object.entries(pairs).map(([key, displayName], index, array) => {
+        if (key.startsWith('enum.functions.')) {
+            if (array[index - 1] && array[index - 1][0].startsWith('enum.')) {
+                return {
+                    pathname: `/homes/page:SensorTypeListPage/locationID:${array[index - 1][0]}/functionTypeID:${key}`,
+                    displayName: `${displayName}`,
+                };
+            }
+        } else if (!key.startsWith('enum.')) {
+            if (array[index - 1] && array[index - 1][0].startsWith('enum.functions.')) {
+                return {
+                    pathname: `/homes/page:SensorDetailsPage/functionTypeID:${array[index - 1][0]}/deviceID:${key}`,
+                    displayName: displayName,
+                };
+            }
+        } else if (key.startsWith('enum.')) {
+            return {
+                pathname: `/homes/page:LocationOverviewPage/locationID:${key}`,
+                displayName: displayName,
+            };
+        }
+        return {
+            pathname: '/homes',
+            displayName: `homes (${displayName}) ????`,
+        };
+    });

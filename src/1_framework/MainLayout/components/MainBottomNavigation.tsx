@@ -27,7 +27,8 @@ export interface MainBottomNavigationProps {
     paramRef: React.RefObject<HTMLDivElement>;
 }
 
-const MainBottomNavigation = (props: MainBottomNavigationProps): JSX.Element => {
+// const MainBottomNavigation = (props: MainBottomNavigationProps): JSX.Element => {
+const MainBottomNavigation = (): JSX.Element => {
     const classes = useStyles();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [value, setValue] = React.useState(0);
@@ -46,7 +47,7 @@ const MainBottomNavigation = (props: MainBottomNavigationProps): JSX.Element => 
             }}
             showLabels
             className={classes.root}
-            ref={props.paramRef}
+            // ref={props.paramRef}
         >
             {buttons
                 .filter((button) => button.onMainBottomNavigation !== undefined && button.onMainBottomNavigation)

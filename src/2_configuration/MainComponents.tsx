@@ -1,6 +1,6 @@
 import React from 'react';
 import MoreMenu from '../1_framework/MainLayout/components/MoreMenu';
-import PlaceOverview from '../14_pages/HomesPage';
+import HomesPage from '../14_pages/HomesPage';
 
 export interface I_MainComponentsConfiguration {
     label: string;
@@ -21,7 +21,7 @@ const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
         value: 'homes',
         icon: 'home',
         to: '/homes',
-        component: PlaceOverview,
+        component: HomesPage,
         onMainBottomNavigation: true,
         onMoreMenuNavigation: false,
         linkActive: true,
