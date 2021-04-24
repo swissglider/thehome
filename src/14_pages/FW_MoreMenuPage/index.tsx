@@ -1,9 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { TITLE_ICON_LINK } from '../../../2_configuration/Application';
-import { MainComponentsConfiguration } from '../../../2_configuration/MainComponents';
+import FW_MoreMenuList from '../../12_organisms/base/FW_MoreMenuList';
+import { TITLE_ICON_LINK } from '../../2_configuration/Application';
+import { MainComponentsConfiguration } from '../../2_configuration/MainComponents';
 
-const MoreMenu = (): JSX.Element => {
+const FW_MoreMenu = (): JSX.Element => {
     const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(true);
     const history = useHistory();
 
@@ -32,8 +33,16 @@ const MoreMenu = (): JSX.Element => {
     return (
         <>
             <h1>Hallo</h1>
+            <FW_MoreMenuList
+                isOpen={isMenuOpen}
+                setIsMenuOpen={toggle}
+                menuList={menuList}
+                icon={TITLE_ICON_LINK}
+                name={'More Menu'}
+                fullWidth={true}
+            />
         </>
     );
 };
 
-export default MoreMenu;
+export default FW_MoreMenu;

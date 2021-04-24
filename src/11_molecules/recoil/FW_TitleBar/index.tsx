@@ -20,18 +20,19 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'fixed',
             zIndex: theme.zIndex.appBar,
             width: '100%',
-            top: 0,
-            left: 0,
-            paddingTop: theme.spacing(3),
+            // top: 0,
+            // left: 0,
+            paddingTop: theme.spacing(1),
         },
     }),
 );
 
-const TitleBar = (): JSX.Element => {
+const FW_TitleBar = (): JSX.Element => {
     const classes = useStyles();
     const historyArray = useRecoilValue<I_HistoryStateProps[]>(historyState);
     const mainTitle = useRecoilValue<string>(mainTitleState);
     return (
+        // <AppBar position="fixed" color="transparent">
         <Toolbar className={classes.root}>
             <Grid container direction="column">
                 <Grid item>
@@ -56,7 +57,8 @@ const TitleBar = (): JSX.Element => {
                 </Grid>
             </Grid>
         </Toolbar>
+        // </AppBar>
     );
 };
 
-export default TitleBar;
+export default FW_TitleBar;

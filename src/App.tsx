@@ -1,12 +1,11 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import { MuiThemeProvider, useMediaQuery } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MainLayout from './1_framework/MainLayout';
+import FW_MainLayout from './14_pages/FW_MainPage';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import catalogDE from './31_locales/de/messages.js';
 import { LANGUAGE } from './2_configuration/Application';
-import LoadIOBDataToRedux from './21_utils/LoadIOBDataToRedux';
 
 // React Router
 import { BrowserRouter } from 'react-router-dom';
@@ -49,7 +48,7 @@ const App = (): JSX.Element => {
     return (
         <WithProviders>
             {/* <LoadIOBDataToRedux> */}
-            <MainLayout />
+            <FW_MainLayout />
             {/* </LoadIOBDataToRedux> */}
         </WithProviders>
     );

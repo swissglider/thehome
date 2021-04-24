@@ -1,5 +1,5 @@
 import React from 'react';
-import MoreMenu from '../1_framework/MainLayout/components/MoreMenu';
+import FW_MoreMenu from '../14_pages/FW_MoreMenuPage';
 import HomesPage from '../14_pages/HomesPage';
 
 export interface I_MainComponentsConfiguration {
@@ -54,7 +54,7 @@ export const generateMainComponentConfiguration = (): I_MainComponentsConfigurat
             value: 'moreMenu',
             icon: 'more_horiz',
             to: '/moremenu',
-            component: MoreMenu,
+            component: FW_MoreMenu,
             onMainBottomNavigation: true,
             onMoreMenuNavigation: false,
             linkActive: true,

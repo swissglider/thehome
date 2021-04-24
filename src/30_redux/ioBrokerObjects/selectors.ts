@@ -1,8 +1,19 @@
 import { createSelector } from '@reduxjs/toolkit';
 import memoize from 'lodash.memoize';
-import IOBrokerNameTools from '../../21_utils/IOBrokerNameTools';
+import { LANGUAGE } from '../../2_configuration/Application';
 import { RootState } from '../Store';
+import { I_ioBrokerObject } from './interfaces';
 import { selector_selectIOBrokerObject, selector_selectIOBrokerObjectEtities } from './slice';
+
+const getValueByLanguageFromObject = (obj: { [key: string]: string } | string): string =>
+    typeof obj === 'string' ? obj : LANGUAGE in obj ? obj[LANGUAGE] : 'en' in obj ? obj['en'] : obj.toString();
+
+const getDisplayNameByObject = (ioBObject: I_ioBrokerObject): string => {
+    const displayName = ioBObject.native?.swissglider?.general?.displayName;
+    return displayName !== undefined
+        ? getValueByLanguageFromObject(displayName)
+        : getValueByLanguageFromObject(ioBObject.common.name);
+};
 
 export const selector_getIOBObjectByID = (id: string) => (state: RootState): any =>
     selector_selectIOBrokerObject(state, id);
@@ -10,10 +21,7 @@ export const selector_getIOBObjectByID = (id: string) => (state: RootState): any
 export const selector_getDisplayName = (id: string) => (state: RootState): string | undefined => {
     const entity = selector_selectIOBrokerObject(state, id);
     if (entity === undefined) return undefined;
-    const displayName = entity.native?.swissglider?.general?.displayName;
-    return displayName !== undefined
-        ? IOBrokerNameTools.getValueByLanguageFromObject(displayName)
-        : IOBrokerNameTools.getValueByLanguageFromObject(entity.common.name);
+    return getDisplayNameByObject(entity);
 };
 
 export const selector_getDisplayNamesAsPathElementPairs = memoize((ids: string[]) =>
@@ -21,11 +29,8 @@ export const selector_getDisplayNamesAsPathElementPairs = memoize((ids: string[]
         ids.reduce((accumulator, id: string) => {
             const entity = all[id];
             if (entity !== undefined) {
-                const displayName = entity.native?.swissglider?.general?.displayName;
-                accumulator[id] =
-                    displayName !== undefined
-                        ? IOBrokerNameTools.getValueByLanguageFromObject(displayName)
-                        : IOBrokerNameTools.getValueByLanguageFromObject(entity.common.name);
+                const displayName = getDisplayNameByObject(entity);
+                accumulator[id] = displayName;
             }
             return accumulator;
         }, {} as { [ids: string]: string }),
