@@ -1,12 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import FW_MoreMenuList from '../../12_organisms/base/FW_MoreMenuList';
 import { TITLE_ICON_LINK } from '../../2_configuration/Application';
 import { MainComponentsConfiguration } from '../../2_configuration/MainComponents';
 
-const FW_MoreMenu = (): JSX.Element => {
-    const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(true);
-    const history = useHistory();
+const FW_MoreMenu = (props: { isOpen: boolean; setMoreMenuOpen: (isOpen: boolean) => void }): JSX.Element => {
+    console.log(props);
 
     const menuItems = MainComponentsConfiguration.filter(
         (c) => c.onMoreMenuNavigation !== undefined && c.onMoreMenuNavigation,
@@ -22,20 +20,11 @@ const FW_MoreMenu = (): JSX.Element => {
         ],
     ];
 
-    const toggle = (isOpen: boolean) => {
-        if (isOpen === false) {
-            console.log('to close');
-            history.go(-1);
-        }
-        setIsMenuOpen(isOpen);
-    };
-
     return (
         <>
-            <h1>Hallo</h1>
             <FW_MoreMenuList
-                isOpen={isMenuOpen}
-                setIsMenuOpen={toggle}
+                isOpen={props.isOpen}
+                setIsMenuOpen={props.setMoreMenuOpen}
                 menuList={menuList}
                 icon={TITLE_ICON_LINK}
                 name={'More Menu'}

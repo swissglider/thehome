@@ -1,5 +1,4 @@
-import React from 'react';
-import FW_MoreMenu from '../14_pages/FW_MoreMenuPage';
+import Admin_MainPage from '../14_pages/Admin_MainPage';
 import HomesPage from '../14_pages/HomesPage';
 
 export interface I_MainComponentsConfiguration {
@@ -15,7 +14,7 @@ export interface I_MainComponentsConfiguration {
 }
 
 // to be filled
-const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
+export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
     {
         label: 'Homes',
         value: 'homes',
@@ -27,44 +26,20 @@ const MainComponentsConfiguration_: I_MainComponentsConfiguration[] = [
         linkActive: true,
         linkExact: false,
     },
+    {
+        label: 'Admin',
+        value: 'admin',
+        icon: 'admin_panel_settings',
+        to: '/admin',
+        component: Admin_MainPage,
+        onMainBottomNavigation: false,
+        onMoreMenuNavigation: true,
+        linkActive: true,
+        linkExact: false,
+    },
 ];
 
-// nothing to do
-export const generateMainComponentConfiguration = (): I_MainComponentsConfiguration[] => {
-    if (MainComponentsConfiguration_.find((c) => c.to === '/') === undefined) {
-        MainComponentsConfiguration_.unshift({
-            label: 'Home',
-            value: '',
-            icon: 'home',
-            to: '/',
-            component:
-                MainComponentsConfiguration_[0] && MainComponentsConfiguration_[0].component ? (
-                    MainComponentsConfiguration_[0].component
-                ) : (
-                    <div>This is the default home</div>
-                ),
-            onMoreMenuNavigation: true,
-            linkActive: true,
-            linkExact: true,
-        });
-    }
-    if (MainComponentsConfiguration_.find((c) => c.onMoreMenuNavigation) !== undefined) {
-        MainComponentsConfiguration_.push({
-            label: 'More',
-            value: 'moreMenu',
-            icon: 'more_horiz',
-            to: '/moremenu',
-            component: FW_MoreMenu,
-            onMainBottomNavigation: true,
-            onMoreMenuNavigation: false,
-            linkActive: true,
-            linkExact: false,
-        });
-    }
-    return MainComponentsConfiguration_;
-};
-
-export const MainComponentsConfiguration = generateMainComponentConfiguration();
+export const DEFAULT_ROUTES = '/homes';
 
 /**
  * Returns the link with label. If not available it returns the one with 'Home' Link

@@ -47,9 +47,7 @@ const App = (): JSX.Element => {
 
     return (
         <WithProviders>
-            {/* <LoadIOBDataToRedux> */}
             <FW_MainLayout />
-            {/* </LoadIOBDataToRedux> */}
         </WithProviders>
     );
 };

@@ -98,7 +98,13 @@ const FW_MoreMenuList = (props: {
                 <div key={`LinksLeftList1_${index}`}>
                     <Divider />
                     {menuCategory.map((menuItem: I_LeftMenuListItem, index1: number) => (
-                        <ListElement key={`LinksLeftList2_${index1}`} item={menuItem} />
+                        <div
+                            key={`LinksLeftList2_${index1}`}
+                            onClick={toggleDrawer(false)}
+                            onKeyDown={toggleDrawer(false)}
+                        >
+                            <ListElement item={menuItem} />
+                        </div>
                     ))}
                 </div>
             ))}

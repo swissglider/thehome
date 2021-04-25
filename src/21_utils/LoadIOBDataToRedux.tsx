@@ -7,6 +7,7 @@ import { AppDispatch, store } from '../30_redux/Store';
 
 // REDUX
 import { Provider } from 'react-redux';
+import { useLoadSocket } from '../20_hooks/IOBrokerScriptLoager';
 
 const LoadIOBDataToRedux_ = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
     const [statesLoaded, setStatesLoaded] = useState<boolean>(false);
@@ -17,22 +18,9 @@ const LoadIOBDataToRedux_ = ({ children }: PropsWithChildren<{ id?: string }>): 
     const ioBrokerServConnStatus = useSelector(selector_getConnectionStatus());
     const ioBrokerServConnHomeContainerStatus: boolean = useSelector(selector_getHomeContainersLoaded());
 
-    const loadSocket = () => {
-        const script = document.createElement('script');
-
-        script.src = process.env.NODE_ENV === 'production' ? '/thehome/js/services/conn.js' : '/js/services/conn.js';
-        script.async = true;
-        script.onload = () => dispatch<any>(ACTION_IOBROKER_INIT);
-        document.body.appendChild(script);
-    };
-
     useEffect(() => {
-        const script = document.createElement('script');
-        script.src =
-            process.env.NODE_ENV === 'production' ? `/thehome/js/services/socket.io.js` : `/js/services/socket.io.js`;
-        script.async = true;
-        script.onload = () => loadSocket();
-        document.body.appendChild(script);
+        const callback = () => dispatch<any>(ACTION_IOBROKER_INIT);
+        useLoadSocket(callback);
     }, []);
 
     useEffect(() => {

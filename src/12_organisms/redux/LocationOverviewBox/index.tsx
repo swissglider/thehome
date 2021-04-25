@@ -52,8 +52,9 @@ interface I_GetBoxes_Props {
 const GetBoxes = ({ homeContainer, boxName, width, presentationMode }: I_GetBoxes_Props): JSX.Element => {
     const variant = sizes(presentationMode, width, boxName) ?? 'body2';
     const iconSize = sizes(presentationMode, width, boxName) ?? 'xsmall';
-    const box = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
-        .filter((e) => LOCATION_OVERVOEW_BOX_SENSORS[boxName].includes(e))
+    const keys = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {});
+    const box = LOCATION_OVERVOEW_BOX_SENSORS[boxName]
+        .filter((e) => keys.includes(e))
         .map((sensorTypeID: string, index: number) => (
             <SensorTypesAvarageContainer
                 key={`LocationOverviewBox_LOCATION_OVERVOEW_BOX_SENSORS${index}`}
@@ -65,6 +66,7 @@ const GetBoxes = ({ homeContainer, boxName, width, presentationMode }: I_GetBoxe
                 functionTypeID={sensorTypeID}
             />
         ));
+
     return (
         <Grid container direction="row" justify="space-evenly" alignItems="center">
             {box.map((e, indexGrid1) => (

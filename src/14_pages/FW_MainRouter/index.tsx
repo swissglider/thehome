@@ -1,6 +1,10 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { I_MainComponentsConfiguration, MainComponentsConfiguration } from '../../2_configuration/MainComponents';
+import {
+    DEFAULT_ROUTES,
+    I_MainComponentsConfiguration,
+    MainComponentsConfiguration,
+} from '../../2_configuration/MainComponents';
 
 const FW_MainRouter = (): JSX.Element => {
     const configurations: I_MainComponentsConfiguration[] = MainComponentsConfiguration;
@@ -17,7 +21,7 @@ const FW_MainRouter = (): JSX.Element => {
                         component={config.component}
                     />
                 ))}
-            <Redirect to="/" />
+            <Redirect to={DEFAULT_ROUTES ?? '/'} />
         </Switch>
     );
 };
