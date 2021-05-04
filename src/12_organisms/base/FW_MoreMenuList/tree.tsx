@@ -1,28 +1,13 @@
 import React, { useEffect } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
-import Typography from '@material-ui/core/Typography';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { I_LinksConfiguration } from '../../../2_configuration/MainComponents';
 import IconComponent from '../../../10_atoms/base/IconComponent';
-import { ListItemIcon } from '@material-ui/core';
+import { Grid, ListItemIcon } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-
-const useTreeItemStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        labelRoot: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: theme.spacing(0.5, 0),
-        },
-        labelText: {
-            fontWeight: 'inherit',
-            flexGrow: 1,
-        },
-    }),
-);
+import TypographyComponent from '../../../10_atoms/base/TypographyComponent';
 
 interface MoreMenuTreeItem_Props {
     menuItem: I_LinksConfiguration;
@@ -34,8 +19,6 @@ const MorMenuTreeItem = (props: MoreMenuTreeItem_Props) => {
     useEffect(() => {
         props.addNodeIDMap(props.nodeID, props.menuItem);
     }, []);
-    const { color } = props.menuItem;
-    const classes = useTreeItemStyles({ color });
     const children = props.menuItem.subMenu ? (
         <>
             {props.menuItem.subMenu.map((e, index: number) => (
@@ -51,17 +34,27 @@ const MorMenuTreeItem = (props: MoreMenuTreeItem_Props) => {
     return (
         <TreeItem
             label={
-                <div className={classes.labelRoot}>
-                    <ListItemIcon>
-                        {props.menuItem.icon !== undefined && <IconComponent icon={props.menuItem.icon} size="small" />}
-                    </ListItemIcon>
-                    <Typography variant="body2" className={classes.labelText}>
-                        {props.menuItem.label}
-                    </Typography>
-                    <Typography variant="caption" color="inherit">
-                        {props.menuItem.info}
-                    </Typography>
-                </div>
+                <Grid container>
+                    {!props.menuItem.subMenu && (
+                        <Grid item xs={2}>
+                            <ListItemIcon>
+                                {props.menuItem.icon !== undefined && (
+                                    <IconComponent icon={props.menuItem.icon} size="small" />
+                                )}
+                            </ListItemIcon>
+                        </Grid>
+                    )}
+                    <Grid item xs>
+                        <TypographyComponent variant={props.menuItem.subMenu ? 'subtitle1' : 'body2'} color="inherit">
+                            {props.menuItem.label}
+                        </TypographyComponent>
+                    </Grid>
+                    <Grid item xs={5} style={{ textAlign: 'right' }}>
+                        <TypographyComponent variant="caption" color="inherit">
+                            {props.menuItem.info ?? ''}
+                        </TypographyComponent>
+                    </Grid>
+                </Grid>
             }
             nodeId={props.nodeID}
         >

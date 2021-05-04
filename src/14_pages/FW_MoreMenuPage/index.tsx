@@ -1,5 +1,6 @@
 import React from 'react';
 import FW_MoreMenuList from '../../12_organisms/base/FW_MoreMenuList';
+import { HOME_ICON } from '../../2_configuration/Icons';
 import {
     I_LinksConfiguration,
     MainComponentsConfiguration,
@@ -8,7 +9,7 @@ import {
 
 const FW_MoreMenu = (props: { isOpen: boolean; setMoreMenuOpen: (isOpen: boolean) => void }): JSX.Element => {
     const menuList: I_LinksConfiguration[] = [
-        { label: 'Main', subMenu: MainComponentsConfiguration },
+        { label: 'Main', icon: HOME_ICON, subMenu: MainComponentsConfiguration },
         ...SubComponentsConfiguration,
     ];
 

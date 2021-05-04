@@ -50,6 +50,7 @@ export const MainComponentsConfiguration: I_MainComponentsConfiguration[] = [
 export const SubComponentsConfiguration: I_LinksConfiguration[] = [
     {
         label: 'AdminList',
+        icon: SETTINGS_ICON,
         subMenu: [
             {
                 label: 'Home',
@@ -60,12 +61,12 @@ export const SubComponentsConfiguration: I_LinksConfiguration[] = [
             {
                 label: 'Location',
                 icon: LOCATION_ICON,
-                info: 'Configuration for Location View',
+                info: 'for Location View',
                 subMenu: [
                     {
                         label: 'BlackList',
                         to: '/admin/location_backlist',
-                        info: 'Blacklist der Sensors',
+                        info: 'bl for Sensors',
                         icon: BLACKLIST_ICON,
                     },
                     { label: 'M1', to: '/admin/t1' },
