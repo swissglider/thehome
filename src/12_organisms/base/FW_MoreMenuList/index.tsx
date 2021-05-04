@@ -1,33 +1,15 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { Grid, Icon, IconButton, Toolbar } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import TypographyComponent from '../../../10_atoms/base/TypographyComponent';
-
-interface StyleProps {
-    fullWith: boolean;
-}
-
-export interface I_LeftMenuListItem {
-    name: string;
-    icon?: string;
-    to: string;
-}
+import MoreMenuTreeView from './tree';
+import { I_LinksConfiguration } from '../../../2_configuration/MainComponents';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        list: (props: StyleProps) => {
-            return {
-                width: props.fullWith ? '100vw' : '80vw',
-            };
-        },
-        fullList: {
-            width: 'auto',
+        list: {
+            width: '100vw',
         },
         root: {
             background: theme.palette.background.paper,
@@ -36,33 +18,23 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingTop: theme.spacing(1),
             marginBottom: theme.spacing(4),
         },
+        treeRoot: {
+            margin: theme.spacing(2),
+        },
     }),
 );
 
-const Anchor = 'left';
-
-const ListElement = (props: { item: I_LeftMenuListItem }): JSX.Element => (
-    <ListItem button component={Link} to={props.item.to}>
-        {props.item.icon !== undefined && (
-            <ListItemIcon>
-                <Icon>{props.item.icon}</Icon>
-            </ListItemIcon>
-        )}
-        <ListItemText primary={props.item.name} />
-    </ListItem>
-);
-
-const FW_MoreMenuList = (props: {
+export interface FW_MoreMenuList_Props {
     isOpen: boolean;
     setIsMenuOpen: any;
-    menuList: I_LeftMenuListItem[][];
-    icon: string;
-    name: string;
-    fullWidth: boolean;
-}): JSX.Element => {
-    const classes = useStyles({ fullWith: props.fullWidth });
+    menuList: I_LinksConfiguration[];
+}
 
-    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+const FW_MoreMenuList = (props: FW_MoreMenuList_Props): JSX.Element => {
+    const classes = useStyles();
+
+    const toggleDrawer = (open: boolean, notToogle?: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (notToogle !== undefined && notToogle === true) return;
         if (
             event &&
             event.type === 'keydown' &&
@@ -73,47 +45,32 @@ const FW_MoreMenuList = (props: {
         props.setIsMenuOpen(open);
     };
 
-    const list = () => (
-        <div className={classes.list} role="presentation">
-            <Toolbar className={classes.root}>
-                <Grid container direction="column">
-                    <Grid item>
-                        <Grid container direction="row" justify="space-between" alignItems="center" item>
-                            <Grid item></Grid>
-                            <Grid item xs>
-                                <TypographyComponent align="center" noWrap={true} variant="h4">
-                                    {props.name}
-                                </TypographyComponent>
-                            </Grid>
-                            <Grid item>
-                                <IconButton onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-                                    <Icon>close</Icon>
-                                </IconButton>
+    return (
+        <SwipeableDrawer anchor="left" open={props.isOpen} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
+            <div className={classes.list} role="presentation">
+                <Toolbar className={classes.root}>
+                    <Grid container direction="column">
+                        <Grid item>
+                            <Grid container direction="row" justify="space-between" alignItems="center" item>
+                                <Grid item></Grid>
+                                <Grid item xs>
+                                    <TypographyComponent align="center" noWrap={true} variant="h4">
+                                        More Menu
+                                    </TypographyComponent>
+                                </Grid>
+                                <Grid item>
+                                    <IconButton onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+                                        <Icon>close</Icon>
+                                    </IconButton>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Toolbar>
-            {props.menuList.map((menuCategory: I_LeftMenuListItem[], index: number) => (
-                <div key={`LinksLeftList1_${index}`}>
-                    <Divider />
-                    {menuCategory.map((menuItem: I_LeftMenuListItem, index1: number) => (
-                        <div
-                            key={`LinksLeftList2_${index1}`}
-                            onClick={toggleDrawer(false)}
-                            onKeyDown={toggleDrawer(false)}
-                        >
-                            <ListElement item={menuItem} />
-                        </div>
-                    ))}
+                </Toolbar>
+                <div className={classes.treeRoot}>
+                    <MoreMenuTreeView setIsMenuOpen={props.setIsMenuOpen} menuList={props.menuList} />
                 </div>
-            ))}
-        </div>
-    );
-
-    return (
-        <SwipeableDrawer anchor={Anchor} open={props.isOpen} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
-            {list()}
+            </div>
         </SwipeableDrawer>
     );
 };

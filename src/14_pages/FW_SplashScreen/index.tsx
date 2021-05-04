@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import { Backdrop, createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
 import Loader from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { selector_getStatesStatus } from '../../30_redux/ioBrokerStates/selectors';
@@ -8,22 +8,9 @@ import { selector_getConnectionStatus } from '../../30_redux/servConn/selectors'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        list: {
-            width: '100vw',
-        },
-        root: {
-            padding: theme.spacing(1.5),
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
-        },
-        stati: {
-            padding: theme.spacing(1.5),
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexDirection: 'column',
-            flexWrap: 'nowrap',
+        backdrop: {
+            zIndex: theme.zIndex.drawer + 1,
+            color: '#fff',
         },
     }),
 );
@@ -34,23 +21,38 @@ const SplashScreen = (): JSX.Element => {
     const statesStatus = useSelector(selector_getStatesStatus());
     const objectsStatus = useSelector(selector_getObjectsStatus());
 
+    const [open, setOpen] = React.useState(true);
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <div className={classes.list} role="presentation">
-            <div className={classes.root}>
-                <div className={classes.stati}>
-                    <div>States-Status: {statesStatus}</div>
-                    <div>Objects-Status: {objectsStatus}</div>
-                    <div>Loading-Status: {ioBrokerStatus}</div>
-                </div>
-                <Loader
-                    type="ThreeDots"
-                    color="#00BFFF"
-                    height={30}
-                    width={30}
-                    // timeout={3000} //3 secs
-                />
-            </div>
-        </div>
+        <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+            <Grid container direction="column" justify="center" alignItems="center">
+                <Grid item>
+                    <Loader
+                        type="ThreeDots"
+                        color="#00BFFF"
+                        height={30}
+                        width={30}
+                        // timeout={3000} //3 secs
+                    />
+                </Grid>
+                <Grid item>
+                    <Grid container direction="column" justify="center" alignItems="center">
+                        <Grid>
+                            <div>States-Status: {statesStatus}</div>
+                        </Grid>
+                        <Grid>
+                            <div>Objects-Status: {objectsStatus}</div>
+                        </Grid>
+                        <Grid>
+                            <div>Loading-Status: {ioBrokerStatus}</div>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Backdrop>
     );
 };
 

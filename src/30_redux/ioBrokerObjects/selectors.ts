@@ -1,12 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 import memoize from 'lodash.memoize';
-import { LANGUAGE } from '../../2_configuration/Application';
+import { getValueByLanguageFromObject } from '../../21_utils/DisplayNameHelper';
+import { IOBROKER_INSTANCE, IOBROKER_NAME } from '../../2_configuration/Application';
 import { RootState } from '../Store';
 import { I_ioBrokerObject } from './interfaces';
 import { selector_selectIOBrokerObject, selector_selectIOBrokerObjectEtities } from './slice';
-
-const getValueByLanguageFromObject = (obj: { [key: string]: string } | string): string =>
-    typeof obj === 'string' ? obj : LANGUAGE in obj ? obj[LANGUAGE] : 'en' in obj ? obj['en'] : obj.toString();
 
 const getDisplayNameByObject = (ioBObject: I_ioBrokerObject): string => {
     const displayName = ioBObject.native?.swissglider?.general?.displayName;
@@ -49,3 +47,11 @@ export const selector_getIOBObjectFirstMembersCommonByID = (id: string) => (stat
     const fMember = selector_selectIOBrokerObject(state, id)?.common?.members[0];
     return selector_selectIOBrokerObject(state, fMember)?.common;
 };
+
+export const selector_getBLACK_LIST_SENSOR_TYPES = (state: RootState): any =>
+    (selector_selectIOBrokerObject(state, `system.adapter.${IOBROKER_NAME}.${IOBROKER_INSTANCE}`) as any)?.native
+        ?.BLACK_LIST_SENSOR_TYPES;
+
+export const selector_getLOCATION_OVERVOEW_BOX_SENSORS = (state: RootState): any =>
+    (selector_selectIOBrokerObject(state, `system.adapter.${IOBROKER_NAME}.${IOBROKER_INSTANCE}`) as any)?.native
+        ?.LOCATION_OVERVIEW_BOW_SENSOR_TYPES;

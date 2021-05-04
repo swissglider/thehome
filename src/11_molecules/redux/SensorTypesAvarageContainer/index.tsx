@@ -12,9 +12,9 @@ import { T_CountMethod } from '../../../20_hooks/CountingHooks';
 // use redux
 import { ACTION_IOBROKER_UPDATE_STATE } from '../../../30_redux/ioBrokerStates/actions';
 import { selectStatesByMemberList } from '../../../30_redux/ioBrokerStates/selectors';
-import { BALCK_LIST_SENSOREN } from '../../../2_configuration/Sensoren';
 import IOBBlindControl from '../IOBBlindControl';
-import { I_Type_Params, useFunctionFullType } from '../../../20_hooks/IOBObjectHools';
+import { I_Type_Params, useFunctionFullType } from '../../../20_hooks/IOBObjectHooks';
+import { selector_getBLACK_LIST_SENSOR_TYPES } from '../../../30_redux/ioBrokerObjects/selectors';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -55,9 +55,10 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
     const dispatch = useDispatch();
     const selectNumOfTodosWithIsDone = useMemo(selectStatesByMemberList, []);
     const allValues = useSelector((state: any) => selectNumOfTodosWithIsDone(state, props.membersStateList ?? []));
+    const BLACK_LIST_SENSOR_TYPES = useSelector(selector_getBLACK_LIST_SENSOR_TYPES);
 
     const val = useMemo(() => {
-        if (BALCK_LIST_SENSOREN.includes(props.functionTypeID)) return null;
+        if (BLACK_LIST_SENSOR_TYPES.includes(props.functionTypeID)) return null;
         const presentationMode = props.presentationMode ?? 'standard';
         if (presentationMode === 'locationOverview') {
             const args_ = {
@@ -138,7 +139,7 @@ const SensorTypesAvarageContainer_ = (props: I_SimpleDevicesAvarageContainer_Pro
         // others
         console.log(iobObjectCommon?.type, allValues, presentationMode);
         return <div>??</div>;
-    }, [JSON.stringify(allValues)]);
+    }, [JSON.stringify(allValues), JSON.stringify(BLACK_LIST_SENSOR_TYPES)]);
     return val;
 };
 

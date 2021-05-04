@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const LocationOverviewContainerBreadcrumbsHome = (): JSX.Element => {
+const FW_TitleBarBreadcrumbsBreadcrumbsHome = (): JSX.Element => {
     const classes = useStyles({ active: false });
     const { goToLocation } = useGetHomeContainerLocationTo({});
     return (
@@ -30,7 +30,7 @@ const LocationOverviewContainerBreadcrumbsHome = (): JSX.Element => {
     );
 };
 
-const LocationOverviewContainerBreadcrumbsEl = ({ pathElement }: { pathElement: I_HistoryStateProps }): JSX.Element => {
+const FW_TitleBarBreadcrumbsEl = ({ pathElement }: { pathElement: I_HistoryStateProps }): JSX.Element => {
     const classes = useStyles({ active: false });
     const history = useHistory();
     const onClick = (): void => {
@@ -46,7 +46,7 @@ const LocationOverviewContainerBreadcrumbsEl = ({ pathElement }: { pathElement: 
     );
 };
 
-const LocationOverviewBreadcrumbs = (): JSX.Element => {
+const FW_TitleBarBreadcrumbs = (): JSX.Element => {
     const classes = useStyles({ active: true });
     const historyProps = [...useRecoilValue<I_HistoryStateProps[]>(currentPathElementsState)];
 
@@ -57,12 +57,12 @@ const LocationOverviewBreadcrumbs = (): JSX.Element => {
             separator="/"
             aria-label="breadcrumb"
         >
-            <LocationOverviewContainerBreadcrumbsHome />
+            <FW_TitleBarBreadcrumbsBreadcrumbsHome />
             {historyProps.map((e, index) => (
-                <LocationOverviewContainerBreadcrumbsEl key={`Breadcrumbs12qw_${index}`} pathElement={e} />
+                <FW_TitleBarBreadcrumbsEl key={`Breadcrumbs12qw_${index}`} pathElement={e} />
             ))}
         </Breadcrumbs>
     );
 };
 
-export default LocationOverviewBreadcrumbs;
+export default FW_TitleBarBreadcrumbs;

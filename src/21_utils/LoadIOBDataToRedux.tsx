@@ -7,7 +7,7 @@ import { AppDispatch, store } from '../30_redux/Store';
 
 // REDUX
 import { Provider } from 'react-redux';
-import { useLoadSocket } from '../20_hooks/IOBrokerScriptLoager';
+import { useLoadSocket } from '../20_hooks/IOBrokerScriptLoader';
 
 const LoadIOBDataToRedux_ = ({ children }: PropsWithChildren<{ id?: string }>): JSX.Element => {
     const [statesLoaded, setStatesLoaded] = useState<boolean>(false);

@@ -1,3 +1,4 @@
+import { IOBROKER_INSTANCE, IOBROKER_NAME } from '../../2_configuration/Application';
 import { IOBROKER_GET_SELECTED_OBJECTS_FROM_IOBROKER } from '../ioBrokerObjects/actions';
 import { IOBROKER_GET_SELECTED_STATES_FROM_IOBROKER } from '../ioBrokerStates/actions';
 import {
@@ -22,6 +23,7 @@ export const IOBrokerMiddleware = (storeAPI: any) => (next: any) => (action: any
             ]).then((arr) => {
                 const statesToSubscribe = arr[0].payload;
                 const objectsToSubscribe = arr[1].payload;
+                objectsToSubscribe.push(`system.adapter.${IOBROKER_NAME}.${IOBROKER_INSTANCE}`);
                 servConn.subscribe(statesToSubscribe, () => {
                     return;
                 });

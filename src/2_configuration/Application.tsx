@@ -4,3 +4,4 @@ export const IOBROKER_URL_IOSOCKET = 'http://192.168.90.1:8082';
 export const IOBROKER_NAME = 'test-react';
 export const IOBROKER_INSTANCE = '0';
 export const LANGUAGE = (window as { [key: string]: any }).usrlang?.substring(0, 2) ?? 'de';
+export const IOB_CONNECTION_TIMEOUT = 5000; // 5 seconds

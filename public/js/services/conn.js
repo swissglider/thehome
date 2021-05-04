@@ -1314,6 +1314,13 @@ var servConn = {
 
         this._socket.emit('delObject', objId);
     },
+    setObject: function (objId, obj, callback) {
+        if (this._socket === null) {
+            //console.log('socket.io not initialized');
+            return;
+        }
+        this._socket.emit('setObject', objId, obj, callback);
+    },
     httpGet: function (url, callback) {
         if (!this._isConnected) {
             return console.log('No connection!');

@@ -3,7 +3,7 @@ import BlindControl, { T_BLIND_COMMANDS } from '../../../10_atoms/enhanced/Blind
 import { ACTION_IOBROKER_UPDATE_STATE } from '../../../30_redux/ioBrokerStates/actions';
 import { useDispatch } from 'react-redux';
 import { T_IconComponent_Size } from '../../../10_atoms/base/IconComponent';
-import { I_Type_Params, useFunctionFullType } from '../../../20_hooks/IOBObjectHools';
+import { I_Type_Params, useFunctionFullType } from '../../../20_hooks/IOBObjectHooks';
 
 export interface I_IOBBlindControl_Props {
     membersStateList: string[];

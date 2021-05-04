@@ -11,7 +11,7 @@ import CountedIcon from '../../10_atoms/redux/CountedIcon';
 import TypographyComponent from '../../10_atoms/base/TypographyComponent';
 import ValueTitleBox from '../../11_molecules/base/ValueTitleBox';
 import ValueUnitText from '../../10_atoms/base/ValueUnitText';
-import { I_Type_Params } from '../../20_hooks/IOBObjectHools';
+import { I_Type_Params } from '../../20_hooks/IOBObjectHooks';
 import IOBBlindControl from '../../11_molecules/redux/IOBBlindControl';
 
 export const TimeStampBox = ({ deviceID, color }: { deviceID: string; color: string | undefined }): JSX.Element => {

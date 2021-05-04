@@ -1,6 +1,6 @@
 import React, { ComponentProps, useMemo } from 'react';
 import { T_CountMethod, useGetCountedValue } from '../../../20_hooks/CountingHooks';
-import { I_Type_Params, useFunctionFullType } from '../../../20_hooks/IOBObjectHools';
+import { I_Type_Params, useFunctionFullType } from '../../../20_hooks/IOBObjectHooks';
 import IconComponent from '../../base/IconComponent';
 
 const standardGetIcon = (value: any, iobObjectCommon: I_Type_Params): string => {

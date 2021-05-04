@@ -13,7 +13,13 @@ import {
     useGetHistroyProsFromPathElementPairs,
 } from '../../20_hooks/PlaceOverviewHooks';
 import { useSetRecoilState } from 'recoil';
-import { currentPathElementsState, historyState, I_HistoryStateProps } from '../../32-recoil/framework/atoms';
+import {
+    currentPathElementsState,
+    historyState,
+    I_HistoryStateProps,
+    titleBarSubElementState,
+    T_TitleBarSubElements,
+} from '../../32-recoil/framework/atoms';
 import { mainTitleState } from '../../32-recoil/framework/atoms';
 import LoadIOBDataToRedux from '../../21_utils/LoadIOBDataToRedux';
 import { useSelector } from 'react-redux';
@@ -23,8 +29,10 @@ const HomesPage_ = (): JSX.Element => {
     const pathProps = useGetAllPathPropsFromLocation();
     // set the Main Title State
     const setMainTitle = useSetRecoilState<string>(mainTitleState);
+    const setTitleBarSubElement = useSetRecoilState<T_TitleBarSubElements>(titleBarSubElementState);
     useEffect(() => {
         setMainTitle('The Home');
+        setTitleBarSubElement('breadcrumbs');
     }, []);
 
     // set the HomeHistory State

@@ -3,8 +3,9 @@ import { Story, Meta } from '@storybook/react';
 import HorizontalCarousel from '.';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
 import SensorTypeIconTextBox from '../../redux/SensorTypeIconTextBox';
-import { BALCK_LIST_SENSOREN } from '../../../2_configuration/Sensoren';
 import { useSearchHCRecursiveByLocationID } from '../../../20_hooks/PlaceOverviewHooks';
+import { useSelector } from 'react-redux';
+import { selector_getBLACK_LIST_SENSOR_TYPES } from '../../../30_redux/ioBrokerObjects/selectors';
 
 export default {
     title: 'TheHome/molecules/base/HorizontalCarousel',
@@ -23,9 +24,10 @@ interface I_Props {
 const Template: Story<I_Props> = (props: I_Props) => {
     const { locationID } = { ...props };
     const homeContainer = useSearchHCRecursiveByLocationID(locationID) as I_HOME_CONTAINER;
+    const BLACK_LIST_SENSOR_TYPES = useSelector(selector_getBLACK_LIST_SENSOR_TYPES);
     const childrenSlides = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
         .sort()
-        .filter((e) => !BALCK_LIST_SENSOREN.includes(e))
+        .filter((e) => !BLACK_LIST_SENSOR_TYPES.includes(e))
         .map((sensorTypeID: string) => (
             // eslint-disable-next-line react/jsx-key
             <SensorTypeIconTextBox homeContainer={homeContainer} functionTypeID={sensorTypeID} />

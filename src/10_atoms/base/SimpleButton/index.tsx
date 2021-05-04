@@ -35,23 +35,25 @@ export interface I_SimpleButton_Props
     // onFocusVisible?: () => void;
 }
 
-const SimpleButton = (props: I_SimpleButton_Props): JSX.Element => {
-    const { variant, startIcon, endIcon, ...args } = { ...props };
-    const _variant = variant ?? 'outlined';
+const SimpleButton = React.forwardRef<any, I_SimpleButton_Props>(
+    (props: I_SimpleButton_Props, ref): JSX.Element => {
+        const { variant, startIcon, endIcon, ...args } = { ...props };
+        const _variant = variant ?? 'outlined';
 
-    const startIconProps = startIcon
-        ? { startIcon: <IconComponent icon={startIcon} size={getMappedIconSize(props.size ?? 'medium')} /> }
-        : {};
-    const endIconProps = endIcon
-        ? { endIcon: <IconComponent icon={endIcon} size={getMappedIconSize(props.size ?? 'medium')} /> }
-        : {};
-    return (
-        <>
-            <Button {...args} {...startIconProps} {...endIconProps} variant={_variant}>
-                {props.text}
-            </Button>
-        </>
-    );
-};
+        const startIconProps = startIcon
+            ? { startIcon: <IconComponent icon={startIcon} size={getMappedIconSize(props.size ?? 'medium')} /> }
+            : {};
+        const endIconProps = endIcon
+            ? { endIcon: <IconComponent icon={endIcon} size={getMappedIconSize(props.size ?? 'medium')} /> }
+            : {};
+        return (
+            <>
+                <Button ref={ref} {...args} {...startIconProps} {...endIconProps} variant={_variant}>
+                    {props.text}
+                </Button>
+            </>
+        );
+    },
+);
 
 export default SimpleButton;

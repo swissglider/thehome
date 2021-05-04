@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@material-ui/core';
 import { MainComponentsConfiguration, I_MainComponentsConfiguration } from '../../../2_configuration/MainComponents';
 import FW_MoreMenu from '../../../14_pages/FW_MoreMenuPage';
+import IconComponent from '../../../10_atoms/base/IconComponent';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,7 +41,6 @@ const MainBottomNavigation = (): JSX.Element => {
     };
 
     const clickMoreMenu = () => {
-        console.log('Hallo');
         setMoreMenuOpen(true);
     };
 
@@ -64,9 +64,10 @@ const MainBottomNavigation = (): JSX.Element => {
                             key={`MainBottomNavigation_${index}`}
                             component={Link}
                             value={button.value}
-                            to={button.to}
+                            to={button.to ?? '/'}
                             label={button.label}
-                            icon={<Icon>{button.icon}</Icon>}
+                            // icon={<Icon>{button.icon}</Icon>}
+                            icon={<IconComponent icon={button.icon ?? ''} size="small" />}
                         />
                     ))}
                 <BottomNavigationAction

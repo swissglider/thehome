@@ -39,7 +39,7 @@ export const _initServCon = (dispatch: any): Promise<any> => {
                     },
                     onObjectChange: (id: any, object: any) => {
                         if (object !== undefined && id !== undefined) {
-                            console.log(object);
+                            // console.log(object);
                             dispatch(IOBROKER_UPDATE_OBJECT_FROM_MIDDLEWARE(id, object));
                         }
                         // TODO ERRORHANDLING

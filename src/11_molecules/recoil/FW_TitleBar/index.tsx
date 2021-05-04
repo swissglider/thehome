@@ -8,10 +8,11 @@ import { useRecoilValue } from 'recoil';
 import IconComponent from '../../../10_atoms/base/IconComponent';
 import TypographyComponent from '../../../10_atoms/base/TypographyComponent';
 import { TITLE_ICON_LINK } from '../../../2_configuration/Application';
-import { mainTitleState } from '../../../32-recoil/framework/atoms';
+import { mainTitleState, titleBarSubElementState, T_TitleBarSubElements } from '../../../32-recoil/framework/atoms';
 import { historyState, I_HistoryStateProps } from '../../../32-recoil/framework/atoms';
 import BackComponent from '../BackComponent';
-import LocationOverviewBreadcrumbs from '../LocationOverviewBreadcrumbs';
+import FW_TitleBarBreadcrumbs from '../FW_TitleBarBreadcrumbs';
+import FW_TitleBarMenuButtons from '../FW_TitleBarMenuButtons';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,6 +32,8 @@ const FW_TitleBar = (): JSX.Element => {
     const classes = useStyles();
     const historyArray = useRecoilValue<I_HistoryStateProps[]>(historyState);
     const mainTitle = useRecoilValue<string>(mainTitleState);
+    const titleBarSubElement = useRecoilValue<T_TitleBarSubElements>(titleBarSubElementState);
+
     return (
         // <AppBar position="fixed" color="transparent">
         <Toolbar className={classes.root}>
@@ -52,9 +55,12 @@ const FW_TitleBar = (): JSX.Element => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item>
-                    <LocationOverviewBreadcrumbs />
-                </Grid>
+                {titleBarSubElement !== undefined && titleBarSubElement !== 'empty' && (
+                    <Grid item>
+                        {titleBarSubElement === 'breadcrumbs' && <FW_TitleBarBreadcrumbs />}
+                        {titleBarSubElement === 'menubuttons' && <FW_TitleBarMenuButtons />}
+                    </Grid>
+                )}
             </Grid>
         </Toolbar>
         // </AppBar>

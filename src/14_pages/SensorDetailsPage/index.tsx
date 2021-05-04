@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { CurrentBox, LastChangeBox, SensorIconBox, TimeStampBox } from './subBoxes';
 import TypographyComponent from '../../10_atoms/base/TypographyComponent';
 import CountedValueText from '../../10_atoms/enhanced/CountedValueText';
-import { useFunctionFullType } from '../../20_hooks/IOBObjectHools';
+import { useFunctionFullType } from '../../20_hooks/IOBObjectHooks';
 import { useGetDeviceIDFromLocation, useGetFunctionTypeIDFromLocation } from '../../20_hooks/PlaceOverviewHooks';
 
 const SensorDetailsPage = (): JSX.Element | null => {

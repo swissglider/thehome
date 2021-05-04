@@ -2,9 +2,12 @@ import React from 'react';
 import { makeStyles, Theme, createStyles, Grid, withWidth } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
-import { selector_getDisplayName, selector_getIOBObjectByID } from '../../../30_redux/ioBrokerObjects/selectors';
+import {
+    selector_getDisplayName,
+    selector_getIOBObjectByID,
+    selector_getLOCATION_OVERVOEW_BOX_SENSORS,
+} from '../../../30_redux/ioBrokerObjects/selectors';
 import { useGetHomeContainerLocationTo } from '../../../20_hooks/PlaceOverviewHooks';
-import { LOCATION_OVERVOEW_BOX_SENSORS } from '../../../2_configuration/Sensoren';
 import SensorTypesAvarageContainer from '../../../11_molecules/redux/SensorTypesAvarageContainer';
 import IconComponent from '../../../10_atoms/base/IconComponent';
 import { INFO_ICON } from '../../../2_configuration/Icons';
@@ -53,6 +56,9 @@ const GetBoxes = ({ homeContainer, boxName, width, presentationMode }: I_GetBoxe
     const variant = sizes(presentationMode, width, boxName) ?? 'body2';
     const iconSize = sizes(presentationMode, width, boxName) ?? 'xsmall';
     const keys = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {});
+    const LOCATION_OVERVOEW_BOX_SENSORS: { [key: string]: string[] } = useSelector(
+        selector_getLOCATION_OVERVOEW_BOX_SENSORS,
+    );
     const box = LOCATION_OVERVOEW_BOX_SENSORS[boxName]
         .filter((e) => keys.includes(e))
         .map((sensorTypeID: string, index: number) => (

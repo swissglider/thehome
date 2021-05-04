@@ -1,17 +1,19 @@
 import React from 'react';
-import { BALCK_LIST_SENSOREN } from '../../../2_configuration/Sensoren';
 import { I_HOME_CONTAINER } from '../../../30_redux/servConn/interfaces';
 import HorizontalCarousel from '../../../11_molecules/base/HorizontalCarousel';
 import SensorTypeIconTextBox from '../../../11_molecules/redux/SensorTypeIconTextBox';
+import { useSelector } from 'react-redux';
+import { selector_getBLACK_LIST_SENSOR_TYPES } from '../../../30_redux/ioBrokerObjects/selectors';
 
 const SensorTypeIconTextBoxHorizontalCarousel = ({
     homeContainer,
 }: {
     homeContainer: I_HOME_CONTAINER;
 }): JSX.Element => {
+    const BLACK_LIST_SENSOR_TYPES = useSelector(selector_getBLACK_LIST_SENSOR_TYPES);
     const childrenSlides = Object.keys(homeContainer?.recursiveMemberStateIDs ?? {})
         .sort()
-        .filter((e) => !BALCK_LIST_SENSOREN.includes(e))
+        .filter((e) => !BLACK_LIST_SENSOR_TYPES.includes(e))
         .map((sensorTypeID: string) => (
             // eslint-disable-next-line react/jsx-key
             <SensorTypeIconTextBox homeContainer={homeContainer} functionTypeID={sensorTypeID} />
