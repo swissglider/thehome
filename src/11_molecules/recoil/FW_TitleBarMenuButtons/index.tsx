@@ -29,14 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const useStyleButtons = makeStyles(() =>
-    createStyles({
-        buttons: {
-            background: blueGrey[50],
-        },
-    }),
-);
-
 const useStyleMenu = makeStyles((theme: Theme) =>
     createStyles({
         root: {

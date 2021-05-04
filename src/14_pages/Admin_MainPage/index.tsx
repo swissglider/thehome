@@ -9,7 +9,6 @@ import {
 } from '../../32-recoil/framework/atoms';
 import { useLoadSocket } from '../../20_hooks/IOBrokerScriptLoader';
 import { servConnAdminCB } from '../../32-recoil/admin/IOBConnectionServies';
-import { Page5 } from '../../99_test/Page5';
 import { servConnConnectedSelector } from '../../32-recoil/admin/atomServerConnection';
 import { useLocation } from 'react-router-dom';
 import AdminHome from '../Admin_Home';
