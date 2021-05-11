@@ -14,6 +14,7 @@ import { useLocation } from 'react-router-dom';
 import AdminHome from '../Admin_Home';
 import Admin_BlackListConfig from '../Admin_BlackListConfig';
 import { I_LinksConfiguration, SubComponentsConfiguration } from '../../2_configuration/MainComponents';
+import Admin_LocationConfig from '../Admin_LocationConfig';
 
 const T1 = (): JSX.Element => {
     return (
@@ -39,13 +40,61 @@ const AdminRouter = (): JSX.Element => {
 
     const pathname = useLocation().pathname;
     let adminPageComponent: any;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    let adminPageComponentProps: {} | null = null;
     switch (pathname) {
         case '/admin/location_backlist': {
             adminPageComponent = Admin_BlackListConfig;
             break;
         }
-        case '/admin/t1': {
-            adminPageComponent = T1;
+        case '/admin/location_config_switch': {
+            adminPageComponent = Admin_LocationConfig;
+            adminPageComponentProps = {
+                locationSensorBox: 'switch',
+                title: 'Location Overview Switch List Configuration',
+                info:
+                    'Here you can add iob functions to the Switch list and sort them. The Switchlist is used on the location overview',
+            };
+            break;
+        }
+        case '/admin/location_config_boolean': {
+            adminPageComponent = Admin_LocationConfig;
+            adminPageComponentProps = {
+                locationSensorBox: 'boolean',
+                title: 'Location Overview Boolean List Configuration',
+                info:
+                    'Here you can add iob functions to the Boolean list and sort them. The Booleanlist is used on the location overview',
+            };
+            break;
+        }
+        case '/admin/location_config_allboolean': {
+            adminPageComponent = Admin_LocationConfig;
+            adminPageComponentProps = {
+                locationSensorBox: 'allboolean',
+                title: 'All Boolean to been showned',
+                info:
+                    'Here you can add iob functions to the allBoolean list and sort them. This list defines the iob function that should be proceeded as boolean (also switches)',
+            };
+            break;
+        }
+        case '/admin/location_config_number1': {
+            adminPageComponent = Admin_LocationConfig;
+            adminPageComponentProps = {
+                locationSensorBox: 'number1',
+                title: 'Number Sensors first row',
+                info:
+                    'Here you can add iob functions to the number1 list and sort them. The first number sensor list on the location overview box',
+            };
+            break;
+        }
+        case '/admin/location_config_number2': {
+            adminPageComponent = Admin_LocationConfig;
+            adminPageComponentProps = {
+                locationSensorBox: 'number2',
+                title: 'Number Sensors second row',
+                info:
+                    'Here you can add iob functions to the number2 list and sort them. The second number sensor list on the location overview box',
+            };
             break;
         }
         case '/admin/t2': {
@@ -57,7 +106,8 @@ const AdminRouter = (): JSX.Element => {
             break;
         }
     }
-    return <>{React.createElement(adminPageComponent)}</>;
+
+    return <>{React.createElement(adminPageComponent, adminPageComponentProps)}</>;
 };
 
 const IOBAdminConnector = (): JSX.Element => {
@@ -69,7 +119,7 @@ const Admin_MainPage = (): JSX.Element => {
     useEffect(() => {
         useLoadSocket(servConnAdminCB);
     }, []);
-    console.log('Admin_MainPage');
+
     return (
         <React.Suspense fallback={<div>Loading...</div>}>
             <IOBAdminConnector />

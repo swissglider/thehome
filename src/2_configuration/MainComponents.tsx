@@ -1,6 +1,6 @@
 import Admin_MainPage from '../14_pages/Admin_MainPage';
 import HomesPage from '../14_pages/HomesPage';
-import { BLACKLIST_ICON, HOME_ICON, LOCATION_ICON, SETTINGS_ICON } from './Icons';
+import { BLACKLIST_ICON, HOME_ICON, LOCATION_ICON, SETTINGS_ICON, SWITCH_ICON } from './Icons';
 
 export interface I_LinksConfiguration {
     label: string;
@@ -59,18 +59,15 @@ export const SubComponentsConfiguration: I_LinksConfiguration[] = [
                 icon: HOME_ICON,
             },
             {
-                label: 'Location',
+                label: 'Location List',
                 icon: LOCATION_ICON,
                 info: 'for Location View',
                 subMenu: [
-                    {
-                        label: 'BlackList',
-                        to: '/admin/location_backlist',
-                        info: 'bl for Sensors',
-                        icon: BLACKLIST_ICON,
-                    },
-                    { label: 'M1', to: '/admin/t1' },
-                    { label: 'M2', to: '/admin/t1' },
+                    { label: 'Switch Location List', to: '/admin/location_config_switch', icon: SWITCH_ICON },
+                    { label: 'Boolean Location List', to: '/admin/location_config_boolean', icon: SWITCH_ICON },
+                    { label: 'allBoolean Location List', to: '/admin/location_config_allboolean', icon: SWITCH_ICON },
+                    { label: 'Number1 Location List', to: '/admin/location_config_number1', icon: SWITCH_ICON },
+                    { label: 'Number2 Location List', to: '/admin/location_config_number2', icon: SWITCH_ICON },
                 ],
             },
             {
