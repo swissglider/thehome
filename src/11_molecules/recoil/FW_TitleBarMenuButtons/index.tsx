@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(1),
             display: 'flex',
             justifyContent: 'space-around',
+            background: blueGrey[50],
         },
     }),
 );
@@ -38,7 +39,7 @@ const useStyleMenu = makeStyles((theme: Theme) =>
             marginRight: theme.spacing(2),
         },
         buttons: {
-            background: blueGrey[50],
+            // background: blueGrey[50],
         },
     }),
 );

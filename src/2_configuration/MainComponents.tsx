@@ -55,19 +55,37 @@ export const SubComponentsConfiguration: I_LinksConfiguration[] = [
             {
                 label: 'Home',
                 info: 'Admin Home',
-                to: '/admin/home',
                 icon: HOME_ICON,
+                subMenu: [
+                    { label: 'Home', info: 'Admin Home', to: '/admin/home', icon: HOME_ICON },
+                    {
+                        label: 'Adapter Configs',
+                        info: 'General Adapter Configurations',
+                        to: '/admin/general_adapter_configurations',
+                        icon: HOME_ICON,
+                    },
+                ],
             },
             {
-                label: 'Location List',
+                label: 'GUI Config',
                 icon: LOCATION_ICON,
                 info: 'for Location View',
                 subMenu: [
-                    { label: 'Switch Location List', to: '/admin/location_config_switch', icon: SWITCH_ICON },
-                    { label: 'Boolean Location List', to: '/admin/location_config_boolean', icon: SWITCH_ICON },
-                    { label: 'allBoolean Location List', to: '/admin/location_config_allboolean', icon: SWITCH_ICON },
-                    { label: 'Number1 Location List', to: '/admin/location_config_number1', icon: SWITCH_ICON },
-                    { label: 'Number2 Location List', to: '/admin/location_config_number2', icon: SWITCH_ICON },
+                    { label: 'Location: Switch List', to: '/admin/location_config_switch', icon: SWITCH_ICON },
+                    { label: 'Location: Boolean List', to: '/admin/location_config_boolean', icon: SWITCH_ICON },
+                    { label: 'Location: allBoolean List', to: '/admin/location_config_allboolean', icon: SWITCH_ICON },
+                    { label: 'Location: Number1 List', to: '/admin/location_config_number1', icon: SWITCH_ICON },
+                    {
+                        label: 'Location: Number2 List',
+                        to: '/admin/location_config_number2',
+                        icon: SWITCH_ICON,
+                    },
+                    {
+                        label: 'BlackList',
+                        to: '/admin/location_backlist',
+                        info: 'Blacklist der Sensors',
+                        icon: BLACKLIST_ICON,
+                    },
                 ],
             },
             {

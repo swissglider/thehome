@@ -3,7 +3,7 @@ import { IOBROKER_INSTANCE, IOBROKER_NAME } from '../../2_configuration/Applicat
 import { SERV_CONN_ADMIN } from './IOBConnectionServies';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const syncStorageEffect = (atomName: any) => (props: any) => {
+const adminParamsEffect = (atomName: any) => (props: any) => {
     if (props.trigger === 'get') {
         // Avoid expensive initialization
         props.setSelf({}); // Call synchronously to initialize
@@ -37,7 +37,7 @@ const syncStorageEffect = (atomName: any) => (props: any) => {
 const adminParamsState = atom({
     key: 'iob_adminParamsState',
     default: {},
-    effects_UNSTABLE: [syncStorageEffect('iob_adminParamsState')],
+    effects_UNSTABLE: [adminParamsEffect('iob_adminParamsState')],
 });
 
 /**

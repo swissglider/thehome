@@ -139,18 +139,18 @@ const Admin_LocationConfig = (props: I_Admin_LocationConfig_Props): JSX.Element 
 
     return (
         <>
-            <Grid container direction="row" justify="center">
-                <Grid item>
-                    <TypographyComponent variant="h6" align="center">
-                        {props.title ?? ''}
-                    </TypographyComponent>
-                </Grid>
-                <Grid item>
-                    <Tooltip title={props.info} placement="left-end">
+            <Tooltip title={props.info} placement="left-end">
+                <Grid container direction="row" justify="center">
+                    <Grid item>
+                        <TypographyComponent variant="h6" align="center">
+                            {props.title ?? ''}
+                        </TypographyComponent>
+                    </Grid>
+                    <Grid item>
                         <Avatar src={INFO_ICON} className={classes.info} />
-                    </Tooltip>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Tooltip>
             <SimpleButton
                 onClick={handleClickOpen}
                 color="secondary"

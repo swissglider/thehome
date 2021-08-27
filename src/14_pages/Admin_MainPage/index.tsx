@@ -15,6 +15,7 @@ import AdminHome from '../Admin_Home';
 import Admin_BlackListConfig from '../Admin_BlackListConfig';
 import { I_LinksConfiguration, SubComponentsConfiguration } from '../../2_configuration/MainComponents';
 import Admin_LocationConfig from '../Admin_LocationConfig';
+import Admin_General_Adapter_Config from '../Admin_General_Adapter_Config';
 
 const T1 = (): JSX.Element => {
     return (
@@ -43,6 +44,10 @@ const AdminRouter = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/ban-types
     let adminPageComponentProps: {} | null = null;
     switch (pathname) {
+        case '/admin/general_adapter_configurations': {
+            adminPageComponent = Admin_General_Adapter_Config;
+            break;
+        }
         case '/admin/location_backlist': {
             adminPageComponent = Admin_BlackListConfig;
             break;
